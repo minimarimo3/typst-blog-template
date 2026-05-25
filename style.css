@@ -35,8 +35,9 @@
   --color-caution-bg: #0d1117;
   --color-caution-border: #f85149;
   --color-caution-text: #f85149;
-  --font-main: "Noto Serif JP", serif;
-  --font-code: "Fira Code", monospace;
+  --font-main:    "Noto Serif JP", serif;
+  --font-heading: var(--font-main);
+  --font-code:    "Fira Code", monospace;
   --content-width: 760px;
   --sidebar-width: 280px;
   --gap-width: 60px;
@@ -55,6 +56,13 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   line-height: 1.8;
+}
+
+h1, h2, h3, h4, h5, h6,
+.article-title,
+.widget-title,
+.section-title {
+  font-family: var(--font-heading);
 }
 
 a {

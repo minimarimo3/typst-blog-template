@@ -59,5 +59,7 @@
 }
 
 #import "/site.typ": site
-#let main-font = site.fonts.main.pdf
-#let code-font = site.fonts.code.pdf
+#let main-font    = site.fonts.main.pdf
+#let code-font    = site.fonts.code.pdf
+#let heading-font = site.fonts.at("heading", default: site.fonts.main).at("pdf", default: site.fonts.main.pdf)
+#let math-font    = if "math" in site.fonts { site.fonts.math.at("pdf", default: none) } else { none }

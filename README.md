@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文書バージョン: 2026.05.25
+文書バージョン: 2026.05.25.1
 
 言語: 日本語 | [English](docs/README.en.md) | [한국어](docs/README.ko.md) | [简体中文](docs/README.zh-CN.md) | [繁體中文（台灣）](docs/README.zh-TW.md)
 
@@ -39,6 +39,34 @@ python3 -m http.server 8000 -d public
 - `analytics.cloudflare_token`: Cloudflare Web Analytics を使う場合だけ設定
 - `feedback.google_form_url` と `feedback.entry_id`: Google フォームを使う場合だけ設定
 - `share`: X、Misskey、コピー共有ボタンの表示設定
+
+## フォント設定
+
+`site.typ` の `fonts` ブロックで本文・見出し・コード・数式・任意の追加フォントをまとめて管理します。
+`web` フィールドを持つ全エントリが Google Fonts から自動で読み込まれ、`--font-{キー名}` という CSS 変数として使えます。
+
+| キー | 説明 |
+|------|------|
+| `main` | 本文フォント（必須） |
+| `heading` | 見出しフォント（省略すると `main` を継承） |
+| `code` | コードブロックフォント（必須） |
+| `math` | 数式フォント。PDF のみ有効。web では数式が SVG にベイクされるため `web: none` にする |
+| 任意の名前 | `accent` など好きなキーで追加可能。CSS 変数 `--font-{キー名}` が自動生成される |
+
+各エントリのフィールド:
+
+- `pdf`: PDF 出力で使うフォント名（文字列またはフォールバックチェーンの配列）
+- `web`: Google Fonts のフォント名（`none` にすると web では読み込まれない）
+- `weights`: Google Fonts に要求するウェイト（例: `"400;700"`, `"300..700"`）
+- `fallback`: CSS の汎用フォントファミリー（例: `"serif"`, `"sans-serif"`, `"monospace"`）
+
+記事内で特定の単語だけフォントを変えるには `text` 関数を使います:
+
+```typst
+#text(font: "Zen Antique")[特別な単語]
+```
+
+そのフォントを `site.fonts` に登録しておけば web でも確実に読み込まれます。
 
 ## 記事を書く
 

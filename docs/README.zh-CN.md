@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文档版本：2026.05.25
+文档版本：2026.05.25.1
 
 语言：[日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | 简体中文 | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -39,6 +39,34 @@ python3 -m http.server 8000 -d public
 - `analytics.cloudflare_token`: 仅在使用 Cloudflare Web Analytics 时设置
 - `feedback.google_form_url` 和 `feedback.entry_id`: 仅在使用 Google Forms 时设置
 - `share`: X、Misskey 和复制分享按钮的显示设置
+
+## 字体设置
+
+`site.typ` 的 `fonts` 块统一管理正文、标题、代码、数学公式以及任意自定义字体。
+拥有 `web` 字段的所有条目都会自动从 Google Fonts 加载，并以 `--font-{键名}` 的形式作为 CSS 变量使用。
+
+| 键 | 说明 |
+|----|------|
+| `main` | 正文字体（必填） |
+| `heading` | 标题字体（省略时继承 `main`） |
+| `code` | 代码块字体（必填） |
+| `math` | 数学公式字体。仅 PDF 有效——网页端公式会以 SVG 形式编译，因此设置 `web: none` |
+| 任意名称 | 可以用 `accent` 等任意键名添加，CSS 变量 `--font-{键名}` 会自动生成 |
+
+各条目的字段：
+
+- `pdf`：PDF 输出使用的字体名（字符串，或用于回退链的数组）
+- `web`：Google Fonts 字体名（设为 `none` 则不在网页端加载）
+- `weights`：向 Google Fonts 请求的字重（如 `"400;700"`、`"300..700"`）
+- `fallback`：CSS 通用字体族（如 `"serif"`、`"sans-serif"`、`"monospace"`）
+
+如需在文章中对特定词语使用不同字体，可使用 `text` 函数：
+
+```typst
+#text(font: "Zen Antique")[特定词语]
+```
+
+将该字体注册到 `site.fonts` 中，可确保在网页端也能正确加载。
 
 ## 编写文章
 

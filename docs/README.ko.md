@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-문서 버전: 2026.05.25
+문서 버전: 2026.05.25.1
 
 언어: [日本語](../README.md) | [English](README.en.md) | 한국어 | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -39,6 +39,34 @@ python3 -m http.server 8000 -d public
 - `analytics.cloudflare_token`: Cloudflare Web Analytics를 사용할 때만 설정
 - `feedback.google_form_url` 및 `feedback.entry_id`: Google Forms를 사용할 때만 설정
 - `share`: X, Misskey, 복사 공유 버튼의 표시 설정
+
+## 폰트 설정
+
+`site.typ`의 `fonts` 블록에서 본문·제목·코드·수식·커스텀 폰트를 통합 관리합니다.
+`web` 필드를 가진 모든 항목은 Google Fonts에서 자동으로 불러오고, `--font-{키}` 라는 CSS 변수로 사용할 수 있습니다.
+
+| 키 | 설명 |
+|----|------|
+| `main` | 본문 폰트（필수） |
+| `heading` | 제목 폰트（생략하면 `main`을 상속） |
+| `code` | 코드 블록 폰트（필수） |
+| `math` | 수식 폰트. PDF 전용 — 웹에서 수식은 SVG로 베이크되므로 `web: none`으로 설정 |
+| 임의의 이름 | `accent` 등 원하는 키로 추가 가능. CSS 변수 `--font-{키}`가 자동 생성됨 |
+
+각 항목의 필드:
+
+- `pdf`: PDF 출력에 사용할 폰트 이름（문자열 또는 폴백 체인 배열）
+- `web`: Google Fonts 폰트 이름（`none`으로 설정하면 웹에서 불러오지 않음）
+- `weights`: Google Fonts에 요청할 굵기（예: `"400;700"`, `"300..700"`）
+- `fallback`: CSS 일반 폰트 패밀리（예: `"serif"`, `"sans-serif"`, `"monospace"`）
+
+글 안에서 특정 단어의 폰트만 바꾸려면 `text` 함수를 사용합니다:
+
+```typst
+#text(font: "Zen Antique")[특별한 단어]
+```
+
+해당 폰트를 `site.fonts`에 등록해 두면 웹에서도 확실히 불러옵니다.
 
 ## 글 작성
 

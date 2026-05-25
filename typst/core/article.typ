@@ -1,5 +1,5 @@
 #import "/site.typ": site
-#import "/typst/core/shared.typ": calver-display, main-font
+#import "/typst/core/shared.typ": calver-display, main-font, heading-font, math-font
 #import "/typst/core/i18n.typ": i18n
 #import "/typst/generated/posts.typ": post-data
 #import "/typst/components/head.typ": common-head
@@ -44,12 +44,17 @@
   set document(title: title, author: document-authors)
   set heading(numbering: "1.")
   set text(lang: site.language, font: main-font)
+  show heading: set text(font: heading-font)
   show figure.where(kind: table): set figure.caption(position: top)
   show figure.where(kind: raw): set figure(supplement: i18n.code)
   set quote(block: true)
 
   if target() == "paged" {
     set text(font: main-font, size: 12pt)
+    show heading: set text(font: heading-font)
+    if math-font != none {
+      show math.equation: set text(font: math-font)
+    }
     body
     return
   }

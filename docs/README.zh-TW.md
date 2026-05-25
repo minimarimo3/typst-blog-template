@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文件版本：2026.05.25
+文件版本：2026.05.25.1
 
 語言：[日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | 繁體中文（台灣）
 
@@ -39,6 +39,34 @@ python3 -m http.server 8000 -d public
 - `analytics.cloudflare_token`: 只有使用 Cloudflare Web Analytics 時才需要設定
 - `feedback.google_form_url` 與 `feedback.entry_id`: 只有使用 Google Forms 時才需要設定
 - `share`: X、Misskey 與複製分享按鈕的顯示設定
+
+## 字型設定
+
+`site.typ` 的 `fonts` 區塊統一管理內文、標題、程式碼、數學公式以及任意自訂字型。
+擁有 `web` 欄位的所有項目都會自動從 Google Fonts 載入，並以 `--font-{鍵名}` 的形式作為 CSS 變數使用。
+
+| 鍵 | 說明 |
+|-----|------|
+| `main` | 內文字型（必填） |
+| `heading` | 標題字型（省略時繼承 `main`） |
+| `code` | 程式碼區塊字型（必填） |
+| `math` | 數學公式字型。僅 PDF 有效——網頁端公式會以 SVG 形式編譯，因此設定 `web: none` |
+| 任意名稱 | 可用 `accent` 等任意鍵名新增，CSS 變數 `--font-{鍵名}` 會自動產生 |
+
+各項目的欄位：
+
+- `pdf`：PDF 輸出使用的字型名稱（字串，或用於備用鏈的陣列）
+- `web`：Google Fonts 字型名稱（設為 `none` 則不在網頁端載入）
+- `weights`：向 Google Fonts 要求的字重（例如 `"400;700"`、`"300..700"`）
+- `fallback`：CSS 通用字型系列（例如 `"serif"`、`"sans-serif"`、`"monospace"`）
+
+若要在文章中對特定詞語套用不同字型，可使用 `text` 函式：
+
+```typst
+#text(font: "Zen Antique")[特定詞語]
+```
+
+將該字型註冊到 `site.fonts` 中，即可確保在網頁端也能正確載入。
 
 ## 撰寫文章
 

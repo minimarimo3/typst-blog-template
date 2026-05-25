@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-Documentation version: 2026.05.25
+Documentation version: 2026.05.25.1
 
 Language: [日本語](../README.md) | English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -39,6 +39,34 @@ Edit these values first:
 - `analytics.cloudflare_token`: set this only when using Cloudflare Web Analytics
 - `feedback.google_form_url` and `feedback.entry_id`: set these only when using Google Forms
 - `share`: display settings for X, Misskey, and copy share buttons
+
+## Font Settings
+
+The `fonts` block in `site.typ` manages all fonts for body text, headings, code, math, and any custom roles.
+Every entry that has a `web` field is automatically loaded from Google Fonts, and each becomes available as a CSS variable named `--font-{key}`.
+
+| Key | Description |
+|-----|-------------|
+| `main` | Body font (required) |
+| `heading` | Heading font (falls back to `main` when omitted) |
+| `code` | Code block font (required) |
+| `math` | Math font. PDF only — math is baked into SVG on the web, so set `web: none` |
+| Any name | Add any key such as `accent`; the CSS variable `--font-{key}` is generated automatically |
+
+Fields for each entry:
+
+- `pdf`: Font name for PDF output (string, or an array for a fallback chain)
+- `web`: Google Fonts name (`none` to skip web loading)
+- `weights`: Weights to request from Google Fonts (e.g. `"400;700"`, `"300..700"`)
+- `fallback`: CSS generic font family (e.g. `"serif"`, `"sans-serif"`, `"monospace"`)
+
+To change the font for a specific word inside a post, use the `text` function:
+
+```typst
+#text(font: "Zen Antique")[special word]
+```
+
+Register the font in `site.fonts` to ensure it is loaded on the web as well.
 
 ## Writing Posts
 

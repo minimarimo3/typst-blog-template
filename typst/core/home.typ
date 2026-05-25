@@ -1,5 +1,5 @@
 #import "/site.typ": site
-#import "/typst/core/shared.typ": calver-display, calver-key, main-font
+#import "/typst/core/shared.typ": calver-display, calver-key, main-font, heading-font
 #import "/typst/components/head.typ": common-head
 #import "/typst/components/widgets.typ": widget-author, widget-about
 
@@ -20,6 +20,7 @@
 
   if target() == "paged" {
     set text(font: main-font, size: 12pt, lang: site.language)
+    show heading: set text(font: heading-font)
     body
     return
   }

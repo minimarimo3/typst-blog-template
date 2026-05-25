@@ -8,12 +8,35 @@
       pdf: "Noto Serif CJK JP",
       web: "Noto Serif JP",
       weights: "400;700",
+      fallback: "serif",
     ),
+    // heading フォント（省略すれば main フォントが使われる）
+    // heading: (
+    //   pdf: "Noto Sans CJK JP",
+    //   web: "Noto Sans JP",
+    //   weights: "400;700",
+    //   fallback: "sans-serif",
+    // ),
     code: (
       pdf: ("Fira Code", "Consolas", "monospace"),
       web: "Fira Code",
       weights: "300..700",
+      fallback: "monospace",
     ),
+    // 数式フォントは PDF のみ有効。web は SVG にベイクされるため web: none にする。
+    // math: (
+    //   pdf: "STIX Two Math",
+    //   web: none,
+    //   weights: none,
+    //   fallback: none,
+    // ),
+    // 任意の名前でフォントを追加できる。--font-{key} という CSS 変数になる。
+    // accent: (
+    //   pdf: "Zen Antique",
+    //   web: "Zen Antique",
+    //   weights: "400",
+    //   fallback: "serif",
+    // ),
   ),
   author: (
     name: "Your Name",
