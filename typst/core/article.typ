@@ -3,7 +3,7 @@
 #import "/typst/core/i18n.typ": i18n
 #import "/typst/generated/posts.typ": post-data
 #import "/typst/components/head.typ": common-head
-#import "/typst/components/widgets.typ": widget-author
+#import "/typst/components/widgets.typ": widget-author, widget-search
 #import "@preview/suiji:0.5.0": *
 
 #let env(..items) = context {
@@ -92,7 +92,11 @@
       html.div(id: "copy-toast", i18n.copied)
       html.div(class: "site-container", {
         html.main(class: "main-content", {
-          html.article({
+          html.div(class: "mobile-search", {
+            widget-search()
+          })
+
+          html.elem("article", attrs: ("data-pagefind-body": ""), {
             html.header(class: "article-header", {
               html.a(class: "back-home-btn", href: "/", i18n.back_home)
               html.h1(class: "article-title", title)
@@ -211,6 +215,7 @@
 
         html.aside(class: "sidebar", {
           html.div(class: "sidebar-inner", {
+            widget-search(extra-class: "desktop-search")
             html.div(class: "sidebar-widget toc-widget", {
               html.h3(class: "widget-title", i18n.toc)
               outline(title: none)

@@ -1,11 +1,12 @@
 # Typst Blog Template
 
-Documentation version: 2026.05.25.1
+Documentation version: 2026.05.25.2
 
 Language: [日本語](../README.md) | English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
 A small static site template for writing a blog with Typst's HTML output.
 Post content, post metadata, and site settings are managed in Typst, and `build.py` generates HTML, RSS, and a sitemap.
+Site search is powered by a static Pagefind index.
 
 When you update this README, update the localized files in `docs/` and keep their documentation version in sync.
 
@@ -13,11 +14,13 @@ When you update this README, update the localized files in `docs/` and keep thei
 
 - Typst 0.14.2 or later
 - Python 3.10 or later
+- Node.js 20 or later (used to generate the Pagefind search index)
 
 ## Quick Start
 
 ```sh
 python3 build.py
+npx -y pagefind --site public
 ```
 
 Generated files are written to `public/`.
@@ -105,7 +108,7 @@ This template includes a workflow for GitHub Pages.
 3. In GitHub, open `Settings` -> `Pages` -> `Build and deployment`, then set `Source` to `GitHub Actions`.
 4. Push to the `main` branch.
 
-The workflow runs `python3 build.py` and deploys `public/` to GitHub Pages.
+The workflow runs `python3 build.py` and `npx -y pagefind --site public`, then deploys `public/` to GitHub Pages.
 
 ## Misskey Icon Notice
 

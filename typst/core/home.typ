@@ -1,7 +1,7 @@
 #import "/site.typ": site
 #import "/typst/core/shared.typ": calver-display, calver-key, main-font, heading-font
 #import "/typst/components/head.typ": common-head
-#import "/typst/components/widgets.typ": widget-author, widget-about
+#import "/typst/components/widgets.typ": widget-author, widget-about, widget-search
 
 #let home(
   title: none,
@@ -39,6 +39,10 @@
             }
           })
 
+          html.div(class: "mobile-search", {
+            widget-search()
+          })
+
           html.div(class: "card-grid home-card-grid", {
             let posts-list = if posts != none {
               posts
@@ -71,6 +75,7 @@
 
         html.aside(class: "sidebar", {
           html.div(class: "sidebar-inner", {
+            widget-search(extra-class: "desktop-search")
             widget-author()
             widget-about()
           })

@@ -1,11 +1,12 @@
 # Typst Blog Template
 
-文档版本：2026.05.25.1
+文档版本：2026.05.25.2
 
 语言：[日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | 简体中文 | [繁體中文（台灣）](README.zh-TW.md)
 
 这是一个小型静态站点模板，用于通过 Typst 的 HTML 输出编写博客。
 文章正文、文章元数据和站点设置都由 Typst 管理，`build.py` 会生成 HTML、RSS 和 sitemap。
+站内搜索由 Pagefind 生成的静态索引提供。
 
 更新此 README 时，请同时更新 `docs/` 中的本地化文件，并保持文档版本一致。
 
@@ -13,11 +14,13 @@
 
 - Typst 0.14.2 或更高版本
 - Python 3.10 或更高版本
+- Node.js 20 或更高版本（用于生成 Pagefind 搜索索引）
 
 ## 快速开始
 
 ```sh
 python3 build.py
+npx -y pagefind --site public
 ```
 
 生成的文件会输出到 `public/`。
@@ -105,7 +108,7 @@ Write your post here.
 3. 在 GitHub 中打开 `Settings` -> `Pages` -> `Build and deployment`，然后将 `Source` 设置为 `GitHub Actions`。
 4. 推送到 `main` 分支。
 
-该工作流会运行 `python3 build.py`，并将 `public/` 部署到 GitHub Pages。
+该工作流会运行 `python3 build.py` 和 `npx -y pagefind --site public`，然后将 `public/` 部署到 GitHub Pages。
 
 ## Misskey 图标说明
 

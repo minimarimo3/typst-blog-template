@@ -1,11 +1,12 @@
 # Typst Blog Template
 
-문서 버전: 2026.05.25.1
+문서 버전: 2026.05.25.2
 
 언어: [日本語](../README.md) | [English](README.en.md) | 한국어 | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
 Typst의 HTML 출력을 사용해 블로그를 작성하기 위한 작은 정적 사이트 템플릿입니다.
 글 본문, 글 메타데이터, 사이트 설정은 Typst에서 관리하고, `build.py`가 HTML, RSS, sitemap을 생성합니다.
+사이트 내 검색은 Pagefind의 정적 인덱스로 동작합니다.
 
 이 README를 업데이트할 때는 `docs/` 안의 번역 파일도 함께 업데이트하고 문서 버전을 맞춰 주세요.
 
@@ -13,11 +14,13 @@ Typst의 HTML 출력을 사용해 블로그를 작성하기 위한 작은 정적
 
 - Typst 0.14.2 이상
 - Python 3.10 이상
+- Node.js 20 이상（Pagefind 검색 인덱스 생성에 사용）
 
 ## 빠른 시작
 
 ```sh
 python3 build.py
+npx -y pagefind --site public
 ```
 
 생성된 파일은 `public/`에 출력됩니다.
@@ -105,7 +108,7 @@ Write your post here.
 3. GitHub에서 `Settings` -> `Pages` -> `Build and deployment`를 열고 `Source`를 `GitHub Actions`로 설정합니다.
 4. `main` 브랜치에 push합니다.
 
-워크플로는 `python3 build.py`를 실행하고 `public/`을 GitHub Pages에 배포합니다.
+워크플로는 `python3 build.py`와 `npx -y pagefind --site public`을 실행한 뒤 `public/`을 GitHub Pages에 배포합니다.
 
 ## Misskey 아이콘 안내
 

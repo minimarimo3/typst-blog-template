@@ -39,6 +39,34 @@
   })
 }
 
+#let widget-search(extra-class: "") = {
+  let widget-class = "sidebar-widget search-widget site-search" + if extra-class == "" { "" } else { " " + extra-class }
+  html.elem(
+    "div",
+    attrs: (
+      class: widget-class,
+      "data-search-loading": i18n.search_loading,
+      "data-search-empty": i18n.search_no_results,
+      "data-search-error": i18n.search_error,
+    ),
+    {
+      html.h3(class: "widget-title", i18n.search)
+      html.elem(
+        "input",
+        attrs: (
+          class: "search-input",
+          type: "search",
+          placeholder: i18n.search_placeholder,
+          autocomplete: "off",
+          "aria-label": i18n.search,
+        ),
+      )
+      html.elem("div", attrs: (class: "search-status", role: "status", "aria-live": "polite", hidden: ""))
+      html.elem("ol", attrs: (class: "search-results", "aria-label": i18n.search))
+    },
+  )
+}
+
 #let widget-about() = {
   html.div(class: "sidebar-widget", {
     html.h3(class: "widget-title", i18n.about_blog)
