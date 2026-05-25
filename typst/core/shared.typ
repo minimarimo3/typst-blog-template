@@ -58,5 +58,6 @@
   (version.year, version.month, version.day, version.patch)
 }
 
-#let main-font = ("Noto Serif CJK JP")
-#let code-font = ("Fira Code", "Consolas", "monospace")
+#import "/site.typ": site
+#let main-font = site.fonts.main.pdf
+#let code-font = site.fonts.code.pdf

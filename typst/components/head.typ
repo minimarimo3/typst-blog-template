@@ -7,9 +7,13 @@
 
   html.link(rel: "preconnect", href: "https://fonts.googleapis.com")
   html.link(rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous")
+  let _gf-families = (
+    site.fonts.main.web.replace(" ", "+") + ":wght@" + site.fonts.main.weights,
+    site.fonts.code.web.replace(" ", "+") + ":wght@" + site.fonts.code.weights,
+  )
   html.link(
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Noto+Serif+JP:wght@400;700&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=" + _gf-families.join("&family=") + "&display=swap",
   )
 
   html.link(rel: "stylesheet", href: "/style.css")
