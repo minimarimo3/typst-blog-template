@@ -1,26 +1,26 @@
 #import "site.typ": site
+#import "/typst/core/i18n.typ": i18n
 #import "/typst/components/head.typ": common-head
 
 #let title = "404 Not Found"
-#let description = "お探しのページは見つかりませんでした。"
 
 #html.html(lang: site.language, {
   html.head({
-    common-head(title, description: description)
+    common-head(title, description: i18n.not_found_desc)
   })
   html.body({
     html.div(class: "site-container", {
       html.main(class: "main-content", {
         html.article({
           html.header(class: "article-header", {
-            html.a(class: "back-home-btn", href: "/", "← ホームに戻る")
+            html.a(class: "back-home-btn", href: "/", i18n.back_home)
             html.h1(class: "article-title", title)
-            html.p(style: "color: var(--text-muted);", description)
+            html.p(style: "color: var(--text-muted);", i18n.not_found_desc)
           })
           html.div(class: "article-body", {
-            html.p("ページが移動または削除された可能性があります。")
+            html.p(i18n.not_found_body)
             html.p({
-              html.a(href: "/", "トップページに戻る")
+              html.a(href: "/", i18n.back_to_top)
             })
           })
         })
