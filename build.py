@@ -14,9 +14,9 @@ from xml.sax.saxutils import escape
 ROOT_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = ROOT_DIR / "public"
 GENERATED_POSTS_FILE = ROOT_DIR / "typst" / "generated" / "posts.typ"
-STYLE_CSS = ROOT_DIR / "style.css"
-SCRIPT_JS = ROOT_DIR / "script.js"
-ROBOTS_TXT = ROOT_DIR / "robots.txt"
+STYLE_CSS = ROOT_DIR / "static" / "style.css"
+SCRIPT_JS = ROOT_DIR / "static" / "script.js"
+ROBOTS_TXT = ROOT_DIR / "static" / "robots.txt"
 SITE_METADATA_LABEL = "<site-meta>"
 POST_METADATA_LABEL = "<post-meta>"
 EXCLUDED_DIRS = {".git", ".github", "public", "typst", "__pycache__"}
