@@ -1,6 +1,6 @@
 #import "/site.typ": site
 
-#let common-head(title, description: none, image: none) = {
+#let common-head(title, description: none, image: none, url: none, og_type: "website") = {
   html.meta(charset: "utf-8")
   html.meta(name: "viewport", content: "width=device-width, initial-scale=1")
   html.title(title)
@@ -13,7 +13,8 @@
   )
 
   html.link(rel: "stylesheet", href: "/style.css")
-  html.script(src: "/script.js")
+  html.elem("script", attrs: (src: "/script.js", defer: ""))
+  html.elem("link", attrs: (rel: "alternate", type: "application/rss+xml", title: site.title, href: "/feed.xml"))
 
   let token = site.analytics.cloudflare_token
   if token != none and token != "" {
@@ -33,6 +34,10 @@
   }
   html.elem("meta", attrs: (property: "og:title", content: title))
   html.elem("meta", attrs: (property: "og:site_name", content: site.title))
+  html.elem("meta", attrs: (property: "og:type", content: og_type))
+  if url != none {
+    html.elem("meta", attrs: (property: "og:url", content: site.base_url + url))
+  }
   if image != none {
     html.elem("meta", attrs: (property: "og:image", content: image))
   }

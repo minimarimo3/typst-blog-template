@@ -15,5 +15,5 @@
 #let note(body) = _alert-box("note", "補足", "i", body)
 #let tip(body) = _alert-box("tip", "ヒント", "+", body)
 #let important(body) = _alert-box("important", "重要", "!", body)
-#let warning(body) = _alert-box("warning", "注意", "!", body)
+#let warning(body) = _alert-box("warning", "注意", "⚠", body)
 #let caution(body) = _alert-box("caution", "警告", "!!", body)

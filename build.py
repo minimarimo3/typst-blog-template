@@ -363,6 +363,7 @@ def generate_rss(site: dict, posts: list[dict]) -> None:
         xml += f"""  <item>
     <title>{escape(post['title'])}</title>
     <link>{escape(link)}</link>
+    <guid isPermaLink="true">{escape(link)}</guid>
     <description>{escape(post['description'])}</description>
     <pubDate>{pub_date}</pubDate>
   </item>

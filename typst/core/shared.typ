@@ -49,7 +49,8 @@
 
 #let calver-display(value) = {
   let version = normalize-calver(value)
-  str(version.year) + "." + _two-digits(version.month) + "." + _two-digits(version.day) + "." + str(version.patch)
+  let base = str(version.year) + "." + _two-digits(version.month) + "." + _two-digits(version.day)
+  if version.patch == 0 { base } else { base + "." + str(version.patch) }
 }
 
 #let calver-key(value) = {

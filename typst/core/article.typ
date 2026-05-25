@@ -1,5 +1,5 @@
 #import "/site.typ": site
-#import "/typst/core/shared.typ": calver-display, calver-key, main-font
+#import "/typst/core/shared.typ": calver-display, main-font
 #import "/typst/generated/posts.typ": post-data
 #import "/typst/components/head.typ": common-head
 #import "/typst/components/widgets.typ": widget-author
@@ -56,7 +56,6 @@
   assert(slug != none, message: "slug is required")
   assert(create != none, message: "create is required")
   assert(description != none, message: "description is required")
-  let create-key = calver-key(create)
   let abstract-content = if abstract != none { abstract } else { description }
 
   let note-counter = counter("my-footnote")
@@ -81,7 +80,7 @@
 
   html.html(lang: site.language, {
     html.head({
-      common-head(title, description: description, image: og-image)
+      common-head(title, description: description, image: og-image, url: "/" + slug + "/", og_type: "article")
     })
     html.body({
       html.div(id: "copy-toast", "コピーしました")
@@ -172,7 +171,6 @@
           let other-posts = post-data
             .pairs()
             .filter(p => p.first() != slug)
-            .filter(p => calver-key(p.last().create) < create-key)
           if other-posts.len() > 0 {
             html.hr(class: "section-divider")
 

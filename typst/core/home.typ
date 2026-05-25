@@ -26,7 +26,7 @@
 
   html.html(lang: site.language, {
     html.head({
-      common-head(page-title, description: page-description, image: og-image)
+      common-head(page-title, description: page-description, image: og-image, url: "/")
     })
     html.body({
       html.div(class: "site-container", {
