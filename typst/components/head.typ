@@ -28,8 +28,9 @@
   }
 
   html.link(rel: "stylesheet", href: "/style.css")
+  html.link(rel: "stylesheet", href: "/themes/" + site.at("theme", default: "dark") + ".css")
 
-  // style.css より後に注入することで CSS 変数を上書き（--font-{key} 形式）
+  // theme CSS より後に注入することで CSS 変数を上書き（--font-{key} 形式）
   let _css-lines = site.fonts.pairs()
     .filter(pair => {
       let web = pair.at(1).at("web", default: none)

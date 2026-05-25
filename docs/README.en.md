@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-Documentation version: 2026.05.25.2
+Documentation version: 2026.05.25.3
 
 Language: [日本語](../README.md) | English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -38,10 +38,23 @@ Edit these values first:
 - `title`: blog name
 - `description`: blog description
 - `base_url`: public URL
+- `theme`: theme preset name to use (`dark` by default)
 - `author`: author name, profile, and social links
 - `analytics.cloudflare_token`: set this only when using Cloudflare Web Analytics
 - `feedback.google_form_url` and `feedback.entry_id`: set these only when using Google Forms
 - `share`: display settings for X, Misskey, and copy share buttons
+
+## Theme Settings
+
+Colors, card backgrounds, and other visual theme values are managed by CSS files in `static/themes/`.
+The default theme is `static/themes/dark.css`. To switch to the light theme, change `theme` in `site.typ`.
+
+```typst
+theme: "light"
+```
+
+To create a custom theme, add `static/themes/my-theme.css`, define the same CSS variables as `dark.css` or `light.css`, and set `theme: "my-theme"` in `site.typ`.
+Theme names may only contain letters, numbers, `_`, and `-`.
 
 ## Font Settings
 

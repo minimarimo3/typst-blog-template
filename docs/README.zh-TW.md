@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文件版本：2026.05.25.2
+文件版本：2026.05.25.3
 
 語言：[日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | 繁體中文（台灣）
 
@@ -38,10 +38,23 @@ python3 -m http.server 8000 -d public
 - `title`: 部落格名稱
 - `description`: 部落格描述
 - `base_url`: 公開 URL
+- `theme`: 要使用的主題預設名稱（預設值為 `dark`）
 - `author`: 作者名稱、簡介與社群連結
 - `analytics.cloudflare_token`: 只有使用 Cloudflare Web Analytics 時才需要設定
 - `feedback.google_form_url` 與 `feedback.entry_id`: 只有使用 Google Forms 時才需要設定
 - `share`: X、Misskey 與複製分享按鈕的顯示設定
+
+## 主題設定
+
+色彩、卡片背景等視覺主題值由 `static/themes/` 中的 CSS 檔案管理。
+預設主題是 `static/themes/dark.css`。若要切換到淺色主題，請修改 `site.typ` 中的 `theme`。
+
+```typst
+theme: "light"
+```
+
+若要建立自訂主題，請新增 `static/themes/my-theme.css`，定義與 `dark.css` 或 `light.css` 相同的 CSS 變數，然後在 `site.typ` 中設定 `theme: "my-theme"`。
+主題名稱只能包含英文字母、數字、`_` 和 `-`。
 
 ## 字型設定
 

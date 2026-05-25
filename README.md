@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文書バージョン: 2026.05.25.2
+文書バージョン: 2026.05.25.3
 
 言語: 日本語 | [English](docs/README.en.md) | [한국어](docs/README.ko.md) | [简体中文](docs/README.zh-CN.md) | [繁體中文（台灣）](docs/README.zh-TW.md)
 
@@ -38,10 +38,23 @@ python3 -m http.server 8000 -d public
 - `title`: ブログ名
 - `description`: ブログ説明文
 - `base_url`: 公開 URL
+- `theme`: 使用するテーマプリセット名（初期値は `dark`）
 - `author`: 著者名、プロフィール、SNS リンク
 - `analytics.cloudflare_token`: Cloudflare Web Analytics を使う場合だけ設定
 - `feedback.google_form_url` と `feedback.entry_id`: Google フォームを使う場合だけ設定
 - `share`: X、Misskey、コピー共有ボタンの表示設定
+
+## テーマ設定
+
+見た目の色やカード背景などは `static/themes/` 配下の CSS で管理します。
+初期テーマは `static/themes/dark.css` です。明るいテーマに切り替えるには `site.typ` の `theme` を変更します。
+
+```typst
+theme: "light"
+```
+
+独自テーマを作る場合は `static/themes/my-theme.css` を追加し、`dark.css` または `light.css` と同じ CSS 変数を定義してから、`site.typ` で `theme: "my-theme"` を指定します。
+テーマ名に使える文字は英数字、 `_`、 `-` です。
 
 ## フォント設定
 

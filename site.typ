@@ -3,6 +3,7 @@
   description: "Typstで書く小さなブログです。",
   base_url: "https://example.com",
   language: "en",
+  theme: "dark",
   fonts: (
     main: (
       pdf: "Noto Serif CJK JP",

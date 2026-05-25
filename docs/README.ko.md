@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-문서 버전: 2026.05.25.2
+문서 버전: 2026.05.25.3
 
 언어: [日本語](../README.md) | [English](README.en.md) | 한국어 | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -38,10 +38,23 @@ python3 -m http.server 8000 -d public
 - `title`: 블로그 이름
 - `description`: 블로그 설명
 - `base_url`: 공개 URL
+- `theme`: 사용할 테마 프리셋 이름（기본값은 `dark`）
 - `author`: 작성자 이름, 프로필, 소셜 링크
 - `analytics.cloudflare_token`: Cloudflare Web Analytics를 사용할 때만 설정
 - `feedback.google_form_url` 및 `feedback.entry_id`: Google Forms를 사용할 때만 설정
 - `share`: X, Misskey, 복사 공유 버튼의 표시 설정
+
+## 테마 설정
+
+색상, 카드 배경 등 시각 테마 값은 `static/themes/` 안의 CSS 파일에서 관리합니다.
+기본 테마는 `static/themes/dark.css`입니다. 밝은 테마로 바꾸려면 `site.typ`의 `theme`을 변경하세요.
+
+```typst
+theme: "light"
+```
+
+커스텀 테마를 만들려면 `static/themes/my-theme.css`를 추가하고 `dark.css` 또는 `light.css`와 같은 CSS 변수를 정의한 뒤, `site.typ`에서 `theme: "my-theme"`을 지정합니다.
+테마 이름에는 영문자, 숫자, `_`, `-`만 사용할 수 있습니다.
 
 ## 폰트 설정
 

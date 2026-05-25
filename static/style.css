@@ -1,40 +1,4 @@
 :root {
-  --bg-color: #1a1a1a;
-  --text-color: #e0e0e0;
-  --text-muted: #aaaaaa;
-  --accent-color: #64b5f6;
-  --border-color: #333333;
-  --sidebar-bg: #222222;
-  --card-bg: #252525;
-  --card-border: #333333;
-  --card-shadow: rgba(0, 0, 0, 0.3);
-  --tag-bg: #333333;
-  --tag-text: #cccccc;
-  --code-bg: #2d2d2d;
-  --header-border: #333333;
-  --abstract-bg: #222933;
-  --abstract-border: #303a45;
-  --btn-x-bg: #ffffff;
-  --btn-x-text: #000000;
-  --btn-misskey-bg: #6a8f00;
-  --btn-misskey-text: #ffffff;
-  --btn-copy-bg: #333333;
-  --btn-copy-text: #dddddd;
-  --color-note-bg: #0d1117;
-  --color-note-border: #388bfd;
-  --color-note-text: #58a6ff;
-  --color-tip-bg: #0d1117;
-  --color-tip-border: #3fb950;
-  --color-tip-text: #3fb950;
-  --color-important-bg: #0d1117;
-  --color-important-border: #a371f7;
-  --color-important-text: #a371f7;
-  --color-warning-bg: #0d1117;
-  --color-warning-border: #d29922;
-  --color-warning-text: #d29922;
-  --color-caution-bg: #0d1117;
-  --color-caution-border: #f85149;
-  --color-caution-text: #f85149;
   --font-main:    "Noto Serif JP", serif;
   --font-heading: var(--font-main);
   --font-code:    "Fira Code", monospace;
@@ -197,7 +161,7 @@ pre {
 code {
   font-family: var(--font-code);
   background-color: var(--code-bg);
-  color: #e0e0e0;
+  color: var(--code-text);
   padding: 0.2em 0.4em;
   border-radius: 4px;
 }
@@ -227,7 +191,7 @@ figure img,
 figure svg {
   max-width: 100%;
   height: auto;
-  background-color: white;
+  background-color: var(--figure-bg);
   padding: 10px;
   border-radius: 6px;
 }
@@ -280,7 +244,7 @@ tbody tr:last-child td {
   max-width: 800px;
   margin: 2em auto;
   aspect-ratio: 16 / 9;
-  background-color: #000;
+  background-color: var(--video-bg);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -347,8 +311,8 @@ tbody tr:last-child td {
   transform: translateX(-50%);
   width: max-content;
   max-width: 300px;
-  background-color: #333;
-  color: #fff;
+  background-color: var(--popover-bg);
+  color: var(--popover-text);
   text-align: left;
   padding: 10px 15px;
   border-radius: 6px;
@@ -462,8 +426,8 @@ tbody tr:last-child td {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%) translateY(100px);
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
+  background-color: var(--toast-bg);
+  color: var(--toast-text);
   padding: 10px 20px;
   border-radius: 30px;
   font-size: 0.9rem;
@@ -588,7 +552,7 @@ tbody tr:last-child td {
 
 .search-input:focus {
   border-color: var(--accent-color);
-  outline: 2px solid rgba(100, 181, 246, 0.2);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -648,7 +612,7 @@ tbody tr:last-child td {
 .search-result-excerpt mark {
   padding: 0 0.18em;
   border-radius: 3px;
-  background-color: rgba(100, 181, 246, 0.2);
+  background-color: var(--mark-bg);
   color: var(--text-color);
 }
 
@@ -712,8 +676,8 @@ tbody tr:last-child td {
 
 a[role="doc-biblioref"].biblioref-is-active {
   border-radius: 4px;
-  background-color: rgba(100, 181, 246, 0.18);
-  color: #ffffff;
+  background-color: var(--biblioref-active-bg);
+  color: var(--biblioref-active-text);
   text-decoration: none;
 }
 
@@ -856,7 +820,7 @@ a[role="doc-biblioref"].biblioref-is-active {
 }
 
 .author-icon-link:hover .icon-misskey {
-  fill: #96c02e;
+  fill: var(--author-misskey-hover);
 }
 
 p,

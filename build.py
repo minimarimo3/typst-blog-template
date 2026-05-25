@@ -14,9 +14,7 @@ from xml.sax.saxutils import escape
 ROOT_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = ROOT_DIR / "public"
 GENERATED_POSTS_FILE = ROOT_DIR / "typst" / "generated" / "posts.typ"
-STYLE_CSS = ROOT_DIR / "static" / "style.css"
-SCRIPT_JS = ROOT_DIR / "static" / "script.js"
-ROBOTS_TXT = ROOT_DIR / "static" / "robots.txt"
+STATIC_DIR = ROOT_DIR / "static"
 SITE_METADATA_LABEL = "<site-meta>"
 POST_METADATA_LABEL = "<post-meta>"
 EXCLUDED_DIRS = {".git", ".github", "public", "typst", "__pycache__"}
@@ -35,6 +33,7 @@ STATIC_EXTENSIONS = {
     ".txt",
 }
 CALVER_TEXT_RE = re.compile(r"(\d{2}|\d{4})\.(\d{1,2})\.(\d{1,2})(?:\.(\d+))?")
+THEME_NAME_RE = re.compile(r"[A-Za-z0-9_-]+")
 
 
 @dataclass(frozen=True, order=True)
@@ -81,7 +80,16 @@ def load_site_config() -> dict:
         if not site.get(field):
             raise ValueError(f"site.{field} is required")
 
+    theme = site.get("theme", "dark")
+    if not isinstance(theme, str) or not theme:
+        raise ValueError("site.theme must be a non-empty string")
+    if not THEME_NAME_RE.fullmatch(theme):
+        raise ValueError("site.theme may only contain letters, numbers, underscores, and hyphens")
+    if not (STATIC_DIR / "themes" / f"{theme}.css").is_file():
+        raise ValueError(f"site.theme '{theme}' does not exist in static/themes")
+
     site["base_url"] = site["base_url"].rstrip("/")
+    site["theme"] = theme
     return site
 
 
@@ -308,10 +316,17 @@ def build_post(post: dict) -> None:
     copy_post_assets(post, output_dir)
 
 
-def copy_root_assets() -> None:
-    for asset in (STYLE_CSS, SCRIPT_JS, ROBOTS_TXT):
-        if asset.exists():
-            shutil.copy2(asset, OUTPUT_DIR / asset.name)
+def copy_static_assets() -> None:
+    if not STATIC_DIR.exists():
+        return
+
+    for asset in STATIC_DIR.rglob("*"):
+        if not asset.is_file():
+            continue
+
+        destination = OUTPUT_DIR / asset.relative_to(STATIC_DIR)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(asset, destination)
 
 
 def build_static_pages() -> None:
@@ -340,7 +355,7 @@ def build_static_pages() -> None:
             str((OUTPUT_DIR / "404.html").relative_to(ROOT_DIR)),
         )
 
-    copy_root_assets()
+    copy_static_assets()
 
 
 def generate_rss(site: dict, posts: list[dict]) -> None:
