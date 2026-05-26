@@ -26,6 +26,19 @@
   )
 }
 
+/// 記事のメタデータを構築する。
+///
+/// - slug (str, none): URLスラッグ（例: `"my-first-post"`）。`none` のとき build.py がファイルパスから推定する
+/// - title (str): 記事タイトル
+/// - authors (array, none): 著者名のリスト（例: `("Alice", "Bob")`）。`none` のとき `site.author.name` が使われる
+/// - create (datetime, none): 作成日（例: `datetime(year: 2024, month: 1, day: 1)`）
+/// - update (datetime, none): 最終更新日。`none` のとき作成日と同じ扱い
+/// - tags (array): タグのリスト（例: `("Typst", "Web")`）
+/// - description (str, none): メタディスクリプション（SEO・OGP用）
+/// - abstract (content, none): 記事要約。`none` のとき `description` がフォールバックとして使われる
+/// - og-image (str, none): OGP画像の URL（例: `"https://example.com/og.png"`）
+/// - draft (bool): `true` のとき下書き。build.py が公開対象から除外する
+/// -> dictionary
 #let post-meta(
   slug: none,
   title: "記事タイトル",

@@ -1,7 +1,22 @@
-// ─── 設定コンストラクタ ───────────────────────────────────────────────────────
-// named parameter として受け取ることで、未知のキーは Typst が即座に
-// "unexpected argument" エラーとして報告する。
-// 値の制約違反は assert によりコンパイル時に検出される。
+/// サイト全体の設定を構築する。未知のキーはコンパイルエラー、制約違反は assert で即時検出される。
+///
+/// - title (str): サイトタイトル（空文字不可）
+/// - description (str): サイト説明文（空文字不可）
+/// - base_url (str): サイトのベース URL（例: `"https://example.com"`）。末尾スラッシュなし
+/// - language (str): サイト言語コード（例: `"ja"`, `"en"`）
+/// - theme (str): テーマ名。英数字・`_`・`-` のみ使用可（例: `"dark"`, `"light"`）
+/// - fonts (dictionary): フォント設定。`main` と `code` キーが必須で、各々 `pdf` フィールドが必要。```typst
+///   fonts: (
+///     main: (pdf: "Noto Serif CJK JP", web: "Noto Serif JP", weights: "400;700", fallback: "serif"),
+///     code: (pdf: "Fira Code",         web: "Fira Code",     weights: "300..700", fallback: "monospace"),
+///     // heading / math / 任意名のフォントも追加可
+///   )
+///   ```
+/// - author (dictionary): 著者情報。`name`（必須）, `bio`（str）, `socials`（`x` / `misskey` / `github` の URL）を含む辞書
+/// - analytics (dictionary): アナリティクス設定。`cloudflare_token`（str | none）を含む辞書
+/// - feedback (dictionary): フィードバック設定。`google_form_url`（str | none）と `entry_id`（str | none）を含む辞書
+/// - share (dictionary): シェアボタン設定。`x`, `misskey`, `copy` の各 bool を含む辞書
+/// -> dictionary
 #let _site(
   title: none,
   description: none,
