@@ -181,6 +181,14 @@ blockquote {
   color: var(--text-muted);
 }
 
+.article-body blockquote + p {
+  margin-top: -1.3em;
+  padding-right: 0.25rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  text-align: right;
+}
+
 figure {
   margin: 2em 0;
   text-align: center;
@@ -289,6 +297,37 @@ tbody tr:last-child td {
   padding-left: 10px;
   list-style: none;
   margin: 0;
+}
+
+.mobile-toc nav[role="doc-toc"] li {
+  margin-bottom: 7px;
+  line-height: 1.4;
+}
+
+.mobile-toc nav[role="doc-toc"] a {
+  display: block;
+  color: var(--text-color);
+}
+
+.mobile-toc nav[role="doc-toc"] a:hover {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.mobile-toc nav[role="doc-toc"] ol ol {
+  margin-top: 7px;
+  margin-left: 0.2rem;
+  padding-left: 0.9rem;
+  border-left: 1px solid var(--border-color);
+}
+
+.mobile-toc nav[role="doc-toc"] ol ol li {
+  margin-bottom: 5px;
+}
+
+.mobile-toc nav[role="doc-toc"] ol ol a {
+  color: var(--text-muted);
+  font-size: 0.9em;
 }
 
 .footnote-wrapper {
@@ -520,18 +559,34 @@ tbody tr:last-child td {
 
 .sidebar-widget nav[role="doc-toc"] li {
   margin-bottom: 8px;
-  font-size: 0.9rem;
   line-height: 1.4;
 }
 
 .sidebar-widget nav[role="doc-toc"] a {
-  color: var(--text-muted);
   display: block;
+  color: var(--text-color);
+  font-size: 0.9rem;
 }
 
 .sidebar-widget nav[role="doc-toc"] a:hover {
   color: var(--accent-color);
   text-decoration: none;
+}
+
+.sidebar-widget nav[role="doc-toc"] ol ol {
+  margin-top: 7px;
+  margin-left: 0.2rem;
+  padding-left: 0.9rem;
+  border-left: 1px solid var(--border-color);
+}
+
+.sidebar-widget nav[role="doc-toc"] ol ol li {
+  margin-bottom: 5px;
+}
+
+.sidebar-widget nav[role="doc-toc"] ol ol a {
+  color: var(--text-muted);
+  font-size: 0.84rem;
 }
 
 .mobile-search {
