@@ -2,7 +2,7 @@
   title: "My Typst Blog",
   description: "Typstで書く小さなブログです。",
   base_url: "https://example.com",
-  language: "en",
+  language: "ja",
   theme: "dark",
   fonts: (
     main: (
