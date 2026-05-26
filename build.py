@@ -47,6 +47,35 @@ class CalVer:
         return dt.datetime(self.year, self.month, self.day, tzinfo=dt.timezone.utc)
 
 
+"""
+# 最新版を使いたい時に
+TYPST_REPO = Path("~/Downloads/typst").expanduser()
+
+def run_typst(*args: str, capture_output: bool = False) -> subprocess.CompletedProcess[str]:
+    try:
+        return subprocess.run(
+            [
+                "cargo",
+                "run",
+                "--manifest-path",
+                str(TYPST_REPO / "Cargo.toml"),
+                "--locked",
+                "-p",
+                "typst-cli",
+                "--",
+                *args,
+            ],
+            cwd=ROOT_DIR,
+            check=True,
+            text=True,
+            encoding="utf-8",
+            capture_output=capture_output,
+        )
+    except subprocess.CalledProcessError as exc:
+        if exc.stderr:
+            print(exc.stderr, file=sys.stderr, end="")
+        raise
+"""
 def run_typst(*args: str, capture_output: bool = False) -> subprocess.CompletedProcess[str]:
     try:
         return subprocess.run(

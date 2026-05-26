@@ -111,12 +111,15 @@
     })
   }
 
+  // TODO: 2026/05/26日の最新mainではこのハックが必要なくなっている。0.15.0では数式もHTMLエクスポートできるようになるだろうからリリース後に確認して削除する必要があるかも。
+  /*
   show math.equation.where(block: false): it => {
     html.elem("span", attrs: (role: "math"), html.frame(it))
   }
   show math.equation.where(block: true): it => {
     html.elem("figure", attrs: (role: "math"), html.frame(it))
   }
+  */
 
   let share-enabled = site.share.x or site.share.misskey or site.share.copy
   let feedback-enabled = site.feedback.google_form_url != none and site.feedback.google_form_url != ""
