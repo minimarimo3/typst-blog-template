@@ -48,14 +48,19 @@ class CalVer:
 
 
 def run_typst(*args: str, capture_output: bool = False) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
-        ["typst", *args],
-        cwd=ROOT_DIR,
-        check=True,
-        text=True,
-        encoding="utf-8",
-        capture_output=capture_output,
-    )
+    try:
+        return subprocess.run(
+            ["typst", *args],
+            cwd=ROOT_DIR,
+            check=True,
+            text=True,
+            encoding="utf-8",
+            capture_output=capture_output,
+        )
+    except subprocess.CalledProcessError as exc:
+        if exc.stderr:
+            print(exc.stderr, file=sys.stderr, end="")
+        raise
 
 
 def load_site_config() -> dict:
