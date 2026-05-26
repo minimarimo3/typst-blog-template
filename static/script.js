@@ -152,6 +152,15 @@ function initSiteSearch() {
 document.addEventListener("DOMContentLoaded", initSiteSearch);
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("a[href]").forEach((a) => {
+    if (a.hostname && a.hostname !== window.location.hostname) {
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener noreferrer");
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".raw-html-embed").forEach((el) => {
     const htmlContent = el.getAttribute("data-html");
     if (htmlContent) {
