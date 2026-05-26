@@ -1,4 +1,89 @@
-#let site = (
+// ─── 設定コンストラクタ ───────────────────────────────────────────────────────
+// named parameter として受け取ることで、未知のキーは Typst が即座に
+// "unexpected argument" エラーとして報告する。
+// 値の制約違反は assert によりコンパイル時に検出される。
+#let _site(
+  title: none,
+  description: none,
+  base_url: none,
+  language: none,
+  theme: "dark",
+  fonts: none,
+  author: none,
+  analytics: (cloudflare_token: none),
+  feedback: (google_form_url: none, entry_id: none),
+  share: none,
+) = {
+  let _req = (v, f) => assert(
+    type(v) == str and v != "",
+    message: "site." + f + ": 空でない文字列が必要です",
+  )
+  let _url = (u, f) => assert(
+    u == "" or u.starts-with("https://") or u.starts-with("http://"),
+    message: "site." + f + ": URL は https:// または http:// で始まる必要があります",
+  )
+
+  // 必須文字列
+  _req(title,       "title")
+  _req(description, "description")
+  _req(base_url,    "base_url")
+  assert(
+    base_url.starts-with("https://") or base_url.starts-with("http://"),
+    message: "site.base_url: https:// または http:// で始まる必要があります",
+  )
+  assert(not base_url.ends-with("/"), message: "site.base_url: 末尾にスラッシュは不要です")
+  _req(language, "language")
+
+  // theme（英数字・アンダースコア・ハイフンのみ）
+  assert(type(theme) == str and theme != "", message: "site.theme: 空でない文字列が必要です")
+  assert(
+    theme.clusters().all(c =>
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-".contains(c)
+    ),
+    message: "site.theme: 英数字・アンダースコア・ハイフンのみ使用可能です",
+  )
+
+  // fonts（main・code は必須、それぞれ pdf フィールドが必要）
+  assert(type(fonts) == dictionary, message: "site.fonts: 辞書が必要です")
+  assert("main" in fonts, message: "site.fonts.main: 必須です")
+  assert("code" in fonts, message: "site.fonts.code: 必須です")
+  assert("pdf" in fonts.main, message: "site.fonts.main.pdf: 必須です")
+  assert("pdf" in fonts.code, message: "site.fonts.code.pdf: 必須です")
+
+  // author
+  assert(type(author) == dictionary, message: "site.author: 辞書が必要です")
+  _req(author.at("name", default: none), "author.name")
+  assert(type(author.at("bio", default: "")) == str, message: "site.author.bio: 文字列が必要です")
+  let _soc = author.at("socials", default: (:))
+  _url(_soc.at("x",       default: ""), "author.socials.x")
+  _url(_soc.at("misskey",  default: ""), "author.socials.misskey")
+  _url(_soc.at("github",   default: ""), "author.socials.github")
+
+  // share
+  assert(type(share) == dictionary, message: "site.share: 辞書が必要です")
+  assert(type(share.at("x",       default: none)) == bool, message: "site.share.x: true/false が必要です")
+  assert(type(share.at("misskey", default: none)) == bool, message: "site.share.misskey: true/false が必要です")
+  assert(type(share.at("copy",    default: none)) == bool, message: "site.share.copy: true/false が必要です")
+
+  // analytics（省略可・設定する場合は文字列）
+  let _cf = analytics.at("cloudflare_token", default: none)
+  assert(_cf == none or type(_cf) == str, message: "site.analytics.cloudflare_token: none か文字列が必要です")
+
+  // feedback（省略可・設定する場合は文字列）
+  let _gf  = feedback.at("google_form_url", default: none)
+  let _eid = feedback.at("entry_id",        default: none)
+  assert(_gf  == none or type(_gf)  == str, message: "site.feedback.google_form_url: none か文字列が必要です")
+  assert(_eid == none or type(_eid) == str, message: "site.feedback.entry_id: none か文字列が必要です")
+
+  (
+    title: title, description: description, base_url: base_url, language: language,
+    theme: theme, fonts: fonts, author: author, analytics: analytics,
+    feedback: feedback, share: share,
+  )
+}
+
+// ─── サイト設定 ───────────────────────────────────────────────────────────────
+#let site = _site(
   title: "My Typst Blog",
   description: "Typstで書く小さなブログです。",
   base_url: "https://example.com",
