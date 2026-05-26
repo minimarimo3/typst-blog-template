@@ -244,8 +244,8 @@ figure {
   overflow-x: auto;
 }
 
-figure img,
-figure svg {
+figure > img,
+figure > svg {
   max-width: 100%;
   height: auto;
   background-color: var(--figure-bg);
