@@ -26,6 +26,30 @@
   )
 }
 
+#let post-meta(
+  slug: none,
+  title: "記事タイトル",
+  authors: none,
+  create: none,
+  update: none,
+  tags: (),
+  description: none,
+  abstract: none,
+  og-image: none,
+  draft: true,
+) = (
+  slug: slug,
+  title: title,
+  authors: authors,
+  create: create,
+  update: update,
+  tags: tags,
+  description: description,
+  abstract: abstract,
+  og-image: og-image,
+  draft: draft,
+)
+
 #let article(
   slug: none,
   title: "記事タイトル",

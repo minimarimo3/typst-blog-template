@@ -1,11 +1,13 @@
-#import "../template.typ": article, calver, env, note, tip, important, warning, caution, raw_html, youtube
+#import "../template.typ": article, calver, env, note, tip, important, warning, caution, raw_html, youtube, post-meta
 
-#let meta = (
+#let meta = post-meta(
   slug: "example-post",
   title: "Typst HTML Export Regression Test",
   create: calver(2026, 1, 1),
-  description: "Typst Blog TemplateのHTML出力と独自コンポーネントを確認するためのサンプル記事です。",
+  update: calver(2026, 4, 1),
+  description: "Typst Blog TemplateのHTML出力と独自コンポーネントを確認するためのサンプル記事です。meta.descriptionになります。",
   tags: ("Typst", "Template", "Test"),
+  abstract: "記事の内容（アブストラクト）",
 )
 
 #metadata(meta) <post-meta>

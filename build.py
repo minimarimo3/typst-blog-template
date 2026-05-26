@@ -222,7 +222,10 @@ def collect_posts() -> list[dict]:
             create = parse_calver(meta.get("create"))
         except ValueError as exc:
             raise ValueError(f"{source_file.relative_to(ROOT_DIR)}: create {exc}") from exc
-        update = parse_typst_date(meta.get("update"))
+        try:
+            update = parse_calver(meta.get("update"))
+        except ValueError as exc:
+            raise ValueError(f"{source_file.relative_to(ROOT_DIR)}: update {exc}") from exc
         description = meta.get("description")
         tags = tuple(meta.get("tags", []))
         draft = bool(meta.get("draft", False))
@@ -276,7 +279,7 @@ def write_generated_posts(posts: list[dict]) -> None:
                 f"  {typst_string(post['slug'])}: (",
                 f"    title: {typst_string(post['title'])},",
                 f"    create: {format_typst_calver(post['create'])},",
-                f"    update: {format_typst_date(post['update'])},",
+                f"    update: {format_typst_date(post['update'].as_datetime() if post['update'] else None)},",
                 f"    description: {typst_string(post['description'])},",
                 f"    tags: {tag_value},",
                 "  ),",
@@ -407,7 +410,7 @@ def generate_sitemap(site: dict, posts: list[dict]) -> None:
 """
     for post in published_posts:
         link = f"{base_url}/{post['slug']}/"
-        last_mod_value = post["update"] or post["create"].as_datetime()
+        last_mod_value = post["update"].as_datetime() if post["update"] else post["create"].as_datetime()
         last_mod = last_mod_value.strftime("%Y-%m-%d")
         xml += f"""  <url>
     <loc>{escape(link)}</loc>
