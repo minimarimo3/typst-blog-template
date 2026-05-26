@@ -8,6 +8,7 @@
   description: "Typst Blog TemplateのHTML出力と独自コンポーネントを確認するためのサンプル記事です。meta.descriptionになります。",
   tags: ("Typst", "Template", "Test"),
   abstract: "記事の内容（アブストラクト）",
+  draft: false,
 )
 
 #metadata(meta) <post-meta>

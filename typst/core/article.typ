@@ -1,5 +1,5 @@
 #import "/site.typ": site
-#import "/typst/core/shared.typ": calver-display, main-font, heading-font, math-font
+#import "/typst/core/shared.typ": calver-display, calver-key, main-font, heading-font, math-font
 #import "/typst/core/i18n.typ": i18n
 #import "/typst/generated/posts.typ": post-data
 #import "/typst/components/head.typ": common-head
@@ -143,13 +143,13 @@
                     html.span(class: "meta-date", i18n.created + calver-display(create))
                   }
                   if update != none {
-                    html.span(class: "meta-date", i18n.updated + update.display("[year]-[month]-[day]"))
+                    html.span(class: "meta-date", i18n.updated + calver-display(update))
                   }
                 })
                 if tags.len() > 0 {
                   html.div(class: "meta-tags", {
                     for tag in tags {
-                      html.span(class: "tag", "#" + tag)
+                      html.a(class: "tag", href: "/tags/" + tag.replace(" ", "-") + "/", "#" + tag)
                     }
                   })
                 }
@@ -247,6 +247,37 @@
                 }
               })
             })
+          }
+
+          let sorted-posts = post-data
+            .pairs()
+            .map(pair => {
+              let (key, val) = pair
+              val + (slug: key)
+            })
+            .sorted(key: p => calver-key(p.create))
+            .rev()
+          let current-idx = sorted-posts.position(p => p.slug == slug)
+          if current-idx != none {
+            let prev-post = if current-idx + 1 < sorted-posts.len() { sorted-posts.at(current-idx + 1) } else { none }
+            let next-post = if current-idx > 0 { sorted-posts.at(current-idx - 1) } else { none }
+            if prev-post != none or next-post != none {
+              html.hr(class: "section-divider")
+              html.nav(class: "post-nav", {
+                if prev-post != none {
+                  html.a(class: "post-nav-link post-nav-prev", href: "/" + prev-post.slug + "/", {
+                    html.span(class: "post-nav-label", i18n.prev_article)
+                    html.span(class: "post-nav-title", prev-post.title)
+                  })
+                }
+                if next-post != none {
+                  html.a(class: "post-nav-link post-nav-next", href: "/" + next-post.slug + "/", {
+                    html.span(class: "post-nav-label", i18n.next_article)
+                    html.span(class: "post-nav-title", next-post.title)
+                  })
+                }
+              })
+            }
           }
         })
 

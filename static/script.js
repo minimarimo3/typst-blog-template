@@ -152,6 +152,54 @@ function initSiteSearch() {
 document.addEventListener("DOMContentLoaded", initSiteSearch);
 
 document.addEventListener("DOMContentLoaded", () => {
+  const copyIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+  const checkIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+  const _labels = {
+    ja: { copy: "コードをコピー", copied: "コピーしました" },
+    en: { copy: "Copy code", copied: "Copied!" },
+    ko: { copy: "코드 복사", copied: "복사됨" },
+    "zh-CN": { copy: "复制代码", copied: "已复制" },
+    "zh-TW": { copy: "複製程式碼", copied: "已複製" },
+  };
+  const _lang = document.documentElement.lang || "ja";
+  const labels = _labels[_lang] ?? _labels.ja;
+
+  document.querySelectorAll("pre").forEach((pre) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "code-block-wrapper";
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.appendChild(pre);
+
+    const btn = document.createElement("button");
+    btn.className = "code-copy-btn";
+    btn.setAttribute("aria-label", labels.copy);
+    btn.innerHTML = copyIcon;
+    wrapper.appendChild(btn);
+
+    btn.addEventListener("click", () => {
+      const code = pre.querySelector("code")?.innerText ?? pre.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.classList.add("copied");
+        btn.innerHTML = checkIcon;
+        btn.setAttribute("aria-label", labels.copied);
+        setTimeout(() => {
+          btn.classList.remove("copied");
+          btn.innerHTML = copyIcon;
+          btn.setAttribute("aria-label", labels.copy);
+        }, 2000);
+      }).catch(() => {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(pre);
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+      });
+    });
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("a[href]").forEach((a) => {
     if (a.hostname && a.hostname !== window.location.hostname) {
       a.setAttribute("target", "_blank");

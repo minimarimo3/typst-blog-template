@@ -337,6 +337,108 @@ def copy_static_assets() -> None:
         shutil.copy2(asset, destination)
 
 
+def tag_to_slug(tag: str) -> str:
+    return tag.replace(" ", "-")
+
+
+def _tag_page_content(tag: str, tag_posts: list[dict]) -> str:
+    lines = [
+        '#import "/typst/core/tag.typ": tag-page',
+        "#show: tag-page.with(",
+        f"  tag: {typst_string(tag)},",
+        "  posts: (",
+    ]
+    for post in tag_posts:
+        tag_value = (
+            "("
+            + ", ".join(typst_string(t) for t in post["tags"])
+            + ("," if len(post["tags"]) == 1 else "")
+            + ")"
+            if post["tags"]
+            else "()"
+        )
+        lines += [
+            f"    {typst_string(post['slug'])}: (",
+            f"      title: {typst_string(post['title'])},",
+            f"      create: {format_typst_calver(post['create'])},",
+            f"      description: {typst_string(post['description'])},",
+            f"      tags: {tag_value},",
+            "    ),",
+        ]
+    lines += ["  )", ")"]
+    return "\n".join(lines) + "\n"
+
+
+def _tags_index_content(tags_with_counts: list[tuple[str, int]]) -> str:
+    lines = [
+        '#import "/typst/core/tags-index.typ": tags-index-page',
+        "#show: tags-index-page.with(",
+        "  tags: (",
+    ]
+    for tag, count in tags_with_counts:
+        lines.append(f"    {typst_string(tag)}: {count},")
+    lines += ["  )", ")"]
+    return "\n".join(lines) + "\n"
+
+
+def build_tag_pages(posts: list[dict]) -> None:
+    published = [p for p in posts if not p["draft"]]
+
+    tag_posts: dict[str, list[dict]] = {}
+    for post in published:
+        for tag in post["tags"]:
+            tag_posts.setdefault(tag, []).append(post)
+
+    if not tag_posts:
+        return
+
+    tags_dir = OUTPUT_DIR / "tags"
+    tags_dir.mkdir(parents=True, exist_ok=True)
+
+    for i, (tag, tposts) in enumerate(tag_posts.items()):
+        slug = tag_to_slug(tag)
+        tag_output_dir = tags_dir / slug
+        tag_output_dir.mkdir(parents=True, exist_ok=True)
+
+        temp_file = ROOT_DIR / f"_tag_build_{i}.typ"
+        temp_file.write_text(_tag_page_content(tag, tposts), encoding="utf-8")
+
+        print(f"Building tag page: #{tag}")
+        try:
+            run_typst(
+                "compile",
+                "--features", "html",
+                "--format", "html",
+                "--root", ".",
+                str(temp_file.relative_to(ROOT_DIR)),
+                str((tag_output_dir / "index.html").relative_to(ROOT_DIR)),
+            )
+        finally:
+            temp_file.unlink(missing_ok=True)
+
+    tags_with_counts = sorted(
+        [(tag, len(tposts)) for tag, tposts in tag_posts.items()],
+        key=lambda x: x[0].lower(),
+    )
+    temp_file = ROOT_DIR / "_tags_index_build.typ"
+    temp_file.write_text(_tags_index_content(tags_with_counts), encoding="utf-8")
+
+    print("Building tags index page...")
+    try:
+        run_typst(
+            "compile",
+            "--features", "html",
+            "--format", "html",
+            "--root", ".",
+            str(temp_file.relative_to(ROOT_DIR)),
+            str((tags_dir / "index.html").relative_to(ROOT_DIR)),
+        )
+    finally:
+        temp_file.unlink(missing_ok=True)
+
+    print(f"Built {len(tag_posts)} tag page(s).")
+
+
 def build_static_pages() -> None:
     run_typst(
         "compile",
@@ -445,6 +547,9 @@ def build() -> None:
 
     print("Building static pages...")
     build_static_pages()
+
+    print("Building tag pages...")
+    build_tag_pages(posts)
 
     print("Generating RSS and sitemap...")
     generate_rss(site, posts)
