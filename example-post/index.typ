@@ -2,10 +2,10 @@
 
 #let meta = post-meta(
   slug: "example-post",
-  title: "Typst HTML Export Regression Test",
+  title: "Typst blog template Sample Page",
   create: calver(2026, 1, 1),
   update: calver(2026, 4, 1),
-  description: "Typst Blog TemplateのHTML出力と独自コンポーネントを確認するためのサンプル記事です。meta.descriptionになります。",
+  description: "サンプル記事です。meta.descriptionになります。",
   tags: ("Typst", "Template", "Test"),
   abstract: "記事の内容（アブストラクト）",
   draft: false,
@@ -13,6 +13,12 @@
 
 #metadata(meta) <post-meta>
 #show: article.with(..meta)
+
+#env(
+  ("Typst", "0.14.2", "HTML export"),
+  ("Python", "3.x", "build.py"),
+  ("Pagefind", "optional", "検索インデックスがある場合だけ有効"),
+)
 
 = TypstのHTMLエクスポート機能のテスト
 
@@ -148,14 +154,6 @@ $
 #caution[
   これは「警告」です。危険な操作や、取り返しのつかないことについて書きます。
 ]
-
-== 環境表
-
-#env(
-  ("Typst", "0.14.2", "HTML export"),
-  ("Python", "3.x", "build.py"),
-  ("Pagefind", "optional", "検索インデックスがある場合だけ有効"),
-)
 
 == footnote <footnote>
 
