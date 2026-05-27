@@ -147,7 +147,7 @@ a.tag:hover {
   display: block;
   font-size: 0.9em;
   color: var(--text-muted);
-  margin-bottom: 0.5em;
+  margin: 0 0 0.5em;
 }
 
 .abstract-content {

@@ -183,14 +183,18 @@
             })
 
             if type(abstract-content) != str or abstract-content != "" {
-              html.div(class: "article-abstract", {
-                html.strong(class: "abstract-title", i18n.abstract)
-                if type(abstract-content) == str {
-                  html.p(class: "abstract-content", abstract-content)
-                } else {
-                  html.div(class: "abstract-content", abstract-content)
-                }
-              })
+              html.elem(
+                "section",
+                attrs: (class: "article-abstract", "aria-labelledby": "article-abstract-heading"),
+                {
+                  html.elem("h2", attrs: (id: "article-abstract-heading", class: "abstract-title"), i18n.abstract)
+                  if type(abstract-content) == str {
+                    html.p(class: "abstract-content", abstract-content)
+                  } else {
+                    html.div(class: "abstract-content", abstract-content)
+                  }
+                },
+              )
             }
 
             html.div(class: "article-body", body)
