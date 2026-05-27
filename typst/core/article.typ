@@ -186,10 +186,10 @@
             widget-search()
           })
 
-          html.elem("article", attrs: ("data-pagefind-body": ""), {
+          html.elem("article", attrs: ("data-pagefind-body": "", "aria-labelledby": "article-title"), {
             html.header(class: "article-header", {
               html.a(class: "back-home-btn", href: base-path + "/", i18n.back_home)
-              html.h1(class: "article-title", title)
+              html.elem("h1", attrs: (id: "article-title", class: "article-title"), title)
               html.div(class: "article-meta", {
                 html.div(class: "meta-dates", {
                   if create != none {
@@ -233,7 +233,7 @@
               })
             })
 
-            html.div(class: "mobile-toc", {
+            html.elem("nav", attrs: (class: "mobile-toc", "aria-label": i18n.toc, "data-pagefind-ignore": ""), {
               html.details({
                 html.summary(i18n.toc_open)
                 outline(title: none)
@@ -259,11 +259,11 @@
           })
 
           if share-enabled or feedback-enabled {
-            html.section(class: "share-feedback-section", {
+            html.elem("section", attrs: (class: "share-feedback-section", "aria-label": i18n.article_actions, "data-pagefind-ignore": ""), {
               html.hr(class: "section-divider")
               if share-enabled {
-                html.div(class: "share-area", {
-                  html.h3(i18n.share)
+                html.elem("section", attrs: (class: "share-area", "aria-labelledby": "share-heading"), {
+                  html.elem("h3", attrs: (id: "share-heading"), i18n.share)
                   html.div(class: "share-buttons", {
                     if site.share.x {
                       html.elem("button", attrs: (class: "share-btn btn-x", onclick: "shareX()"), i18n.post_on_x)
@@ -280,8 +280,8 @@
 
               if feedback-enabled {
                 let feedback-entry-id = if site.feedback.entry_id == none { "" } else { site.feedback.entry_id }
-                html.div(class: "feedback-area", {
-                  html.h3(i18n.feedback_title)
+                html.elem("section", attrs: (class: "feedback-area", "aria-labelledby": "feedback-heading"), {
+                  html.elem("h3", attrs: (id: "feedback-heading"), i18n.feedback_title)
                   html.p(i18n.feedback_body)
                   html.elem(
                     "button",
@@ -302,8 +302,8 @@
           if other-posts.len() > 0 {
             html.hr(class: "section-divider")
 
-            html.section(class: "related-posts", {
-              html.h2(class: "section-title", i18n.other_articles)
+            html.elem("aside", attrs: (class: "related-posts", "aria-labelledby": "related-posts-heading", "data-pagefind-ignore": ""), {
+              html.elem("h2", attrs: (id: "related-posts-heading", class: "section-title"), i18n.other_articles)
               let seed-src = slug + title
               let seed = int(seed-src.clusters().map(str.to-unicode).map(str).join().slice(0, calc.min(14, seed-src.clusters().len())))
               let rng = gen-rng(seed)
@@ -344,7 +344,7 @@
             let next-post = if current-idx > 0 { sorted-posts.at(current-idx - 1) } else { none }
             if prev-post != none or next-post != none {
               html.hr(class: "section-divider")
-              html.nav(class: "post-nav", {
+              html.elem("nav", attrs: (class: "post-nav", "aria-label": i18n.adjacent_articles, "data-pagefind-ignore": ""), {
                 if prev-post != none {
                   html.a(class: "post-nav-link post-nav-prev", href: base-path + "/" + prev-post.slug + "/", {
                     html.span(class: "post-nav-label", i18n.prev_article)
@@ -365,7 +365,7 @@
         html.aside(class: "sidebar", {
           html.div(class: "sidebar-inner", {
             widget-search(extra-class: "desktop-search")
-            html.div(class: "sidebar-widget toc-widget", {
+            html.elem("nav", attrs: (class: "sidebar-widget toc-widget", "aria-label": i18n.toc, "data-pagefind-ignore": ""), {
               html.h3(class: "widget-title", i18n.toc)
               outline(title: none)
             })

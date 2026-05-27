@@ -45,6 +45,9 @@
     "div",
     attrs: (
       class: widget-class,
+      role: "search",
+      "aria-label": i18n.search,
+      "data-pagefind-ignore": "",
       "data-search-loading": i18n.search_loading,
       "data-search-empty": i18n.search_no_results,
       "data-search-error": i18n.search_error,
