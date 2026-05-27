@@ -1,4 +1,4 @@
-#import "/typst/core/site-impl.typ": _site
+#import "/vendor/typst-blog-core/typst/core/site-impl.typ": _site
 
 // ─── サイト設定 ───────────────────────────────────────────────────────────────
 #let site = _site(

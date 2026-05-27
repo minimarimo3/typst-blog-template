@@ -1,102 +1,109 @@
 # Typst Blog Template
 
-Documentation version: 2026.05.27.1
+Document version: 2026.05.28.2
 
-Language: [日本語](../README.md) | English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
+Languages: [日本語](../README.md) | English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
-A small static site template for writing a blog with Typst's HTML output.
-Post content, post metadata, and site settings are managed in Typst, and `build.py` generates HTML, RSS, and a sitemap.
-Site search is powered by a static Pagefind index.
+This is a template for writing posts in Typst and publishing them as a static blog.
+When you write posts and build the site, it generates the home page, post pages, tag pages, RSS, sitemap, and a search index.
 
-When you update this README, update the localized files in `docs/` and keep their documentation version in sync.
+This README is for people who want to use the template as their own blog.
+If you want implementation details, read the README in `vendor/typst-blog-core`.
+
+When updating this README, update the language files under `docs/` as well and keep the document version aligned.
+
+## What You Can Do
+
+- Write blog posts with Typst syntax.
+- Set a title, created date, updated date, description, tags, and draft status per post.
+- Generate the home page, post pages, tag pages, and tag index.
+- Generate RSS and sitemap files.
+- Add site search with Pagefind.
+- Publish directly to GitHub Pages.
+- Add color themes, favicon, images, CSS, and a `CNAME` for a custom domain.
+- Update only the blog engine later.
 
 ## Requirements
 
+- Git
 - Typst 0.14.2 or later
 - Python 3.10 or later
-- Node.js 20 or later (used to generate the Pagefind search index)
+- Node.js 20 or later
 
-## Quick Start
+Node.js is used to run `pagefind` for the search index.
+Even if you do not use search locally, the default GitHub Pages workflow uses Node.js.
+
+## Files You Usually Edit
+
+These are the files you will usually touch:
+
+- `site.typ`: site title, description, public URL, author profile, theme, and other site settings
+- `example-post/index.typ`: sample post
+- `your-post-directory/index.typ`: your own posts
+- `static/`: images, favicon, extra CSS, custom themes, `CNAME`, and other static files
+
+These usually do not need manual edits:
+
+- `vendor/typst-blog-core`: the blog engine. Normally update it through the update steps instead of editing it directly.
+- `typst/generated/posts.typ`: generated post data. Do not edit it by hand.
+- `public/`: build output. Do not edit it by hand.
+
+## Getting Started
+
+Create your own repository from this repository with GitHub's template feature.
+Then clone it locally.
 
 ```sh
-python3 build.py
-npx -y pagefind --site public
+git clone --recurse-submodules https://github.com/USER/REPO.git
+cd REPO
 ```
 
-Generated files are written to `public/`.
-To preview the site locally, serve `public/` with any static file server.
+If you already cloned the repository and `vendor/typst-blog-core` is empty, run:
 
 ```sh
-python3 -m http.server 8000 -d public
+git submodule update --init --recursive
 ```
 
-## Site Settings
-
-`site.typ` is the source of truth for site-wide settings.
-Edit these values first:
+Next, open `site.typ` and change it for your blog.
+Start with these fields:
 
 - `title`: blog name
 - `description`: blog description
 - `base_url`: public URL
-- `theme`: theme preset name to use (`dark` by default)
-- `author`: author name, profile, and social links
-- `analytics.cloudflare_token`: set this only when using Cloudflare Web Analytics
-- `feedback.google_form_url` and `feedback.entry_id`: set these only when using Google Forms
-- `share`: display settings for X, Misskey, and copy share buttons
+- `github_repo`: GitHub repository URL for this blog
+- `language`: primary language
+- `theme`: `dark` or `light`
+- `author.name`: author name
+- `author.bio`: profile text
+- `author.socials`: links such as X, Misskey, and GitHub
 
-## Theme Settings
-
-Colors, card backgrounds, and other visual theme values are managed by CSS files in `static/themes/`.
-The default theme is `static/themes/dark.css`. To switch to the light theme, change `theme` in `site.typ`.
+For GitHub Pages, `base_url` usually looks like this:
 
 ```typst
-theme: "light"
+base_url: "https://USER.github.io/REPO"
 ```
 
-To create a custom theme, add `static/themes/my-theme.css`, define the same CSS variables as `dark.css` or `light.css`, and set `theme: "my-theme"` in `site.typ`.
-Theme names may only contain letters, numbers, `_`, and `-`.
-
-## Font Settings
-
-The `fonts` block in `site.typ` manages all fonts for body text, headings, code, math, and any custom roles.
-Every entry that has a `web` field is automatically loaded from Google Fonts, and each becomes available as a CSS variable named `--font-{key}`.
-
-| Key | Description |
-|-----|-------------|
-| `main` | Body font (required) |
-| `heading` | Heading font (falls back to `main` when omitted) |
-| `code` | Code block font (required) |
-| `math` | Math font. PDF only — math is baked into SVG on the web, so set `web: none` |
-| Any name | Add any key such as `accent`; the CSS variable `--font-{key}` is generated automatically |
-
-Fields for each entry:
-
-- `pdf`: Font name for PDF output (string, or an array for a fallback chain)
-- `web`: Google Fonts name (`none` to skip web loading)
-- `weights`: Weights to request from Google Fonts (e.g. `"400;700"`, `"300..700"`)
-- `fallback`: CSS generic font family (e.g. `"serif"`, `"sans-serif"`, `"monospace"`)
-
-To change the font for a specific word inside a post, use the `text` function:
-
-```typst
-#text(font: "Zen Antique")[special word]
-```
-
-Register the font in `site.fonts` to ensure it is loaded on the web as well.
+If you use a custom domain, set `base_url` to that domain.
 
 ## Writing Posts
 
-Create a directory for each post and put an `index.typ` file inside it.
-The easiest way to start is to copy `example-post/index.typ`.
+Each post gets its own directory with an `index.typ` file inside.
+The easiest start is to copy `example-post/`.
+
+```sh
+cp -R example-post my-first-post
+```
+
+Write the post metadata at the top of the post file.
 
 ```typst
-#import "../template.typ": article, calver
+#import "/template.typ": article, calver, post-meta
 
-#let meta = (
+#let meta = post-meta(
   slug: "my-first-post",
   title: "My First Post",
   create: calver(2026, 1, 1),
-  description: "A short description of the post.",
+  description: "A short description.",
   tags: ("Typst",),
   draft: false,
 )
@@ -104,32 +111,154 @@ The easiest way to start is to copy `example-post/index.typ`.
 #metadata(meta) <post-meta>
 #show: article.with(..meta)
 
-= Introduction
+= Hello
 
-Write your post here.
+Write the post body here.
 ```
 
-`slug` becomes the public URL. The example above is output to `/my-first-post/`.
-`create` uses CalVer. You can write a two-digit year such as `calver(26, 1, 1)`. Year, month, and day are required; only the patch number can be omitted, and it is treated as `0`.
-Omit `draft` or set `draft: true` to exclude a post from the post list, RSS, sitemap, and HTML output. Set `draft: false` for posts you want to publish.
+Common fields:
 
-## Publishing with GitHub Pages
+- `slug`: becomes the post URL. The example above is published at `/my-first-post/`.
+- `title`: post title.
+- `create`: created date.
+- `update`: updated date. Add it only when needed.
+- `description`: short description used in post lists and search results.
+- `tags`: tags. Tag pages are generated automatically.
+- `draft`: `true` means draft, `false` means published.
 
-This template includes a workflow for GitHub Pages.
+If `draft` is omitted, the post is treated as a draft.
+Set `draft: false` for posts you want to publish.
 
-1. Create a repository from this template.
-2. Edit `site.typ` for your site.
-3. In GitHub, open `Settings` -> `Pages` -> `Build and deployment`, then set `Source` to `GitHub Actions`.
-4. Push to the `main` branch.
+## Preview Locally
 
-The workflow runs `python3 build.py` and `npx -y pagefind --site public`, then deploys `public/` to GitHub Pages.
+Build the blog:
 
-## Misskey Icon Notice
+```sh
+python3 build.py
+```
 
-The Misskey share button and sidebar Misskey icon are enabled by default.
-The bundled Misskey icon comes from Simple Icons and is provided by the Misskey project under CC-BY-NC-SA-4.0.
-If those terms do not fit your use case, such as commercial use, remove or replace the Misskey icon in `typst/components/widgets.typ` and set `share.misskey` to `false` in `site.typ`.
+To test search as well, build the search index:
+
+```sh
+npx -y pagefind --site public
+```
+
+The output is written to `public/`.
+Serve it locally with:
+
+```sh
+python3 -m http.server 8000 -d public
+```
+
+Then open `http://localhost:8000` in your browser.
+
+## Publish With GitHub Pages
+
+This template includes a GitHub Pages workflow.
+
+1. Update `site.typ`, especially `base_url` and the blog information.
+2. Open `Settings` -> `Pages` on GitHub.
+3. Set `Build and deployment` -> `Source` to `GitHub Actions`.
+4. Push your changes to the `main` branch.
+
+After you push, GitHub Actions builds the site and deploys the contents of `public/` to GitHub Pages.
+
+For a custom domain, put the domain name in `static/CNAME` or a root-level `CNAME`.
+Also update `base_url` in `site.typ` to match that domain.
+
+## Change The Look
+
+Switch themes with `theme` in `site.typ`.
+
+```typst
+theme: "light"
+```
+
+The built-in themes are `dark` and `light`.
+
+Put images, favicon files, extra CSS, and custom themes under `static/`.
+Everything in `static/` is copied to `public/` during the build.
+
+For a custom theme, add a file such as `static/themes/my-theme.css` and set it in `site.typ`.
+
+```typst
+theme: "my-theme"
+```
+
+## Update The Blog Engine
+
+The reusable blog engine is included as `vendor/typst-blog-core`.
+Your posts and `site.typ` stay in your repository, so you can update only the generation logic later.
+
+Prefer switching the core to a release tag.
+
+```sh
+cd vendor/typst-blog-core
+git fetch --tags
+git tag --sort=-version:refname
+git checkout vYYYY.MM.DD
+cd ../..
+python3 build.py
+npx -y pagefind --site public
+git add vendor/typst-blog-core
+git commit -m "Update blog core to vYYYY.MM.DD"
+```
+
+Replace `vYYYY.MM.DD` with the release tag you want to use.
+
+`git add vendor/typst-blog-core` does not copy the whole core into the parent repository.
+It records which core version this blog uses.
+
+After updating, preview locally before pushing.
+
+## Common Tasks
+
+Add a new post:
+
+```sh
+cp -R example-post new-post
+```
+
+Turn a post back into a draft:
+
+```typst
+draft: true
+```
+
+Publish a post:
+
+```typst
+draft: false
+```
+
+Rebuild the search index:
+
+```sh
+npx -y pagefind --site public
+```
+
+Fetch the submodule again:
+
+```sh
+git submodule update --init --recursive
+```
+
+## Troubleshooting
+
+- `typst-blog-core submodule is missing`: run `git submodule update --init --recursive`.
+- Empty `vendor/typst-blog-core`: the submodule has not been fetched. Run `git submodule update --init --recursive`.
+- `site.theme '...' does not exist`: check `theme` in `site.typ` and the file names under `static/themes/`.
+- A post does not appear: make sure the post has `draft: false`.
+- Public URLs look wrong: check `base_url` in `site.typ`. It should not end with `/`.
+- GitHub Pages cannot find the core: make sure `.github/workflows/deploy.yml` uses `submodules: recursive` in the checkout step.
+- Search does not work: run `npx -y pagefind --site public` and check again.
+
+## Misskey Icon
+
+The Misskey share button and sidebar icon are enabled by default.
+The bundled Misskey icon lives in the core submodule and comes from Simple Icons under CC-BY-NC-SA-4.0 from the Misskey project.
+If that license does not fit your use case, set `share.misskey` to `false` in `site.typ`.
 
 ## License
 
-The code in this template is provided under the MIT License.
+MIT License.

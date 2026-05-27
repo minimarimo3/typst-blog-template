@@ -2,3 +2,6 @@ public/
 __pycache__/
 *.pyc
 *.pdf
+.DS_Store
+_tag_build_*.typ
+_tags_index_build.typ

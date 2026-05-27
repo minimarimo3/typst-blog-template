@@ -1,0 +1,3 @@
+[submodule "vendor/typst-blog-core"]
+	path = vendor/typst-blog-core
+	url = https://github.com/minimarimo3/typst-blog-core.git

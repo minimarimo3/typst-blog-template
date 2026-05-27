@@ -1,6 +1,6 @@
 #import "site.typ": site
-#import "/typst/core/i18n.typ": i18n
-#import "/typst/components/head.typ": common-head
+#import "/vendor/typst-blog-core/typst/core/i18n.typ": i18n
+#import "/vendor/typst-blog-core/typst/components/head.typ": common-head
 
 #let title = "404 Not Found"
 
