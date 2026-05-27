@@ -1,7 +1,14 @@
 #import "/site.typ": site
 #import "/typst/core/shared.typ": base-path
 
-#let common-head(title, description: none, image: none, url: none, og_type: "website") = {
+#let _json-ld-text(value) = {
+  json.encode(value)
+    .replace("<", "\\u003c")
+    .replace(">", "\\u003e")
+    .replace("&", "\\u0026")
+}
+
+#let common-head(title, description: none, image: none, url: none, og_type: "website", json_ld: none) = {
   html.meta(charset: "utf-8")
   html.meta(name: "viewport", content: "width=device-width, initial-scale=1")
   html.title(title)
@@ -75,5 +82,8 @@
   }
   if image != none {
     html.elem("meta", attrs: (property: "og:image", content: image))
+  }
+  if json_ld != none {
+    html.elem("script", attrs: (type: "application/ld+json"), _json-ld-text(json_ld))
   }
 }

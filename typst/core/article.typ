@@ -63,6 +63,50 @@
   draft: draft,
 )
 
+#let _article-url(slug) = {
+  site.base_url + "/" + slug.trim("/", at: start).trim("/", at: end) + "/"
+}
+
+#let _absolute-article-url(value, page-url) = {
+  let cleaned = if value.starts-with("./") { value.slice(2) } else { value }
+  if cleaned.starts-with("https://") or cleaned.starts-with("http://") {
+    cleaned
+  } else if cleaned.starts-with("/") {
+    site.base_url + cleaned
+  } else {
+    page-url + cleaned
+  }
+}
+
+#let _article-json-ld(title, description, authors, create, update, slug, image) = {
+  let page-url = _article-url(slug)
+  let modified = if update == none { create } else { update }
+  let author-data = authors.map(name => (
+    "@type": "Person",
+    name: name,
+  ))
+  let data = (
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description: description,
+    datePublished: calver-iso(create),
+    dateModified: calver-iso(modified),
+    author: if author-data.len() == 1 { author-data.first() } else { author-data },
+    mainEntityOfPage: (
+      "@type": "WebPage",
+      "@id": page-url,
+    ),
+    url: page-url,
+    inLanguage: site.language,
+  )
+
+  if image != none and image != "" {
+    data.insert("image", _absolute-article-url(image, page-url))
+  }
+  data
+}
+
 #let article(
   slug: none,
   title: "記事タイトル",
@@ -100,6 +144,7 @@
   assert(create != none, message: "create is required")
   assert(description != none, message: "description is required")
   let abstract-content = if abstract != none { abstract } else { description }
+  let article-json-ld = _article-json-ld(title, description, document-authors, create, update, slug, og-image)
 
   let note-counter = counter("my-footnote")
   show footnote: it => {
@@ -124,7 +169,14 @@
 
   html.html(lang: site.language, {
     html.head({
-      common-head(title, description: description, image: og-image, url: "/" + slug + "/", og_type: "article")
+      common-head(
+        title,
+        description: description,
+        image: og-image,
+        url: "/" + slug + "/",
+        og_type: "article",
+        json_ld: article-json-ld,
+      )
     })
     html.body({
       html.div(id: "copy-toast", i18n.copied)
