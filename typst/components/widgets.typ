@@ -10,33 +10,37 @@
 #let widget-author() = {
   let author = site.author
   let socials = author.socials
-  html.div(class: "sidebar-widget", {
-    html.h3(class: "widget-title", i18n.author)
-    html.strong(author.name)
-    if author.bio != "" {
-      html.p(
-        style: "font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5em;",
-        author.bio,
-      )
-    }
-    html.div(class: "author-links", {
-      if "x" in socials and socials.x != "" {
-        html.a(class: "author-icon-link", href: socials.x, target: "_blank", {
-          html.elem("div", attrs: (class: "raw-html-embed icon-x", "data-html": icons.x))
-        })
+  html.elem(
+    "div",
+    attrs: (class: "sidebar-widget author-widget", "data-pagefind-ignore": "all"),
+    {
+      html.h3(class: "widget-title", i18n.author)
+      html.strong(author.name)
+      if author.bio != "" {
+        html.p(
+          style: "font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5em;",
+          author.bio,
+        )
       }
-      if "misskey" in socials and socials.misskey != "" {
-        html.a(class: "author-icon-link", href: socials.misskey, target: "_blank", {
-          html.elem("div", attrs: (class: "raw-html-embed icon-misskey", "data-html": icons.misskey))
-        })
-      }
-      if "github" in socials and socials.github != "" {
-        html.a(class: "author-icon-link", href: socials.github, target: "_blank", {
-          html.elem("div", attrs: (class: "raw-html-embed icon-github", "data-html": icons.github))
-        })
-      }
-    })
-  })
+      html.div(class: "author-links", {
+        if "x" in socials and socials.x != "" {
+          html.a(class: "author-icon-link", href: socials.x, target: "_blank", {
+            html.elem("div", attrs: (class: "raw-html-embed icon-x", "data-html": icons.x))
+          })
+        }
+        if "misskey" in socials and socials.misskey != "" {
+          html.a(class: "author-icon-link", href: socials.misskey, target: "_blank", {
+            html.elem("div", attrs: (class: "raw-html-embed icon-misskey", "data-html": icons.misskey))
+          })
+        }
+        if "github" in socials and socials.github != "" {
+          html.a(class: "author-icon-link", href: socials.github, target: "_blank", {
+            html.elem("div", attrs: (class: "raw-html-embed icon-github", "data-html": icons.github))
+          })
+        }
+      })
+    },
+  )
 }
 
 #let widget-search(extra-class: "") = {
@@ -47,7 +51,7 @@
       class: widget-class,
       role: "search",
       "aria-label": i18n.search,
-      "data-pagefind-ignore": "",
+      "data-pagefind-ignore": "all",
       "data-search-loading": i18n.search_loading,
       "data-search-empty": i18n.search_no_results,
       "data-search-error": i18n.search_error,
