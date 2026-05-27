@@ -115,6 +115,26 @@ a.tag:hover {
   opacity: 0.8;
 }
 
+.meta-edit-history {
+  margin-top: 8px;
+}
+
+.edit-history-link {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+.edit-history-link::before {
+  content: "🕐 ";
+}
+
+.edit-history-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
 .article-abstract {
   background-color: var(--abstract-bg);
   border: 1px solid var(--abstract-border);

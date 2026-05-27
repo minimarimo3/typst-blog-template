@@ -36,6 +36,7 @@
     not_found_desc: "お探しのページは見つかりませんでした。",
     not_found_body: "ページが移動または削除された可能性があります。",
     back_to_top: "トップページに戻る",
+    edit_history: "編集履歴",
   ),
   en: (
     back_home: "← Back to home",
@@ -72,6 +73,7 @@
     not_found_desc: "The page you are looking for could not be found.",
     not_found_body: "The page may have been moved or deleted.",
     back_to_top: "Back to top",
+    edit_history: "Edit History",
   ),
   ko: (
     back_home: "← 홈으로 돌아가기",
@@ -108,6 +110,7 @@
     not_found_desc: "찾으시는 페이지를 찾을 수 없습니다.",
     not_found_body: "페이지가 이동되었거나 삭제되었을 수 있습니다.",
     back_to_top: "홈으로 돌아가기",
+    edit_history: "수정 기록",
   ),
   "zh-CN": (
     back_home: "← 返回首页",
@@ -144,6 +147,7 @@
     not_found_desc: "找不到您要访问的页面。",
     not_found_body: "页面可能已移动或删除。",
     back_to_top: "返回首页",
+    edit_history: "编辑历史",
   ),
   "zh-TW": (
     back_home: "← 返回首頁",
@@ -180,6 +184,7 @@
     not_found_desc: "找不到您要瀏覽的頁面。",
     not_found_body: "頁面可能已移動或刪除。",
     back_to_top: "返回首頁",
+    edit_history: "編輯歷史",
   ),
 )
 

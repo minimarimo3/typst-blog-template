@@ -16,6 +16,7 @@
 /// - analytics (dictionary): アナリティクス設定。`cloudflare_token`（str | none）を含む辞書
 /// - feedback (dictionary): フィードバック設定。`google_form_url`（str | none）と `entry_id`（str | none）を含む辞書
 /// - share (dictionary): シェアボタン設定。`x`, `misskey`, `copy` の各 bool を含む辞書
+/// - github_repo (str, none): GitHub リポジトリの URL（例: `"https://github.com/user/repo"`）。設定すると記事ページに編集履歴リンクが表示される
 /// -> dictionary
 #let _site(
   title: none,
@@ -28,6 +29,7 @@
   analytics: (cloudflare_token: none),
   feedback: (google_form_url: none, entry_id: none),
   share: none,
+  github_repo: none,
 ) = {
   let _req = (v, f) => assert(
     type(v) == str and v != "",
@@ -90,9 +92,15 @@
   assert(_gf  == none or type(_gf)  == str, message: "site.feedback.google_form_url: none か文字列が必要です")
   assert(_eid == none or type(_eid) == str, message: "site.feedback.entry_id: none か文字列が必要です")
 
+  // github_repo（省略可・設定する場合は URL 文字列）
+  assert(
+    github_repo == none or (type(github_repo) == str and (github_repo.starts-with("https://") or github_repo.starts-with("http://"))),
+    message: "site.github_repo: none か https:// / http:// で始まる URL 文字列が必要です",
+  )
+
   (
     title: title, description: description, base_url: base_url, language: language,
     theme: theme, fonts: fonts, author: author, analytics: analytics,
-    feedback: feedback, share: share,
+    feedback: feedback, share: share, github_repo: github_repo,
   )
 }

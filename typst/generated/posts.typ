@@ -5,5 +5,6 @@
     update: datetime(year: 2026, month: 4, day: 1),
     description: "サンプル記事です。meta.descriptionになります。",
     tags: ("Typst", "Template", "Test"),
+    source_path: "example-post/index.typ",
   ),
 )

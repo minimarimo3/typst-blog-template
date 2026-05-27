@@ -51,6 +51,8 @@
       github: "https://github.com/yourname",
     ),
   ),
+  // GitHub リポジトリ URL を設定すると記事ページに「編集履歴」リンクが表示される
+  // github_repo: "https://github.com/yourname/yourrepo",
   analytics: (
     cloudflare_token: none,
   ),

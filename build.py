@@ -314,6 +314,7 @@ def write_generated_posts(posts: list[dict]) -> None:
                 f"    update: {format_typst_date(post['update'].as_datetime() if post['update'] else None)},",
                 f"    description: {typst_string(post['description'])},",
                 f"    tags: {tag_value},",
+                f"    source_path: {typst_string(str(post['source_file'].relative_to(ROOT_DIR)))},",
                 "  ),",
             ]
         )

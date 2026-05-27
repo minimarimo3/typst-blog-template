@@ -154,6 +154,24 @@
                     }
                   })
                 }
+                let github-repo = site.at("github_repo", default: none)
+                if github-repo != none and github-repo != "" {
+                  let source-path = post-data.at(slug, default: (:)).at("source_path", default: none)
+                  if source-path != none {
+                    html.div(class: "meta-edit-history", {
+                      html.elem(
+                        "a",
+                        attrs: (
+                          class: "edit-history-link",
+                          href: github-repo.trim("/", at: end) + "/commits/main/" + source-path,
+                          target: "_blank",
+                          rel: "noopener noreferrer",
+                        ),
+                        i18n.edit_history,
+                      )
+                    })
+                  }
+                }
               })
             })
 
