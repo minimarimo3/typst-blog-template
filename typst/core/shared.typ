@@ -63,3 +63,13 @@
 #let code-font    = site.fonts.code.pdf
 #let heading-font = site.fonts.at("heading", default: site.fonts.main).at("pdf", default: site.fonts.main.pdf)
 #let math-font    = if "math" in site.fonts { site.fonts.math.at("pdf", default: none) } else { none }
+
+/// site.base_url からパス部分を取り出す。
+/// 例: "https://minimarimo3.github.io/typst-blog-template" → "/typst-blog-template"
+///     "https://example.com"                               → ""
+#let base-path = {
+  let url = site.base_url
+  let trimmed = if url.starts-with("https://") { url.slice(8) } else { url.slice(7) }
+  let parts = trimmed.split("/")
+  if parts.len() <= 1 { "" } else { "/" + parts.slice(1).join("/") }
+}

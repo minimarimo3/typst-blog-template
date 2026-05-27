@@ -4,7 +4,7 @@
 #let site = _site(
   title: "My Typst Blog",
   description: "Typstで書く小さなブログです。",
-  base_url: "https://example.com",
+  base_url: "https://minimarimo3.github.io/typst-blog-template",
   language: "ja",
   theme: "dark",
   fonts: (

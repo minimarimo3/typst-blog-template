@@ -1,5 +1,5 @@
 #import "/site.typ": site
-#import "/typst/core/shared.typ": calver-display, calver-key, main-font, heading-font
+#import "/typst/core/shared.typ": calver-display, calver-key, main-font, heading-font, base-path
 #import "/typst/components/head.typ": common-head
 #import "/typst/components/widgets.typ": widget-author, widget-about, widget-search
 
@@ -49,7 +49,7 @@
                 .pairs()
                 .map(pair => {
                   let (key, val) = pair
-                  val + (url: "/" + key + "/")
+                  val + (url: base-path + "/" + key + "/")
                 })
                 .sorted(key: p => calver-key(p.create))
                 .rev()

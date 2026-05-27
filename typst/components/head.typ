@@ -1,4 +1,5 @@
 #import "/site.typ": site
+#import "/typst/core/shared.typ": base-path
 
 #let common-head(title, description: none, image: none, url: none, og_type: "website") = {
   html.meta(charset: "utf-8")
@@ -27,8 +28,10 @@
     )
   }
 
-  html.link(rel: "stylesheet", href: "/style.css")
-  html.link(rel: "stylesheet", href: "/themes/" + site.at("theme", default: "dark") + ".css")
+  // base-path をメタタグに埋め込む（script.js が pagefind のパス解決に使う）
+  html.meta(name: "base-path", content: base-path)
+  html.link(rel: "stylesheet", href: base-path + "/style.css")
+  html.link(rel: "stylesheet", href: base-path + "/themes/" + site.at("theme", default: "dark") + ".css")
 
   // theme CSS より後に注入することで CSS 変数を上書き（--font-{key} 形式）
   let _css-lines = site.fonts.pairs()
@@ -45,8 +48,8 @@
     })
   html.elem("style", ":root {\n" + _css-lines.join("\n") + "\n}")
 
-  html.elem("script", attrs: (src: "/script.js", defer: ""))
-  html.elem("link", attrs: (rel: "alternate", type: "application/rss+xml", title: site.title, href: "/feed.xml"))
+  html.elem("script", attrs: (src: base-path + "/script.js", defer: ""))
+  html.elem("link", attrs: (rel: "alternate", type: "application/rss+xml", title: site.title, href: base-path + "/feed.xml"))
 
   let token = site.analytics.cloudflare_token
   if token != none and token != "" {

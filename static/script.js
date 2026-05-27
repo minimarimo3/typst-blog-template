@@ -44,7 +44,8 @@ let pagefindPromise;
 
 function loadPagefind() {
   if (!pagefindPromise) {
-    pagefindPromise = import("/pagefind/pagefind.js")
+    const basePath = document.querySelector('meta[name="base-path"]')?.content ?? "";
+    pagefindPromise = import(basePath + "/pagefind/pagefind.js")
       .then((pagefind) => {
         pagefind.init();
         return pagefind;

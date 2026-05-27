@@ -1,5 +1,5 @@
 #import "/site.typ": site
-#import "/typst/core/shared.typ": calver-display, calver-key, main-font, heading-font, math-font
+#import "/typst/core/shared.typ": calver-display, calver-key, main-font, heading-font, math-font, base-path
 #import "/typst/core/i18n.typ": i18n
 #import "/typst/generated/posts.typ": post-data
 #import "/typst/components/head.typ": common-head
@@ -136,7 +136,7 @@
 
           html.elem("article", attrs: ("data-pagefind-body": ""), {
             html.header(class: "article-header", {
-              html.a(class: "back-home-btn", href: "/", i18n.back_home)
+              html.a(class: "back-home-btn", href: base-path + "/", i18n.back_home)
               html.h1(class: "article-title", title)
               html.div(class: "article-meta", {
                 html.div(class: "meta-dates", {
@@ -150,7 +150,7 @@
                 if tags.len() > 0 {
                   html.div(class: "meta-tags", {
                     for tag in tags {
-                      html.a(class: "tag", href: "/tags/" + tag.replace(" ", "-") + "/", "#" + tag)
+                      html.a(class: "tag", href: base-path + "/tags/" + tag.replace(" ", "-") + "/", "#" + tag)
                     }
                   })
                 }
@@ -233,7 +233,7 @@
               html.div(class: "card-grid", {
                 for pair in picks {
                   let (other-slug, post) = pair
-                  let url = "/" + other-slug + "/"
+                  let url = base-path + "/" + other-slug + "/"
                   html.a(class: "post-card", href: url, {
                     html.div(class: "card-content", {
                       if "create" in post {
@@ -266,13 +266,13 @@
               html.hr(class: "section-divider")
               html.nav(class: "post-nav", {
                 if prev-post != none {
-                  html.a(class: "post-nav-link post-nav-prev", href: "/" + prev-post.slug + "/", {
+                  html.a(class: "post-nav-link post-nav-prev", href: base-path + "/" + prev-post.slug + "/", {
                     html.span(class: "post-nav-label", i18n.prev_article)
                     html.span(class: "post-nav-title", prev-post.title)
                   })
                 }
                 if next-post != none {
-                  html.a(class: "post-nav-link post-nav-next", href: "/" + next-post.slug + "/", {
+                  html.a(class: "post-nav-link post-nav-next", href: base-path + "/" + next-post.slug + "/", {
                     html.span(class: "post-nav-label", i18n.next_article)
                     html.span(class: "post-nav-title", next-post.title)
                   })
