@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-문서 버전: 2026.05.25.3
+문서 버전: 2026.05.27.1
 
 언어: [日本語](../README.md) | [English](README.en.md) | 한국어 | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -98,6 +98,7 @@ theme: "light"
   create: calver(2026, 1, 1),
   description: "글에 대한 짧은 설명입니다.",
   tags: ("Typst",),
+  draft: false,
 )
 
 #metadata(meta) <post-meta>
@@ -110,7 +111,7 @@ Write your post here.
 
 `slug`는 공개 URL이 됩니다. 위 예시는 `/my-first-post/`로 출력됩니다.
 `create`는 CalVer 형식입니다. `calver(26, 1, 1)`처럼 연도를 두 자리로 쓸 수 있습니다. 연월일은 생략할 수 없고 패치 번호만 생략할 수 있으며, 생략하면 `0`으로 처리됩니다.
-메타데이터에 `draft: true`를 추가하면 글 목록, RSS, sitemap, HTML 출력에서 제외됩니다.
+`draft`를 생략하거나 `draft: true`로 설정하면 글 목록, RSS, sitemap, HTML 출력에서 제외됩니다. 공개할 글에는 `draft: false`를 지정하세요.
 
 ## GitHub Pages로 게시
 

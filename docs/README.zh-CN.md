@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文档版本：2026.05.25.3
+文档版本：2026.05.27.1
 
 语言：[日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | 简体中文 | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -98,6 +98,7 @@ theme: "light"
   create: calver(2026, 1, 1),
   description: "文章的简短描述。",
   tags: ("Typst",),
+  draft: false,
 )
 
 #metadata(meta) <post-meta>
@@ -110,7 +111,7 @@ Write your post here.
 
 `slug` 会成为公开 URL。上面的示例会输出到 `/my-first-post/`。
 `create` 使用 CalVer 格式。可以像 `calver(26, 1, 1)` 这样使用两位数年份。年月日不能省略，只有补丁号可以省略，省略时会按 `0` 处理。
-在元数据中添加 `draft: true` 可将文章从文章列表、RSS、sitemap 和 HTML 输出中排除。
+省略 `draft` 或设置 `draft: true` 时，文章会从文章列表、RSS、sitemap 和 HTML 输出中排除。要发布文章，请指定 `draft: false`。
 
 ## 使用 GitHub Pages 发布
 

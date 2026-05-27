@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-Documentation version: 2026.05.25.3
+Documentation version: 2026.05.27.1
 
 Language: [日本語](../README.md) | English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -98,6 +98,7 @@ The easiest way to start is to copy `example-post/index.typ`.
   create: calver(2026, 1, 1),
   description: "A short description of the post.",
   tags: ("Typst",),
+  draft: false,
 )
 
 #metadata(meta) <post-meta>
@@ -110,7 +111,7 @@ Write your post here.
 
 `slug` becomes the public URL. The example above is output to `/my-first-post/`.
 `create` uses CalVer. You can write a two-digit year such as `calver(26, 1, 1)`. Year, month, and day are required; only the patch number can be omitted, and it is treated as `0`.
-Add `draft: true` to the metadata to exclude a post from the post list, RSS, sitemap, and HTML output.
+Omit `draft` or set `draft: true` to exclude a post from the post list, RSS, sitemap, and HTML output. Set `draft: false` for posts you want to publish.
 
 ## Publishing with GitHub Pages
 

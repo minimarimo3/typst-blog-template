@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文書バージョン: 2026.05.25.3
+文書バージョン: 2026.05.27.1
 
 言語: 日本語 | [English](docs/README.en.md) | [한국어](docs/README.ko.md) | [简体中文](docs/README.zh-CN.md) | [繁體中文（台灣）](docs/README.zh-TW.md)
 
@@ -98,6 +98,7 @@ theme: "light"
   create: calver(2026, 1, 1),
   description: "記事の短い説明文です。",
   tags: ("Typst",),
+  draft: false,
 )
 
 #metadata(meta) <post-meta>
@@ -110,7 +111,7 @@ theme: "light"
 
 `slug` が公開 URL になります。上の例は `/my-first-post/` に出力されます。
 `create` は CalVer 形式です。`calver(26, 1, 1)` のように年を下二桁にできます。年月日の省略はできず、パッチ番号だけ省略でき、その場合は `0` として扱われます。
-`draft: true` をメタデータに追加すると、記事一覧、RSS、sitemap、HTML 出力から除外されます。
+`draft` を省略するか `draft: true` にすると、記事一覧、RSS、sitemap、HTML 出力から除外されます。公開する記事では `draft: false` を指定してください。
 
 ## GitHub Pages で公開する
 

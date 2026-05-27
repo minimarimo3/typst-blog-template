@@ -257,7 +257,10 @@ def collect_posts() -> list[dict]:
             raise ValueError(f"{source_file.relative_to(ROOT_DIR)}: update {exc}") from exc
         description = meta.get("description")
         tags = tuple(meta.get("tags", []))
-        draft = bool(meta.get("draft", False))
+        draft_value = meta.get("draft", True)
+        if not isinstance(draft_value, bool):
+            raise ValueError(f"{source_file.relative_to(ROOT_DIR)}: draft must be true or false")
+        draft = draft_value
 
         if not slug:
             raise ValueError(f"{source_file.relative_to(ROOT_DIR)}: slug is required")
