@@ -1,5 +1,5 @@
 #import "/site.typ": site
-#import "/typst/core/shared.typ": calver-display, calver-key, main-font, heading-font, base-path
+#import "/typst/core/shared.typ": calver-display, calver-iso, calver-key, main-font, heading-font, base-path
 #import "/typst/components/head.typ": common-head
 #import "/typst/components/widgets.typ": widget-author, widget-about, widget-search
 
@@ -61,7 +61,7 @@
               html.a(class: "post-card", href: post.url, {
                 html.div(class: "card-content", {
                   if "create" in post {
-                    html.time(class: "card-date", calver-display(post.create))
+                    html.elem("time", attrs: (class: "card-date", datetime: calver-iso(post.create)), calver-display(post.create))
                   }
                   html.h3(class: "card-title", post.title)
                   if "description" in post {

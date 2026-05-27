@@ -1,5 +1,5 @@
 #import "/site.typ": site
-#import "/typst/core/shared.typ": calver-display, calver-key, main-font, heading-font, math-font, base-path
+#import "/typst/core/shared.typ": calver-display, calver-iso, calver-key, main-font, heading-font, math-font, base-path
 #import "/typst/core/i18n.typ": i18n
 #import "/typst/generated/posts.typ": post-data
 #import "/typst/components/head.typ": common-head
@@ -141,10 +141,16 @@
               html.div(class: "article-meta", {
                 html.div(class: "meta-dates", {
                   if create != none {
-                    html.span(class: "meta-date", i18n.created + calver-display(create))
+                    html.span(class: "meta-date", {
+                      i18n.created
+                      html.elem("time", attrs: (datetime: calver-iso(create)), calver-display(create))
+                    })
                   }
                   if update != none {
-                    html.span(class: "meta-date", i18n.updated + calver-display(update))
+                    html.span(class: "meta-date", {
+                      i18n.updated
+                      html.elem("time", attrs: (datetime: calver-iso(update)), calver-display(update))
+                    })
                   }
                 })
                 if tags.len() > 0 {
@@ -259,7 +265,7 @@
                   html.a(class: "post-card", href: url, {
                     html.div(class: "card-content", {
                       if "create" in post {
-                        html.time(class: "card-date", calver-display(post.create))
+                        html.elem("time", attrs: (class: "card-date", datetime: calver-iso(post.create)), calver-display(post.create))
                       }
                       html.h3(class: "card-title", post.title)
                       if "description" in post {

@@ -53,6 +53,11 @@
   if version.patch == 0 { base } else { base + "." + str(version.patch) }
 }
 
+#let calver-iso(value) = {
+  let version = normalize-calver(value)
+  str(version.year) + "-" + _two-digits(version.month) + "-" + _two-digits(version.day)
+}
+
 #let calver-key(value) = {
   let version = normalize-calver(value)
   (version.year, version.month, version.day, version.patch)
