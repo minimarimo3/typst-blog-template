@@ -1,4 +1,4 @@
-#import "../template.typ": article, calver, env, note, tip, important, warning, caution, raw_html, youtube, post-meta
+#import "/template.typ": article, calver, env, note, tip, important, warning, caution, raw_html, youtube, post-meta
 
 #let meta = post-meta(
   slug: "example-post",
