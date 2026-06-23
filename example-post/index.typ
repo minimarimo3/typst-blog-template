@@ -101,8 +101,6 @@ $
   integral_0^1 x^2 dif x = 1 / 3
 $
 
-#tip([執筆時点での最新バージョン（0.14.2）では数式はエクスポートされないので表示すること優先で#link("https://github.com/typst/typst/issues/721#issuecomment-2817289426")[少しハッキーな方法]を使っており、見た目が少し汚いです。しかし、#datetime(year:2026,month:5,day:26).display("[year]/[month]/[day]")時点でのTypstのmainをビルドしてコンパイルしたところ、MathMLで綺麗に表示されていたのでこの差分がリリースに含まれるようになれば（多分0.15.0）解消されると思います。ブログ内で数式を頻繁に使う方なら最新版をビルドして使うと良いかもしれません。その場合は、article.typのTODO以下にある`show math`を二つ消してください。#figure(caption: [2026/5/26のmainでコンパイルした場合の出力],image("MathML.png"))])
-
 = 参照、図、表
 
 == 見出し参照 <heading-reference-target>
