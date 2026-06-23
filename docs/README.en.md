@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-Document version: 2026.05.28.2
+Document version: 2026.06.23.1
 
 Languages: [日本語](../README.md) | English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -26,7 +26,7 @@ When updating this README, update the language files under `docs/` as well and k
 ## Requirements
 
 - Git
-- Typst 0.14.2 or later
+- Typst 0.15.0 or later
 - Python 3.10 or later
 - Node.js 20 or later
 

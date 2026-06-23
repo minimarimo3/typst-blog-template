@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文件版本: 2026.05.28.2
+文件版本: 2026.06.23.1
 
 語言: [日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | 繁體中文（台灣）
 
@@ -26,7 +26,7 @@
 ## 需要準備
 
 - Git
-- Typst 0.14.2 或更新版本
+- Typst 0.15.0 或更新版本
 - Python 3.10 或更新版本
 - Node.js 20 或更新版本
 
