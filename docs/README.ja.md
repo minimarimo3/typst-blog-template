@@ -138,7 +138,7 @@ python3 command.py new my-first-post \
 
 | 項目 | 内容 |
 | --- | --- |
-| `slug` | 記事の URL。小文字の英数字を単一の `-` でつないだ形式。上の例は `/my-first-post/` で公開される |
+| `slug` | 記事の URL。Unicode の小文字・数字を単一の `-` でつないだ形式。日本語 slug にも対応し、生成 URL ではパーセントエンコードされます。上の例は `/my-first-post/` で公開される |
 | `title` | 記事タイトル |
 | `create` | 作成日 |
 | `update` | 更新日。`update_policy: "manual"` のときだけ使われる |

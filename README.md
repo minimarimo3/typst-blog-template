@@ -138,7 +138,7 @@ Write your content here.
 
 | Key | Description |
 | --- | --- |
-| `slug` | The post URL. Lowercase alphanumerics joined by single `-`. The example above is published at `/my-first-post/` |
+| `slug` | The post URL. Lowercase Unicode letters and numbers joined by single `-`. Japanese slugs are supported and percent-encoded in generated URLs. The example above is published at `/my-first-post/` |
 | `title` | Post title |
 | `create` | Created date |
 | `update` | Updated date. Used only when `update_policy: "manual"` |
