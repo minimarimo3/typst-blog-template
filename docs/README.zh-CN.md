@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文档版本: 2026.07.19.1
+文档版本: 2026.07.19.2
 
 语言: [日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | 简体中文 | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -118,12 +118,12 @@ cp -R example-post my-first-post
 
 常用字段如下。
 
-- `slug`: 会成为文章 URL。上面的例子会发布到 `/my-first-post/`。
+- `slug`: 会成为文章 URL。请使用小写 ASCII 字母和数字，并用单个连字符分隔。上面的例子会发布到 `/my-first-post/`。
 - `title`: 文章标题。
 - `create`: 创建日期。
 - `update`: 更新日期。需要时再添加。
 - `description`: 用在文章列表和搜索结果等位置的简短说明。
-- `tags`: 标签。标签页会自动生成。
+- `tags`: 标签。显示名称可以使用日文、空格和符号，系统会自动生成安全且不冲突的标签页 URL。
 - `draft`: `true` 表示草稿，`false` 表示发布。
 
 如果省略 `draft`，文章会被当作草稿。

@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-문서 버전: 2026.07.19.1
+문서 버전: 2026.07.19.2
 
 언어: [日本語](../README.md) | [English](README.en.md) | 한국어 | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -118,12 +118,12 @@ cp -R example-post my-first-post
 
 자주 쓰는 항목은 다음과 같습니다.
 
-- `slug`: 글 URL 이 됩니다. 위 예시는 `/my-first-post/` 로 공개됩니다.
+- `slug`: 글 URL 이 됩니다. 소문자 ASCII 영숫자를 하나의 하이픈으로 구분한 형식을 사용합니다. 위 예시는 `/my-first-post/` 로 공개됩니다.
 - `title`: 글 제목입니다.
 - `create`: 작성일입니다.
 - `update`: 수정일입니다. 필요할 때만 추가합니다.
 - `description`: 글 목록과 검색 결과 등에 쓰이는 짧은 설명입니다.
-- `tags`: 태그입니다. 태그 페이지도 자동으로 생성됩니다.
+- `tags`: 태그입니다. 표시 이름에 일본어, 공백, 기호를 사용해도 안전하고 충돌하지 않는 태그 페이지 URL이 자동으로 생성됩니다.
 - `draft`: `true` 는 초안, `false` 는 공개 대상입니다.
 
 `draft` 를 생략하면 초안으로 취급됩니다.

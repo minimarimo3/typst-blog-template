@@ -5,6 +5,12 @@
     update: datetime(year: 2026, month: 4, day: 1),
     description: "サンプル記事です。meta.descriptionになります。",
     tags: ("Typst", "Template", "Test"),
-    source_path: "example-post/index.typ",
+    source_url_path: "example-post/index.typ",
   ),
+)
+
+#let tag-slugs = (
+  "Typst": "Typst",
+  "Template": "Template",
+  "Test": "Test",
 )

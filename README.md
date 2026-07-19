@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文書バージョン: 2026.07.19.1
+文書バージョン: 2026.07.19.2
 
 言語: 日本語 | [English](docs/README.en.md) | [한국어](docs/README.ko.md) | [简体中文](docs/README.zh-CN.md) | [繁體中文（台灣）](docs/README.zh-TW.md)
 
@@ -118,12 +118,12 @@ cp -R example-post my-first-post
 
 よく使う項目は次のとおりです。
 
-- `slug`: 記事の URL になります。上の例は `/my-first-post/` で公開されます。
+- `slug`: 記事の URL になります。小文字の英数字を単一の `-` でつないだ形式にします。上の例は `/my-first-post/` で公開されます。
 - `title`: 記事タイトルです。
 - `create`: 作成日です。
 - `update`: 更新日です。必要なときだけ追加します。
 - `description`: 記事一覧や検索結果などで使われる短い説明文です。
-- `tags`: タグです。タグページも自動で作られます。
+- `tags`: タグです。表示名に日本語・空白・記号を使っても、安全で重複しない URL のタグページが自動で作られます。
 - `draft`: `true` なら下書き、`false` なら公開対象です。
 
 `draft` を省略すると下書き扱いになります。

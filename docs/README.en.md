@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-Document version: 2026.07.19.1
+Document version: 2026.07.19.2
 
 Languages: [日本語](../README.md) | English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -118,12 +118,12 @@ Write the post body here.
 
 Common fields:
 
-- `slug`: becomes the post URL. The example above is published at `/my-first-post/`.
+- `slug`: becomes the post URL. Use lowercase ASCII letters and numbers separated by single hyphens. The example above is published at `/my-first-post/`.
 - `title`: post title.
 - `create`: created date.
 - `update`: updated date. Add it only when needed.
 - `description`: short description used in post lists and search results.
-- `tags`: tags. Tag pages are generated automatically.
+- `tags`: tags. Japanese text, spaces, and symbols may be used in display names; safe, non-conflicting tag-page URLs are generated automatically.
 - `draft`: `true` means draft, `false` means published.
 
 If `draft` is omitted, the post is treated as a draft.
