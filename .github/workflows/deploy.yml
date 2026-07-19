@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Test and deploy to GitHub Pages
 
 env:
   TYPST_VERSION: 0.15.0
@@ -7,6 +7,7 @@ env:
 on:
   push:
     branches: ["main"]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -14,12 +15,9 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: false
-
 jobs:
   build:
+    name: Test and build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -50,6 +48,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y fonts-noto-cjk
 
+      - name: Run unit tests
+        run: python3 -m unittest discover -s vendor/typst-blog-core/dev -p 'test_*.py' -v
+
+      - name: Check JavaScript modules
+        run: |
+          for js_file in vendor/typst-blog-core/static/scripts/*.js; do
+            node --input-type=module --check < "$js_file"
+          done
+
+      - name: Build paged example
+        run: typst compile --root . example-post/index.typ /tmp/example-post.pdf
+
       - name: Build site
         run: python3 command.py build
 
@@ -57,14 +67,20 @@ jobs:
         run: npx -y pagefind@$PAGEFIND_VERSION --site public
 
       - name: Configure Pages
+        if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
 
   deploy:
+    if: github.event_name != 'pull_request'
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
