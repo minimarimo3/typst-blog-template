@@ -1,109 +1,120 @@
 # Typst Blog Template
 
-文件版本: 2026.07.19.5
+這是一個用 Typst 撰寫文章並發佈為靜態部落格的範本。
+寫好文章並建置後，首頁、文章頁、標籤頁、RSS、sitemap 與站內搜尋索引都會一併產生。
 
-語言: [日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | 繁體中文（台灣）
+展示各種語法的範例頁面：<https://minimarimo3.github.io/typst-blog-template/example-post/>
+範本作者使用本範本架設的部落格：<https://www.minimarimo3.jp>
 
-這是一個用 Typst 撰寫文章，並發布為靜態部落格的範本。
-寫好文章並建置後，可以一起產生部落格首頁、文章頁、標籤頁、RSS、sitemap 與搜尋索引。
+語言: [日本語](README.ja.md) | [English](../README.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | 繁體中文（台灣）
 
-這份 README 是給想把這個範本當作自己部落格來使用的人看的。
-如果想了解內部實作，請閱讀 `vendor/typst-blog-core` 中的 README。
+## 特色
 
-更新這份 README 時，也請更新 `docs/` 下的各語言檔案，並保持文件版本一致。
+- 文章和網站設定全部用 Typst 撰寫
+- 每篇文章可設定標題、建立日期、更新日期、描述、標籤與草稿狀態
+- 自動產生首頁、文章頁、各標籤頁面與標籤一覽頁
+- 自動產生 RSS 與 sitemap
+- 支援基於 [Pagefind](https://pagefind.app/) 的站內搜尋
+- 可直接發佈到 GitHub Pages（附帶工作流程）
+- 支援切換色彩主題，設定 favicon、圖片、額外 CSS 與自訂網域
+- 之後可以只更新部落格引擎部分（`vendor/typst-blog-core`）
 
-## 可以做什麼
+## 環境需求
 
-- 用 Typst 語法撰寫部落格文章。
-- 為每篇文章設定標題、建立日期、更新日期、說明、標籤與草稿狀態。
-- 產生首頁、文章頁、按標籤分類的頁面與標籤列表頁。
-- 產生 RSS 與 sitemap。
-- 使用 Pagefind 加入站內搜尋。
-- 直接發布到 GitHub Pages。
-- 加入色彩主題、favicon、圖片、CSS，以及自訂網域用的 `CNAME`。
-- 之後只更新部落格引擎部分。
+| 工具 | 版本 |
+| --- | --- |
+| Git | - |
+| Typst | 0.15.0 以上 |
+| Python | 3.10 以上 |
+| Node.js | 20 以上 |
 
-## 需要準備
+Node.js 用於執行產生搜尋索引的 Pagefind。即使不使用搜尋功能，GitHub Pages 的預設工作流程也會用到 Node.js。
 
-- Git
-- Typst 0.15.0 或更新版本
-- Python 3.10 或更新版本
-- Node.js 20 或更新版本
+## 快速開始
 
-Node.js 用於執行產生搜尋索引的 `pagefind`。
-即使本機不使用搜尋功能，預設的 GitHub Pages workflow 也會使用 Node.js。
+### 1. 建立儲存庫並 clone
 
-## 最常編輯的檔案
-
-平常經常編輯的是這些檔案。
-
-- `site.typ`: 部落格名稱、說明、公開 URL、作者資訊、主題等網站設定
-- `example-post/index.typ`: 文章寫法範例
-- `任意文章目錄/index.typ`: 你自己的文章
-- `static/`: 圖片、favicon、附加 CSS、自訂主題、`CNAME` 等
-
-也有一些通常不需要手動編輯的檔案。
-
-- `vendor/typst-blog-core`: 產生部落格的核心。通常不要直接編輯，而是按更新步驟升級版本。
-- `typst/generated/posts.typ`: 建置時產生的文章列表資料。不要手動編輯。
-- `public/`: 建置結果。不要手動編輯。
-
-## 開始使用
-
-先透過 GitHub 的範本功能，從這個儲存庫建立自己的儲存庫。
-然後 clone 到本機。
+用 GitHub 的「Use this template」按鈕建立自己的儲存庫，然後 clone 到本機。
 
 ```sh
 git clone --recurse-submodules https://github.com/USER/REPO.git
 cd REPO
 ```
 
-如果已經 clone 過，但 `vendor/typst-blog-core` 是空的，請執行：
+> [!NOTE]
+> 如果已經 clone 且 `vendor/typst-blog-core` 是空的，請執行 `git submodule update --init --recursive`。
 
-```sh
-git submodule update --init --recursive
-```
+### 2. 修改網站設定
 
-接著開啟 `site.typ`，改成自己的部落格資訊。
-建議先修改這些欄位：
+打開 `site.typ`，依自己的部落格進行修改。先檢查這些項目：
 
-- `title`: 部落格名稱
-- `description`: 部落格說明
-- `base_url`: 發布後的 URL
-- `github_repo`: 這個部落格的 GitHub 儲存庫 URL
-- `language`: 主要使用的語言
-- `theme`: `dark` 或 `light`
-- `posts_dir`: 文章目錄；部落格根目錄使用 `"."`，集中到 `posts/` 時使用 `"posts"`
-- `update_policy`: 更新日期的決定方式。預設值 `"git"` 會依各文章目錄的 Git 歷史自動計算，`"manual"` 則使用文章中的 `update` 值。
-- `author.name`: 作者名稱
-- `author.bio`: 個人簡介
-- `author.socials`: X、Misskey、GitHub 等連結
+| 設定項 | 說明 |
+| --- | --- |
+| `title` | 部落格名稱 |
+| `description` | 部落格描述 |
+| `base_url` | 發佈後的 URL（結尾不要加 `/`） |
+| `github_repo` | 本部落格的 GitHub 儲存庫 URL |
+| `language` | 主要使用的語言 |
+| `theme` | `"dark"` 或 `"light"` |
+| `posts_dir` | 文章存放位置。放在根目錄下用 `"."`，集中到 `posts/` 用 `"posts"` |
+| `update_policy` | 更新日期的決定方式。`"git"`（預設，從 Git 歷史自動計算）或 `"manual"`（使用文章的 `update`） |
+| `author.name` | 作者名稱 |
+| `author.bio` | 個人簡介 |
+| `author.socials` | X、Misskey、GitHub 等連結 |
 
-如果發布到 GitHub Pages，`base_url` 通常是這樣的形式。
+在 GitHub Pages 上發佈時，`base_url` 形如：
 
 ```typst
 base_url: "https://USER.github.io/REPO"
 ```
 
-如果使用自訂網域，請設定為該網域的 URL。
+使用自訂網域時，請填寫該網域的 URL。
 
-## 撰寫文章
-
-每篇文章建立一個目錄，並在其中放置 `index.typ`。
-可以使用以下指令同時建立目錄和含有中繼資料的 `index.typ`。
+### 3. 建立文章
 
 ```sh
 python3 command.py new my-first-post \
   --title "My First Post" \
-  --description "簡短說明。" \
+  --description "文章的簡短描述。" \
   --tag Typst
 ```
 
-建立日期預設為執行當天，為了安全起見預設狀態為草稿。加入多個標籤時請重複使用 `--tag`，只有需要立即發布時才加入 `--publish`。可用 `--date 2026-07-19` 指定其他建立日期。如果已有同名目錄、重複 slug 或保留 URL，指令會回報錯誤且不會覆寫檔案。
+會一次建立文章目錄和已填好中繼資料的 `index.typ`。
 
-若要把文章集中到 `posts/` 下，請在 `site.typ` 中設定 `posts_dir: "posts"`。`new` 的建立位置和建置時的文章搜尋範圍都會使用 `posts/`。省略此設定或使用 `"."` 時，仍使用部落格根目錄。
+### 4. 本機預覽
 
-產生的文章檔案會以如下格式的中繼資料開頭。
+```sh
+python3 command.py preview
+```
+
+首次建置後，預覽伺服器會在 `http://localhost:8000` 啟動。儲存檔案會自動重新建置並重新整理瀏覽器。
+
+### 5. 發佈
+
+push 到 `main` 分支後，GitHub Actions 會自動建置並發佈到 GitHub Pages。詳見[使用 GitHub Pages 發佈](#使用-github-pages-發佈)。
+
+## 撰寫文章
+
+文章採用「一篇文章 = 一個目錄」的結構，每個目錄中的 `index.typ` 就是內文。圖片和參考文獻也放在同一個目錄中。
+
+### 新增文章
+
+```sh
+python3 command.py new my-first-post \
+  --title "My First Post" \
+  --description "文章的簡短描述。" \
+  --tag Typst
+```
+
+- 建立日期為執行當天，為了安全起見初始狀態為草稿
+- 需要多個標籤時重複使用 `--tag`
+- 想一開始就是發佈狀態時加上 `--publish`
+- 指定建立日期時使用 `--date 2026-07-19` 的格式
+- 如果存在同名目錄、與既有文章相同的 slug 或保留 URL，會出現錯誤
+
+### 文章檔案格式
+
+產生的 `index.typ` 開頭如下：
 
 ```typst
 #import "/template.typ": article, calver, post-meta
@@ -112,7 +123,7 @@ python3 command.py new my-first-post \
   slug: "my-first-post",
   title: "My First Post",
   create: calver(2026, 1, 1),
-  description: "簡短說明。",
+  description: "文章的簡短描述。",
   tags: ("Typst",),
   draft: true,
 )
@@ -120,93 +131,134 @@ python3 command.py new my-first-post \
 #metadata(meta) <post-meta>
 #show: article.with(..meta)
 
-= Hello
+= 前言
 
 在這裡撰寫內文。
 ```
 
-常用欄位如下。
+| 欄位 | 說明 |
+| --- | --- |
+| `slug` | 文章的 URL。由小寫英數字以單一 `-` 連接。上例會發佈在 `/my-first-post/` |
+| `title` | 文章標題 |
+| `create` | 建立日期 |
+| `update` | 更新日期。僅在 `update_policy: "manual"` 時使用 |
+| `description` | 用於文章列表和搜尋結果的簡短描述 |
+| `tags` | 標籤。即使顯示名稱包含中文、空白或符號，也會自動產生 URL 安全且不重複的標籤頁 |
+| `draft` | `true` 為草稿，`false` 為發佈對象。省略時視為草稿 |
 
-- `slug`: 會成為文章 URL。請使用小寫 ASCII 字母與數字，並以單一連字號分隔。上面的例子會發布到 `/my-first-post/`。
-- `title`: 文章標題。
-- `create`: 建立日期。
-- `update`: 選擇 `update_policy: "manual"` 時使用的更新日期。
-- `description`: 用在文章列表和搜尋結果等位置的簡短說明。
-- `tags`: 標籤。顯示名稱可以使用日文、空格與符號，系統會自動產生安全且不衝突的標籤頁 URL。
-- `draft`: `true` 表示草稿，`false` 表示發布。
+### 草稿與發佈
 
-如果省略 `draft`，文章會被當作草稿。
-想發布的文章請設定 `draft: false`。
+透過 `draft` 切換。想發佈的文章請寫上 `draft: false`。
 
-更新日期預設會自動管理。提交文章的 `index.typ`、同一文章目錄中的圖片、參考文獻或其他檔案後，最新提交日期會成為更新日期。如果文章只有首次加入時的一次提交，則不顯示更新日期。如果無法讀取 Git 歷史，建置會顯示警告，並在文章寫有 `update` 時使用該值。
+- **在 `preview` 中**：草稿也會顯示，列表和文章頁會帶「草稿」徽章。草稿會設定 `noindex`，也不會被搜尋收錄。
+- **在 `build`（發佈建置）中**：不會產生草稿的文章頁，列表、標籤頁、RSS、sitemap 中也不會包含草稿。
+
+### 更新日期的機制
+
+更新日期預設（`update_policy: "git"`）自動管理。
+
+- 提交文章的 `index.typ` 或同一文章目錄中的圖片、參考文獻等時，最新提交日期會成為更新日期
+- 如果只有最初加入文章的那次提交，則不顯示更新日期
+- 在無法取得 Git 歷史的環境中會顯示警告，若文章寫有 `update` 則使用該值
+
+想手動管理時，在 `site.typ` 中指定 `update_policy: "manual"`，並在文章的 `update` 中寫日期。
+
+### 把文章集中到 posts/
+
+如果想把文章目錄集中放在 `posts/` 下而不是根目錄，在 `site.typ` 中指定 `posts_dir: "posts"`。`new` 指令的建立位置和建置時的文章搜尋範圍都會變為 `posts/`。
 
 ## 本機預覽
-
-執行以下指令：
 
 ```sh
 python3 command.py preview
 ```
 
-`preview` 會顯示 `draft: true` 的草稿，並在列表與文章頁標示「草稿」徽章。草稿會設定 `noindex`，也不會進入 Pagefind 搜尋。一般 `build` 與 GitHub Pages 發布不會產生草稿文章頁、列表項目、標籤頁、RSS 項目或 sitemap 項目。
+- 首次建置後，預覽伺服器會在 `http://localhost:8000` 啟動
+- 儲存 Typst 檔案、CSS、JavaScript、圖片等會自動重新建置並重新整理瀏覽器
+- 如果 8000 連接埠被佔用會自動選擇其他空閒連接埠，請開啟終端機中顯示的 URL
+- 按 `Ctrl+C` 結束
 
-首次建置完成後，預覽伺服器會在 `http://localhost:8000` 啟動。儲存 Typst 檔案、CSS、JavaScript、圖片等網站來源檔案後，網站會自動重新建置，已開啟的瀏覽器頁面也會自動重新載入。如果 8000 連接埠已被占用，則會選擇其他可用連接埠，請開啟終端中顯示的 URL。按下 `Ctrl+C` 即可停止。
+`site.typ` 的 `base_url` 保持發佈 URL 即可。`preview` 只會把 CSS、文章連結等的基準路徑切換為本機伺服器的 `/`；canonical URL、RSS、sitemap 仍然使用 `base_url`。
 
-`site.typ` 中的 `base_url` 可以繼續保留公開 URL。`preview` 只會把 CSS、文章連結等網站資源的基準路徑切換為本機伺服器使用的 `/`。canonical URL、RSS 與 sitemap 仍會使用 `base_url`。
-
-如果也想確認搜尋功能，請在另一個終端產生搜尋索引。文章變更觸發自動重新建置後，請再次執行此指令。
+想同時確認搜尋功能時，在另一個終端機產生搜尋索引：
 
 ```sh
 npx -y pagefind --site public
 ```
 
-若要產生部署用結果或檢查公開路徑，請執行 `python3 command.py build`。
+修改文章觸發自動重新建置後，請再次執行該指令。
 
-## 發布到 GitHub Pages
+想直接查看發佈用的產生結果時，執行 `python3 command.py build`。
 
-這個範本包含 GitHub Pages 用的 workflow。
+## 使用 GitHub Pages 發佈
 
-1. 修改 `site.typ` 中的 `base_url` 與部落格資訊。
-2. 在 GitHub 開啟 `Settings` -> `Pages`。
-3. 將 `Build and deployment` 的 `Source` 設為 `GitHub Actions`。
-4. 把修改 push 到 `main` 分支。
+本範本附帶 GitHub Pages 工作流程。只需要在最初設定一次。
 
-push 後，GitHub Actions 會自動建置，並把 `public/` 的內容部署到 GitHub Pages。
+1. 把 `site.typ` 的 `base_url` 和部落格資訊改成自己的
+2. 開啟 GitHub 的 `Settings` → `Pages`
+3. 把 `Build and deployment` 的 `Source` 設為 `GitHub Actions`
+4. 把變更 push 到 `main` 分支
 
-如果使用自訂網域，請在 `static/CNAME` 或儲存庫根目錄的 `CNAME` 中寫入網域。
-同時也要讓 `site.typ` 中的 `base_url` 與該網域一致。
+之後每次 push，GitHub Actions 都會自動建置並把 `public/` 的內容部署到 GitHub Pages。
 
-## 改變外觀
+### 使用自訂網域
 
-透過 `site.typ` 的 `theme` 切換主題。
+1. 在 `static/CNAME`（或儲存庫根目錄的 `CNAME`）中寫入網域名稱
+2. `site.typ` 的 `base_url` 也改成自訂網域
+
+## 更改外觀
+
+### 切換主題
+
+用 `site.typ` 的 `theme` 切換。內建可用的是 `dark` 和 `light`。
 
 ```typst
 theme: "light"
 ```
 
-內建主題有 `dark` 與 `light`。
+### 製作自己的主題
 
-圖片、favicon、附加 CSS、自訂主題等都放在 `static/` 中。
-建置時，`static/` 的內容會被複製到 `public/`。
-
-如果要建立自訂主題，例如新增 `static/themes/my-theme.css`，然後在 `site.typ` 中指定。
+在 `static/themes/` 下新增 CSS，並把檔案名稱（不含副檔名）指定給 `theme`。
 
 ```typst
+// 建立了 static/themes/my-theme.css 時
 theme: "my-theme"
 ```
 
+### 圖片、favicon、額外 CSS
+
+放在 `static/` 中的檔案會在建置時原樣複製到 `public/`。
+
+## 檔案結構
+
+平常經常編輯的檔案：
+
+| 路徑 | 說明 |
+| --- | --- |
+| `site.typ` | 部落格名稱、發佈 URL、作者資訊、主題等網站設定 |
+| `文章目錄/index.typ` | 自己的文章 |
+| `example-post/index.typ` | 文章寫法範例 |
+| `static/` | 圖片、favicon、額外 CSS、自訂主題、`CNAME` 等 |
+
+基本上不需要動的檔案：
+
+| 路徑 | 說明 |
+| --- | --- |
+| `vendor/typst-blog-core` | 產生部落格的主體。不直接編輯，透過[更新步驟](#更新部落格引擎)升級版本 |
+| `typst/generated/posts.typ` | 建置時自動更新的文章列表資料 |
+| `public/` | 建置結果，作為發佈內容產生 |
+
 ## 更新部落格引擎
 
-這個範本將產生部落格的核心作為 `vendor/typst-blog-core` 引入。
-文章和 `site.typ` 會留在自己的儲存庫中，所以之後可以只更新產生邏輯。
+產生部落格的主體以 submodule 形式收錄為 `vendor/typst-blog-core`。文章和 `site.typ` 留在自己的儲存庫中，之後可以只更新產生部分。
 
-更新時，推薦切換到 release tag。
+推薦透過切換 release tag 來更新。
 
 ```sh
 cd vendor/typst-blog-core
 git fetch --tags
-git tag --sort=-version:refname
-git checkout vYYYY.MM.DD
+git tag --sort=-version:refname   # 查看可用版本列表
+git checkout vYYYY.MM.DD          # 切換到想用的版本
 cd ../..
 python3 command.py build
 npx -y pagefind --site public
@@ -214,63 +266,30 @@ git add vendor/typst-blog-core
 git commit -m "Update blog core to vYYYY.MM.DD"
 ```
 
-請把 `vYYYY.MM.DD` 替換為實際要使用的 release tag。
+`git add vendor/typst-blog-core` 不是複製 core 內容的操作，而是記錄「這個部落格使用哪個 core 版本」的操作。
 
-`git add vendor/typst-blog-core` 並不是把整個 core 複製到父儲存庫。
-它只是記錄這個部落格使用哪個 core 版本。
+更新後請先在本機確認顯示，再 push。
 
-更新後，請先在本機確認顯示效果，再 push。
+## 遇到問題時
 
-## 常見操作
+| 症狀 | 處理 |
+| --- | --- |
+| 顯示 `typst-blog-core submodule is missing` / `vendor/typst-blog-core` 是空的 | 執行 `git submodule update --init --recursive` |
+| 顯示 `site.theme '...' does not exist` | 檢查 `site.typ` 的 `theme` 與 `static/themes/` 的檔案名稱是否一致 |
+| 發佈建置中沒有出現文章 | 檢查文章的 `draft` 是否為 `false`（`preview` 中可以看到草稿） |
+| 發佈 URL 不對 | 檢查 `site.typ` 的 `base_url`。結尾不需要 `/` |
+| GitHub Pages 上找不到 core | 檢查 `.github/workflows/deploy.yml` 的 checkout 設定中是否有 `submodules: recursive` |
+| 搜尋沒有作用 | 先執行 `npx -y pagefind --site public` 再確認 |
 
-新增文章：
+## 關於 Misskey 圖示
 
-```sh
-python3 command.py new new-post \
-  --title "New Post" \
-  --description "簡短說明。"
-```
+Misskey 分享按鈕和側邊欄的 Misskey 圖示預設啟用。core 中附帶的 Misskey 圖示來自 Simple Icons，由 Misskey project 以 CC-BY-NC-SA-4.0 提供。如商用等情境下該條款不適用，請把 `site.typ` 的 `share.misskey` 設為 `false`。
 
-把文章改回草稿：
+## 授權條款
 
-```typst
-draft: true
-```
+本範本的程式碼以 MIT License 提供。
 
-發布文章：
+---
 
-```typst
-draft: false
-```
-
-重新產生搜尋索引：
-
-```sh
-npx -y pagefind --site public
-```
-
-重新取得 submodule：
-
-```sh
-git submodule update --init --recursive
-```
-
-## 疑難排解
-
-- 出現 `typst-blog-core submodule is missing`：執行 `git submodule update --init --recursive`。
-- `vendor/typst-blog-core` 是空的：submodule 尚未取得。執行 `git submodule update --init --recursive`。
-- 出現 `site.theme '...' does not exist`：檢查 `site.typ` 中的 `theme` 與 `static/themes/` 下的檔名。
-- 文章沒有出現在發布建置中：確認文章的 `draft` 是否為 `false`。`preview` 中仍可查看草稿。
-- 公開 URL 不正確：檢查 `site.typ` 中的 `base_url`。結尾不需要 `/`。
-- GitHub Pages 找不到 core：確認 `.github/workflows/deploy.yml` 的 checkout 設定中有 `submodules: recursive`。
-- 搜尋不可用：執行 `npx -y pagefind --site public` 後再確認。
-
-## Misskey 圖示
-
-Misskey 分享按鈕與側邊欄圖示預設啟用。
-core 中附帶的 Misskey 圖示來自 Simple Icons，由 Misskey project 以 CC-BY-NC-SA-4.0 提供。
-如果該授權不適合你的用途，請在 `site.typ` 中將 `share.misskey` 設為 `false`。
-
-## 授權
-
-MIT License.
+文件版本: 2026.07.19.7
+（更新此 README 時，請同時更新根目錄的 README.md 和 `docs/` 下的其他語言檔案，並保持文件版本一致）

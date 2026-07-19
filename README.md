@@ -1,109 +1,120 @@
 # Typst Blog Template
 
-文書バージョン: 2026.07.19.5
+A template for writing posts in Typst and publishing them as a static blog.
+Write a post and build — the home page, post pages, tag pages, RSS, sitemap, and site search index are all generated for you.
 
-言語: 日本語 | [English](docs/README.en.md) | [한국어](docs/README.ko.md) | [简体中文](docs/README.zh-CN.md) | [繁體中文（台灣）](docs/README.zh-TW.md)
+Sample page showcasing the supported syntax: <https://minimarimo3.github.io/typst-blog-template/example-post/>
+The template author's blog built with this template: <https://www.minimarimo3.jp>
 
-Typst で記事を書き、静的なブログとして公開するためのテンプレートです。
-記事を書いてビルドすると、ブログのトップページ、記事ページ、タグページ、RSS、sitemap、検索用インデックスをまとめて生成できます。
+Languages: [日本語](docs/README.ja.md) | English | [한국어](docs/README.ko.md) | [简体中文](docs/README.zh-CN.md) | [繁體中文（台灣）](docs/README.zh-TW.md)
 
-この README は、このテンプレートを「自分のブログとして使う人」向けの説明です。
-内部実装を知りたい場合は、`vendor/typst-blog-core` 側の README を読んでください。
+## Features
 
-この README を更新するときは、`docs/` 配下の各言語ファイルも更新し、文書バージョンをそろえてください。
+- Write both posts and site settings entirely in Typst
+- Set title, created date, updated date, description, tags, and draft status per post
+- Auto-generate the home page, post pages, per-tag pages, and a tag index page
+- Auto-generate RSS and sitemap
+- Site search powered by [Pagefind](https://pagefind.app/)
+- Publish to GitHub Pages as-is (workflow included)
+- Switch color themes; add a favicon, images, extra CSS, and a custom domain
+- Update only the blog engine (`vendor/typst-blog-core`) later
 
-## できること
+## Requirements
 
-- Typst の文法でブログ記事を書けます。
-- 記事ごとにタイトル、作成日、更新日、説明文、タグ、下書き状態を設定できます。
-- トップページ、記事ページ、タグ別ページ、タグ一覧ページが生成されます。
-- RSS と sitemap が生成されます。
-- Pagefind を使ったサイト内検索を追加できます。
-- GitHub Pages にそのまま公開できます。
-- 色テーマ、favicon、画像、CSS、独自ドメイン用の `CNAME` を追加できます。
-- ブログエンジン部分だけをあとから更新できます。
+| Tool | Version |
+| --- | --- |
+| Git | - |
+| Typst | 0.15.0 or later |
+| Python | 3.10 or later |
+| Node.js | 20 or later |
 
-## 必要なもの
+Node.js is used to run Pagefind, which builds the search index. Even if you do not use search, the default GitHub Pages workflow uses Node.js.
 
-- Git
-- Typst 0.15.0 以上
-- Python 3.10 以上
-- Node.js 20 以上
+## Quick Start
 
-Node.js は検索インデックスを作る `pagefind` の実行に使います。
-検索機能を使わない場合でも、GitHub Pages の標準ワークフローでは Node.js を使います。
+### 1. Create your repository and clone it
 
-## 最初に触るファイル
-
-普段よく編集するのは次のファイルです。
-
-- `site.typ`: ブログ名、説明文、公開 URL、著者情報、テーマなどのサイト設定
-- `example-post/index.typ`: 記事の書き方のサンプル
-- `任意の記事ディレクトリ/index.typ`: 自分の記事
-- `static/`: 画像、favicon、追加 CSS、独自テーマ、`CNAME` など
-
-基本的に触らなくてよいものもあります。
-
-- `vendor/typst-blog-core`: ブログを生成する本体。通常は直接編集せず、更新手順でバージョンを上げます。
-- `typst/generated/posts.typ`: ビルド時に更新される記事一覧データです。手で編集しません。
-- `public/`: ビルド結果です。公開用に生成されるため、手で編集しません。
-
-## 使い始める
-
-GitHub のテンプレート機能でこのリポジトリから自分用のリポジトリを作ります。
-そのあと、ローカルに clone します。
+Create your own repository with GitHub's "Use this template" button, then clone it locally.
 
 ```sh
 git clone --recurse-submodules https://github.com/USER/REPO.git
 cd REPO
 ```
 
-すでに clone 済みで `vendor/typst-blog-core` が空の場合は、次を実行してください。
+> [!NOTE]
+> If you have already cloned and `vendor/typst-blog-core` is empty, run `git submodule update --init --recursive`.
 
-```sh
-git submodule update --init --recursive
-```
+### 2. Edit the site settings
 
-次に `site.typ` を開き、自分のブログ用に書き換えます。
-まず変更するのはこのあたりです。
+Open `site.typ` and adjust it for your blog. Start with these:
 
-- `title`: ブログ名
-- `description`: ブログの説明文
-- `base_url`: 公開後の URL
-- `github_repo`: このブログの GitHub リポジトリ URL
-- `language`: 主に使う言語
-- `theme`: `dark` または `light`
-- `posts_dir`: 記事を置くディレクトリ。ルート直下なら `"."`、`posts/` にまとめるなら `"posts"`
-- `update_policy`: 更新日の決定方法。既定の `"git"` は記事ディレクトリの Git 履歴から自動算出し、`"manual"` は記事の `update` を使います。
-- `author.name`: 著者名
-- `author.bio`: プロフィール文
-- `author.socials`: X、Misskey、GitHub などのリンク
+| Key | Description |
+| --- | --- |
+| `title` | Blog name |
+| `description` | Blog description |
+| `base_url` | Public URL (no trailing `/`) |
+| `github_repo` | GitHub repository URL of this blog |
+| `language` | Primary language |
+| `theme` | `"dark"` or `"light"` |
+| `posts_dir` | Where posts live. `"."` for the repository root, `"posts"` to keep them under `posts/` |
+| `update_policy` | How the updated date is determined. `"git"` (default; derived from Git history) or `"manual"` (uses the post's `update`) |
+| `author.name` | Author name |
+| `author.bio` | Profile text |
+| `author.socials` | Links to X, Misskey, GitHub, etc. |
 
-GitHub Pages で公開する場合、`base_url` は次のような形になります。
+When publishing on GitHub Pages, `base_url` looks like this:
 
 ```typst
 base_url: "https://USER.github.io/REPO"
 ```
 
-独自ドメインを使う場合は、そのドメインの URL を指定してください。
+If you use a custom domain, set that domain's URL instead.
 
-## 記事を書く
-
-記事は、記事ごとにディレクトリを作り、その中に `index.typ` を置きます。
-次のコマンドでディレクトリとメタ情報入りの `index.typ` をまとめて作成できます。
+### 3. Create a post
 
 ```sh
 python3 command.py new my-first-post \
   --title "My First Post" \
-  --description "記事の短い説明文です。" \
+  --description "A short description of the post." \
   --tag Typst
 ```
 
-作成日は実行日、状態は安全のため下書きになります。タグを複数付ける場合は `--tag` を繰り返し、最初から公開状態にする場合だけ `--publish` を付けます。作成日を指定する場合は `--date 2026-07-19` の形式で指定できます。同名のディレクトリ、既存記事と同じ slug、予約済み URL がある場合は上書きせずエラーになります。
+This creates the post directory and an `index.typ` with the metadata filled in.
 
-記事を `posts/` 配下にまとめる場合は、`site.typ` で `posts_dir: "posts"` を指定してください。`new` の作成先とビルド時の記事探索範囲がどちらも `posts/` になります。未指定または `"."` なら従来どおりルート直下を使います。
+### 4. Preview locally
 
-生成される記事ファイルの先頭は次のような形式です。
+```sh
+python3 command.py preview
+```
+
+After the first build, a preview server starts at `http://localhost:8000`. Saving a file rebuilds the site automatically and reloads the browser.
+
+### 5. Publish
+
+Push to the `main` branch, and GitHub Actions builds and publishes to GitHub Pages automatically. See [Publish with GitHub Pages](#publish-with-github-pages) for details.
+
+## Writing Posts
+
+One post = one directory; the `index.typ` in each directory is the post body. Put images and references in the same directory.
+
+### Create a new post
+
+```sh
+python3 command.py new my-first-post \
+  --title "My First Post" \
+  --description "A short description of the post." \
+  --tag Typst
+```
+
+- The created date is set to the day you run the command, and the post starts as a draft for safety
+- Repeat `--tag` to add multiple tags
+- Add `--publish` to start in the published state
+- Use `--date 2026-07-19` to set the created date explicitly
+- If a directory with the same name, a post with the same slug, or a reserved URL already exists, the command fails with an error
+
+### Post file format
+
+The top of a generated `index.typ` looks like this:
 
 ```typst
 #import "/template.typ": article, calver, post-meta
@@ -112,7 +123,7 @@ python3 command.py new my-first-post \
   slug: "my-first-post",
   title: "My First Post",
   create: calver(2026, 1, 1),
-  description: "記事の短い説明文です。",
+  description: "A short description of the post.",
   tags: ("Typst",),
   draft: true,
 )
@@ -120,93 +131,134 @@ python3 command.py new my-first-post \
 #metadata(meta) <post-meta>
 #show: article.with(..meta)
 
-= はじめに
+= Introduction
 
-本文を書きます。
+Write your content here.
 ```
 
-よく使う項目は次のとおりです。
+| Key | Description |
+| --- | --- |
+| `slug` | The post URL. Lowercase alphanumerics joined by single `-`. The example above is published at `/my-first-post/` |
+| `title` | Post title |
+| `create` | Created date |
+| `update` | Updated date. Used only when `update_policy: "manual"` |
+| `description` | Short description used in post lists and search results |
+| `tags` | Tags. Even if a display name contains non-ASCII characters, spaces, or symbols, a tag page with a safe, unique URL is generated automatically |
+| `draft` | `true` for draft, `false` to publish. Treated as a draft when omitted |
 
-- `slug`: 記事の URL になります。小文字の英数字を単一の `-` でつないだ形式にします。上の例は `/my-first-post/` で公開されます。
-- `title`: 記事タイトルです。
-- `create`: 作成日です。
-- `update`: `update_policy: "manual"` のときに使う更新日です。
-- `description`: 記事一覧や検索結果などで使われる短い説明文です。
-- `tags`: タグです。表示名に日本語・空白・記号を使っても、安全で重複しない URL のタグページが自動で作られます。
-- `draft`: `true` なら下書き、`false` なら公開対象です。
+### Drafts and publishing
 
-`draft` を省略すると下書き扱いになります。
-公開したい記事には `draft: false` を入れてください。
+Toggle with `draft`. Set `draft: false` on posts you want to publish.
 
-更新日は既定で自動管理されます。記事の `index.typ` や同じ記事ディレクトリ内の画像・参考文献などをコミットすると、その最新コミット日が更新日になります。記事を最初に追加したコミットしかない場合は更新日を表示しません。Git 履歴を取得できない環境では警告を表示し、記事に書かれた `update` があればその値を使います。
+- **In `preview`**: drafts are shown, with a "draft" badge on lists and post pages. Drafts get `noindex` and are excluded from search.
+- **In `build` (production build)**: draft post pages are not generated, and drafts are excluded from lists, tag pages, RSS, and the sitemap.
 
-## ローカルで確認する
+### How the updated date works
 
-次のコマンドを実行します。
+By default (`update_policy: "git"`), the updated date is managed automatically.
+
+- When you commit the post's `index.typ` — or images, references, and other files in the same post directory — the latest commit date becomes the updated date
+- If the only commit is the one that first added the post, no updated date is shown
+- If Git history is unavailable, a warning is shown, and the post's `update` value is used if present
+
+To manage it manually, set `update_policy: "manual"` in `site.typ` and write the date in the post's `update`.
+
+### Keeping posts under posts/
+
+If you prefer to keep post directories under `posts/` instead of the repository root, set `posts_dir: "posts"` in `site.typ`. Both where `new` creates posts and where the build looks for posts become `posts/`.
+
+## Previewing Locally
 
 ```sh
 python3 command.py preview
 ```
 
-`preview` では `draft: true` の下書きも表示され、一覧と記事ページに「下書き」バッジが付きます。下書きには `noindex` が設定され、Pagefind の検索対象にもなりません。`build` と GitHub Pages の公開では、下書きの記事ページ、一覧、タグページ、RSS、sitemap は生成されません。
+- After the first build, a preview server starts at `http://localhost:8000`
+- Saving Typst files, CSS, JavaScript, images, etc. rebuilds the site automatically and reloads the browser
+- If port 8000 is in use, another free port is chosen — open the URL shown in the terminal
+- Press `Ctrl+C` to stop
 
-初回ビルド後に `http://localhost:8000` でプレビューサーバーが起動します。Typst ファイル、CSS、JavaScript、画像などを保存すると自動的に再ビルドされ、開いているブラウザも再読み込みされます。8000 番が使用中の場合は別の空きポートが選ばれるため、ターミナルに表示された URL を開いてください。終了するときは `Ctrl+C` を押します。
+You can leave `base_url` in `site.typ` set to the public URL. `preview` only switches the base path for CSS, post links, and so on to `/` for the local server; canonical URLs, RSS, and the sitemap still use `base_url`.
 
-`site.typ` の `base_url` は公開 URL のままで構いません。`preview` は CSS、記事リンクなどの基準パスだけをローカルサーバー向けの `/` に切り替えます。canonical URL、RSS、sitemap には引き続き `base_url` が使われます。
-
-検索機能も確認したい場合は、別のターミナルで検索インデックスを作ります。記事を変更して自動再ビルドされた後は、もう一度実行してください。
+To try search as well, build the search index in another terminal:
 
 ```sh
 npx -y pagefind --site public
 ```
 
-公開用の生成結果を確認したい場合やデプロイ時は、`python3 command.py build` を実行します。
+Run this command again after a post change triggers an automatic rebuild.
 
-## GitHub Pages で公開する
+To inspect the exact production output, run `python3 command.py build`.
 
-このテンプレートには GitHub Pages 用のワークフローが入っています。
+## Publish with GitHub Pages
 
-1. `site.typ` の `base_url` とブログ情報を自分用に変更します。
-2. GitHub の `Settings` -> `Pages` を開きます。
-3. `Build and deployment` の `Source` を `GitHub Actions` にします。
-4. 変更を `main` ブランチに push します。
+This template ships with a GitHub Pages workflow. Setup is a one-time step.
 
-push すると GitHub Actions が自動でビルドし、`public/` の内容を GitHub Pages にデプロイします。
+1. Change `base_url` and the blog settings in `site.typ`
+2. Open `Settings` → `Pages` on GitHub
+3. Set `Source` under `Build and deployment` to `GitHub Actions`
+4. Push your changes to the `main` branch
 
-独自ドメインを使う場合は、`static/CNAME` またはリポジトリ直下の `CNAME` にドメイン名を書きます。
-その場合は `site.typ` の `base_url` も独自ドメインに合わせてください。
+From then on, every push triggers GitHub Actions to build and deploy the contents of `public/` to GitHub Pages.
 
-## 見た目を変える
+### Using a custom domain
 
-テーマは `site.typ` の `theme` で切り替えます。
+1. Write your domain name in `static/CNAME` (or `CNAME` at the repository root)
+2. Set `base_url` in `site.typ` to the custom domain as well
+
+## Changing the Look
+
+### Switch themes
+
+Switch with `theme` in `site.typ`. `dark` and `light` are available out of the box.
 
 ```typst
 theme: "light"
 ```
 
-最初から使えるテーマは `dark` と `light` です。
+### Create your own theme
 
-画像、favicon、追加 CSS、独自テーマなどは `static/` に置きます。
-ビルド時に `static/` の中身が `public/` へコピーされます。
-
-独自テーマを作る場合は、例えば `static/themes/my-theme.css` を追加し、`site.typ` で指定します。
+Add a CSS file under `static/themes/` and set its file name (without the extension) as `theme`.
 
 ```typst
+// If you created static/themes/my-theme.css
 theme: "my-theme"
 ```
 
-## ブログエンジンを更新する
+### Images, favicon, extra CSS
 
-このテンプレートでは、ブログを生成する本体を `vendor/typst-blog-core` として取り込んでいます。
-記事や `site.typ` は自分のリポジトリに残したまま、生成部分だけをあとから更新できます。
+Files placed in `static/` are copied to `public/` as-is at build time.
 
-更新するときは、release tag に切り替える運用をおすすめします。
+## File Layout
+
+Files you usually edit:
+
+| Path | Description |
+| --- | --- |
+| `site.typ` | Site settings: blog name, public URL, author profile, theme, etc. |
+| `POST_DIR/index.typ` | Your posts |
+| `example-post/index.typ` | Sample showing how to write a post |
+| `static/` | Images, favicon, extra CSS, custom themes, `CNAME`, etc. |
+
+Files you normally do not touch:
+
+| Path | Description |
+| --- | --- |
+| `vendor/typst-blog-core` | The engine that generates the blog. Do not edit directly; upgrade it via the [update steps](#updating-the-blog-engine) |
+| `typst/generated/posts.typ` | Post list data updated automatically at build time |
+| `public/` | Build output, generated for publishing |
+
+## Updating the Blog Engine
+
+The engine that generates the blog is vendored as the `vendor/typst-blog-core` submodule. You can update just the engine later while keeping your posts and `site.typ` in your own repository.
+
+We recommend updating by switching to a release tag.
 
 ```sh
 cd vendor/typst-blog-core
 git fetch --tags
-git tag --sort=-version:refname
-git checkout vYYYY.MM.DD
+git tag --sort=-version:refname   # List available versions
+git checkout vYYYY.MM.DD          # Switch to the version you want
 cd ../..
 python3 command.py build
 npx -y pagefind --site public
@@ -214,63 +266,30 @@ git add vendor/typst-blog-core
 git commit -m "Update blog core to vYYYY.MM.DD"
 ```
 
-`vYYYY.MM.DD` は実際に使いたい release tag に置き換えてください。
+`git add vendor/typst-blog-core` does not copy the contents of core; it records which version of core this blog uses.
 
-`git add vendor/typst-blog-core` は、core の中身を丸ごとコピーする操作ではありません。
-「このブログでは、どの core のバージョンを使うか」を更新する操作です。
+After updating, check the site locally before pushing.
 
-更新後は、ローカルで表示を確認してから push してください。
+## Troubleshooting
 
-## よくある作業
+| Symptom | Fix |
+| --- | --- |
+| `typst-blog-core submodule is missing` appears / `vendor/typst-blog-core` is empty | Run `git submodule update --init --recursive` |
+| `site.theme '...' does not exist` appears | Check that `theme` in `site.typ` matches a file name under `static/themes/` |
+| A post does not appear in the production build | Check that the post's `draft` is `false` (drafts are visible in `preview`) |
+| Public URLs look wrong | Check `base_url` in `site.typ`. No trailing `/` |
+| GitHub Pages cannot find core | Check that the checkout step in `.github/workflows/deploy.yml` has `submodules: recursive` |
+| Search does not work | Run `npx -y pagefind --site public` first, then check again |
 
-新しい記事を追加する:
+## About the Misskey Icon
 
-```sh
-python3 command.py new new-post \
-  --title "New Post" \
-  --description "記事の短い説明文です。"
-```
+The Misskey share button and the Misskey icon in the sidebar are enabled by default. The Misskey icon bundled in core comes from Simple Icons and is provided by the Misskey project under CC-BY-NC-SA-4.0. If these terms do not fit your use case (e.g., commercial use), set `share.misskey` to `false` in `site.typ`.
 
-記事を下書きに戻す:
+## License
 
-```typst
-draft: true
-```
+The code in this template is provided under the MIT License.
 
-記事を公開する:
+---
 
-```typst
-draft: false
-```
-
-検索インデックスを作り直す:
-
-```sh
-npx -y pagefind --site public
-```
-
-submodule を取り直す:
-
-```sh
-git submodule update --init --recursive
-```
-
-## 困ったとき
-
-- `typst-blog-core submodule is missing` と出る場合は、`git submodule update --init --recursive` を実行してください。
-- `vendor/typst-blog-core` が空の場合は、submodule が未取得です。`git submodule update --init --recursive` を実行してください。
-- `site.theme '...' does not exist` と出る場合は、`site.typ` の `theme` と `static/themes/` のファイル名を確認してください。
-- 公開ビルドに記事が出てこない場合は、記事の `draft` が `false` になっているか確認してください。`preview` では下書きも確認できます。
-- 公開 URL がおかしい場合は、`site.typ` の `base_url` を確認してください。末尾の `/` は不要です。
-- GitHub Pages で core が見つからない場合は、`.github/workflows/deploy.yml` の checkout 設定に `submodules: recursive` があるか確認してください。
-- 検索が動かない場合は、`npx -y pagefind --site public` を実行したあとに確認してください。
-
-## Misskey アイコンについて
-
-Misskey 共有ボタンとサイドバーの Misskey アイコンはデフォルトで有効です。
-core に同梱している Misskey アイコンは Simple Icons 由来で、Misskey project によって CC-BY-NC-SA-4.0 で提供されています。
-商用利用などでこの条件が合わない場合は、`site.typ` の `share.misskey` を `false` にしてください。
-
-## ライセンス
-
-このテンプレートのコードは MIT License で提供します。
+Document version: 2026.07.19.7
+(When updating this README, also update the language files under `docs/` and keep the document version aligned.)
