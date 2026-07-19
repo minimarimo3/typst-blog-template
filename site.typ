@@ -8,6 +8,8 @@
   github_repo: "https://github.com/minimarimo3/typst-blog-template",
   language: "ja",
   theme: "dark",
+  // 記事を posts/ 配下にまとめる場合は "posts" にする。
+  posts_dir: ".",
   fonts: (
     main: (
       pdf: "Noto Serif CJK JP",

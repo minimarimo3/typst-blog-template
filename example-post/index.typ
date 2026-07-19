@@ -16,7 +16,7 @@
 
 #env(
   ("Typst", "0.14.2", "HTML export"),
-  ("Python", "3.x", "build.py"),
+  ("Python", "3.x", "command.py"),
   ("Pagefind", "optional", "検索インデックスがある場合だけ有効"),
 )
 

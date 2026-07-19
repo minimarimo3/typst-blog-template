@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文件版本: 2026.07.19.2
+文件版本: 2026.07.19.3
 
 語言: [日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | 繁體中文（台灣）
 
@@ -73,6 +73,7 @@ git submodule update --init --recursive
 - `github_repo`: 這個部落格的 GitHub 儲存庫 URL
 - `language`: 主要使用的語言
 - `theme`: `dark` 或 `light`
+- `posts_dir`: 文章目錄；部落格根目錄使用 `"."`，集中到 `posts/` 時使用 `"posts"`
 - `author.name`: 作者名稱
 - `author.bio`: 個人簡介
 - `author.socials`: X、Misskey、GitHub 等連結
@@ -88,13 +89,20 @@ base_url: "https://USER.github.io/REPO"
 ## 撰寫文章
 
 每篇文章建立一個目錄，並在其中放置 `index.typ`。
-第一次可以複製 `example-post/` 開始。
+可以使用以下指令同時建立目錄和含有中繼資料的 `index.typ`。
 
 ```sh
-cp -R example-post my-first-post
+python3 command.py new my-first-post \
+  --title "My First Post" \
+  --description "簡短說明。" \
+  --tag Typst
 ```
 
-文章檔案開頭寫文章資訊。
+建立日期預設為執行當天，為了安全起見預設狀態為草稿。加入多個標籤時請重複使用 `--tag`，只有需要立即發布時才加入 `--publish`。可用 `--date 2026-07-19` 指定其他建立日期。如果已有同名目錄、重複 slug 或保留 URL，指令會回報錯誤且不會覆寫檔案。
+
+若要把文章集中到 `posts/` 下，請在 `site.typ` 中設定 `posts_dir: "posts"`。`new` 的建立位置和建置時的文章搜尋範圍都會使用 `posts/`。省略此設定或使用 `"."` 時，仍使用部落格根目錄。
+
+產生的文章檔案會以如下格式的中繼資料開頭。
 
 ```typst
 #import "/template.typ": article, calver, post-meta
@@ -105,7 +113,7 @@ cp -R example-post my-first-post
   create: calver(2026, 1, 1),
   description: "簡短說明。",
   tags: ("Typst",),
-  draft: false,
+  draft: true,
 )
 
 #metadata(meta) <post-meta>
@@ -134,12 +142,12 @@ cp -R example-post my-first-post
 執行以下指令：
 
 ```sh
-python3 build.py --preview
+python3 command.py preview
 ```
 
 首次建置完成後，預覽伺服器會在 `http://localhost:8000` 啟動。儲存 Typst 檔案、CSS、JavaScript、圖片等網站來源檔案後，網站會自動重新建置，已開啟的瀏覽器頁面也會自動重新載入。如果 8000 連接埠已被占用，則會選擇其他可用連接埠，請開啟終端中顯示的 URL。按下 `Ctrl+C` 即可停止。
 
-`site.typ` 中的 `base_url` 可以繼續保留公開 URL。`--preview` 只會把 CSS、文章連結等網站資源的基準路徑切換為本機伺服器使用的 `/`。canonical URL、RSS 與 sitemap 仍會使用 `base_url`。
+`site.typ` 中的 `base_url` 可以繼續保留公開 URL。`preview` 只會把 CSS、文章連結等網站資源的基準路徑切換為本機伺服器使用的 `/`。canonical URL、RSS 與 sitemap 仍會使用 `base_url`。
 
 如果也想確認搜尋功能，請在另一個終端產生搜尋索引。文章變更觸發自動重新建置後，請再次執行此指令。
 
@@ -147,7 +155,7 @@ python3 build.py --preview
 npx -y pagefind --site public
 ```
 
-若要產生部署用結果或檢查公開路徑，請不要加上 `--preview`，直接執行 `python3 build.py`。
+若要產生部署用結果或檢查公開路徑，請執行 `python3 command.py build`。
 
 ## 發布到 GitHub Pages
 
@@ -195,7 +203,7 @@ git fetch --tags
 git tag --sort=-version:refname
 git checkout vYYYY.MM.DD
 cd ../..
-python3 build.py
+python3 command.py build
 npx -y pagefind --site public
 git add vendor/typst-blog-core
 git commit -m "Update blog core to vYYYY.MM.DD"
@@ -213,7 +221,9 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 新增文章：
 
 ```sh
-cp -R example-post new-post
+python3 command.py new new-post \
+  --title "New Post" \
+  --description "簡短說明。"
 ```
 
 把文章改回草稿：
