@@ -10,6 +10,8 @@
   theme: "dark",
   // 記事を posts/ 配下にまとめる場合は "posts" にする。
   posts_dir: ".",
+  // "git" は記事ディレクトリの最終コミット日を更新日として自動表示する。
+  update_policy: "git",
   fonts: (
     main: (
       pdf: "Noto Serif CJK JP",

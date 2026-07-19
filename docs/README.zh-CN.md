@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文档版本: 2026.07.19.3
+文档版本: 2026.07.19.4
 
 语言: [日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | 简体中文 | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -74,6 +74,7 @@ git submodule update --init --recursive
 - `language`: 主要使用的语言
 - `theme`: `dark` 或 `light`
 - `posts_dir`: 文章目录；博客根目录使用 `"."`，集中到 `posts/` 时使用 `"posts"`
+- `update_policy`: 更新日期的确定方式。默认值 `"git"` 会根据各文章目录的 Git 历史自动计算，`"manual"` 则使用文章中的 `update` 值。
 - `author.name`: 作者名称
 - `author.bio`: 个人简介
 - `author.socials`: X、Misskey、GitHub 等链接
@@ -129,13 +130,15 @@ python3 command.py new my-first-post \
 - `slug`: 会成为文章 URL。请使用小写 ASCII 字母和数字，并用单个连字符分隔。上面的例子会发布到 `/my-first-post/`。
 - `title`: 文章标题。
 - `create`: 创建日期。
-- `update`: 更新日期。需要时再添加。
+- `update`: 选择 `update_policy: "manual"` 时使用的更新日期。
 - `description`: 用在文章列表和搜索结果等位置的简短说明。
 - `tags`: 标签。显示名称可以使用日文、空格和符号，系统会自动生成安全且不冲突的标签页 URL。
 - `draft`: `true` 表示草稿，`false` 表示发布。
 
 如果省略 `draft`，文章会被当作草稿。
 想发布的文章请设置 `draft: false`。
+
+更新日期默认自动管理。提交文章的 `index.typ`、同一文章目录中的图片、参考文献或其他文件后，最新提交日期会成为更新日期。如果文章只有首次添加时的一次提交，则不显示更新日期。如果无法读取 Git 历史，构建会显示警告，并在文章写有 `update` 时使用该值。
 
 ## 本地预览
 

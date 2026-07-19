@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文書バージョン: 2026.07.19.3
+文書バージョン: 2026.07.19.4
 
 言語: [日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -74,6 +74,7 @@ git submodule update --init --recursive
 - `language`: 主に使う言語
 - `theme`: `dark` または `light`
 - `posts_dir`: 記事を置くディレクトリ。ルート直下なら `"."`、`posts/` にまとめるなら `"posts"`
+- `update_policy`: 更新日の決定方法。既定の `"git"` は記事ディレクトリの Git 履歴から自動算出し、`"manual"` は記事の `update` を使います。
 - `author.name`: 著者名
 - `author.bio`: プロフィール文
 - `author.socials`: X、Misskey、GitHub などのリンク
@@ -129,13 +130,15 @@ python3 command.py new my-first-post \
 - `slug`: 記事の URL になります。小文字の英数字を単一の `-` でつないだ形式にします。上の例は `/my-first-post/` で公開されます。
 - `title`: 記事タイトルです。
 - `create`: 作成日です。
-- `update`: 更新日です。必要なときだけ追加します。
+- `update`: `update_policy: "manual"` のときに使う更新日です。
 - `description`: 記事一覧や検索結果などで使われる短い説明文です。
 - `tags`: タグです。表示名に日本語・空白・記号を使っても、安全で重複しない URL のタグページが自動で作られます。
 - `draft`: `true` なら下書き、`false` なら公開対象です。
 
 `draft` を省略すると下書き扱いになります。
 公開したい記事には `draft: false` を入れてください。
+
+更新日は既定で自動管理されます。記事の `index.typ` や同じ記事ディレクトリ内の画像・参考文献などをコミットすると、その最新コミット日が更新日になります。記事を最初に追加したコミットしかない場合は更新日を表示しません。Git 履歴を取得できない環境では警告を表示し、記事に書かれた `update` があればその値を使います。
 
 ## ローカルで確認する
 

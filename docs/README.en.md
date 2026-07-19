@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-Document version: 2026.07.19.3
+Document version: 2026.07.19.4
 
 Languages: [日本語](../README.md) | English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -74,6 +74,7 @@ Start with these fields:
 - `language`: primary language
 - `theme`: `dark` or `light`
 - `posts_dir`: post directory; use `"."` for the blog root or `"posts"` for `posts/`
+- `update_policy`: how update dates are determined. The default `"git"` derives them from each post directory's Git history; `"manual"` uses the post's `update` value.
 - `author.name`: author name
 - `author.bio`: profile text
 - `author.socials`: links such as X, Misskey, and GitHub
@@ -129,13 +130,15 @@ Common fields:
 - `slug`: becomes the post URL. Use lowercase ASCII letters and numbers separated by single hyphens. The example above is published at `/my-first-post/`.
 - `title`: post title.
 - `create`: created date.
-- `update`: updated date. Add it only when needed.
+- `update`: updated date used when `update_policy: "manual"` is selected.
 - `description`: short description used in post lists and search results.
 - `tags`: tags. Japanese text, spaces, and symbols may be used in display names; safe, non-conflicting tag-page URLs are generated automatically.
 - `draft`: `true` means draft, `false` means published.
 
 If `draft` is omitted, the post is treated as a draft.
 Set `draft: false` for posts you want to publish.
+
+Update dates are automatic by default. Committing changes to a post's `index.typ`, images, references, or other files in the same post directory makes the latest commit date its update date. No update date is shown when the post only has its initial commit. If Git history is unavailable, the build warns and falls back to the post's authored `update` value when present.
 
 ## Preview Locally
 

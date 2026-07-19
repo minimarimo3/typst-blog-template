@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-문서 버전: 2026.07.19.3
+문서 버전: 2026.07.19.4
 
 언어: [日本語](../README.md) | [English](README.en.md) | 한국어 | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -74,6 +74,7 @@ git submodule update --init --recursive
 - `language`: 주로 사용할 언어
 - `theme`: `dark` 또는 `light`
 - `posts_dir`: 글을 둘 디렉터리. 루트는 `"."`, `posts/`에 모으려면 `"posts"`
+- `update_policy`: 수정일을 정하는 방식입니다. 기본값 `"git"`은 각 글 디렉터리의 Git 기록에서 자동 계산하고, `"manual"`은 글의 `update` 값을 사용합니다.
 - `author.name`: 작성자 이름
 - `author.bio`: 프로필 문장
 - `author.socials`: X, Misskey, GitHub 등의 링크
@@ -129,13 +130,15 @@ python3 command.py new my-first-post \
 - `slug`: 글 URL 이 됩니다. 소문자 ASCII 영숫자를 하나의 하이픈으로 구분한 형식을 사용합니다. 위 예시는 `/my-first-post/` 로 공개됩니다.
 - `title`: 글 제목입니다.
 - `create`: 작성일입니다.
-- `update`: 수정일입니다. 필요할 때만 추가합니다.
+- `update`: `update_policy: "manual"`일 때 사용하는 수정일입니다.
 - `description`: 글 목록과 검색 결과 등에 쓰이는 짧은 설명입니다.
 - `tags`: 태그입니다. 표시 이름에 일본어, 공백, 기호를 사용해도 안전하고 충돌하지 않는 태그 페이지 URL이 자동으로 생성됩니다.
 - `draft`: `true` 는 초안, `false` 는 공개 대상입니다.
 
 `draft` 를 생략하면 초안으로 취급됩니다.
 공개할 글에는 `draft: false` 를 넣어 주세요.
+
+수정일은 기본적으로 자동 관리됩니다. 글의 `index.typ`이나 같은 글 디렉터리의 이미지, 참고 문헌 등을 커밋하면 최신 커밋 날짜가 수정일이 됩니다. 글을 처음 추가한 커밋만 있으면 수정일을 표시하지 않습니다. Git 기록을 가져올 수 없는 환경에서는 경고를 표시하고, 글에 작성된 `update` 값이 있으면 그 값을 사용합니다.
 
 ## 로컬에서 확인
 
