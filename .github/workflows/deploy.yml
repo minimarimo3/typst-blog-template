@@ -58,6 +58,7 @@ jobs:
           done
 
       - name: Build paged example
+        if: ${{ hashFiles('example-post/index.typ') != '' }}
         run: typst compile --root . example-post/index.typ /tmp/example-post.pdf
 
       - name: Build site
