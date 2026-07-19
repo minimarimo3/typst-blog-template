@@ -138,7 +138,7 @@ python3 command.py new my-first-post \
 
 | 항목 | 내용 |
 | --- | --- |
-| `slug` | 글의 URL. Unicode 소문자와 숫자를 단일 `-` 로 이은 형식. 일본어 slug를 지원하며 생성 URL에서는 퍼센트 인코딩됨. 위 예시는 `/my-first-post/` 로 공개됨 |
+| `slug` | 글의 URL. 공백, 대문자, 문장 부호와 기호가 포함된 자연스러운 Unicode 텍스트를 사용할 수 있으며 생성 URL에서는 퍼센트 인코딩됨. 경로 구분자, 제어 문자와 이식성이 없는 파일 이름은 거부됨. 위 예시는 `/my-first-post/` 로 공개됨 |
 | `title` | 글 제목 |
 | `create` | 작성일 |
 | `update` | 수정일. `update_policy: "manual"` 일 때만 사용됨 |

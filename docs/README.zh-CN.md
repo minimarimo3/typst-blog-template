@@ -138,7 +138,7 @@ python3 command.py new my-first-post \
 
 | 字段 | 说明 |
 | --- | --- |
-| `slug` | 文章的 URL。由 Unicode 小写字母和数字用单个 `-` 连接。支持日文 slug，生成的 URL 会使用百分号编码。上例发布在 `/my-first-post/` |
+| `slug` | 文章的 URL。可使用包含空格、大写字母、标点和符号的自然 Unicode 文本，生成的 URL 会使用百分号编码。路径分隔符、控制字符和不可移植的文件名会被拒绝。上例发布在 `/my-first-post/` |
 | `title` | 文章标题 |
 | `create` | 创建日期 |
 | `update` | 更新日期。仅在 `update_policy: "manual"` 时使用 |
