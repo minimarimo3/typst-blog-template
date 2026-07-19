@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-문서 버전: 2026.07.19.2
+문서 버전: 2026.07.19.3
 
 언어: [日本語](../README.md) | [English](README.en.md) | 한국어 | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -73,6 +73,7 @@ git submodule update --init --recursive
 - `github_repo`: 이 블로그의 GitHub 저장소 URL
 - `language`: 주로 사용할 언어
 - `theme`: `dark` 또는 `light`
+- `posts_dir`: 글을 둘 디렉터리. 루트는 `"."`, `posts/`에 모으려면 `"posts"`
 - `author.name`: 작성자 이름
 - `author.bio`: 프로필 문장
 - `author.socials`: X, Misskey, GitHub 등의 링크
@@ -88,13 +89,20 @@ base_url: "https://USER.github.io/REPO"
 ## 글 작성
 
 글마다 디렉터리를 만들고 그 안에 `index.typ` 을 둡니다.
-처음에는 `example-post/` 를 복사해서 시작하는 것이 쉽습니다.
+다음 명령으로 디렉터리와 메타 정보가 포함된 `index.typ` 을 한 번에 만들 수 있습니다.
 
 ```sh
-cp -R example-post my-first-post
+python3 command.py new my-first-post \
+  --title "My First Post" \
+  --description "짧은 설명입니다." \
+  --tag Typst
 ```
 
-글 파일 맨 위에는 글 정보를 작성합니다.
+작성일은 실행일로 설정되고 안전을 위해 기본 상태는 초안입니다. 태그를 여러 개 추가하려면 `--tag` 를 반복하고, 바로 공개할 때만 `--publish` 를 추가합니다. 다른 작성일은 `--date 2026-07-19` 형식으로 지정할 수 있습니다. 같은 이름의 디렉터리, 중복 slug, 예약된 URL이 있으면 파일을 덮어쓰지 않고 오류가 발생합니다.
+
+글을 `posts/` 아래에 모으려면 `site.typ`에서 `posts_dir: "posts"`를 지정하세요. `new`의 생성 위치와 빌드 시 글 탐색 범위가 모두 `posts/`로 설정됩니다. 생략하거나 `"."`로 설정하면 기존처럼 블로그 루트를 사용합니다.
+
+생성되는 글 파일은 다음 형식의 메타 정보로 시작합니다.
 
 ```typst
 #import "/template.typ": article, calver, post-meta
@@ -105,7 +113,7 @@ cp -R example-post my-first-post
   create: calver(2026, 1, 1),
   description: "짧은 설명입니다.",
   tags: ("Typst",),
-  draft: false,
+  draft: true,
 )
 
 #metadata(meta) <post-meta>
@@ -134,12 +142,12 @@ cp -R example-post my-first-post
 다음 명령을 실행합니다.
 
 ```sh
-python3 build.py --preview
+python3 command.py preview
 ```
 
 첫 빌드가 끝나면 `http://localhost:8000`에서 미리보기 서버가 시작됩니다. Typst 파일, CSS, JavaScript, 이미지 등의 사이트 소스를 저장하면 자동으로 다시 빌드되고 열려 있는 브라우저 페이지도 새로고침됩니다. 8000번 포트가 사용 중이면 다른 빈 포트가 선택되므로 터미널에 표시된 URL을 열어 주세요. 종료하려면 `Ctrl+C`를 누릅니다.
 
-`site.typ`의 `base_url`은 공개 URL로 유지해도 됩니다. `--preview`는 CSS, 글 링크 등 사이트 리소스의 기준 경로만 로컬 서버용 `/`로 바꿉니다. canonical URL, RSS, sitemap에는 계속 `base_url`이 사용됩니다.
+`site.typ`의 `base_url`은 공개 URL로 유지해도 됩니다. `preview`는 CSS, 글 링크 등 사이트 리소스의 기준 경로만 로컬 서버용 `/`로 바꿉니다. canonical URL, RSS, sitemap에는 계속 `base_url`이 사용됩니다.
 
 검색 기능도 확인하려면 다른 터미널에서 검색 인덱스를 만듭니다. 글 변경으로 자동 재빌드된 뒤에는 다시 실행해 주세요.
 
@@ -147,7 +155,7 @@ python3 build.py --preview
 npx -y pagefind --site public
 ```
 
-배포용 결과를 생성하거나 공개 경로를 확인할 때는 `--preview` 없이 `python3 build.py`를 실행합니다.
+배포용 결과를 생성하거나 공개 경로를 확인할 때는 `python3 command.py build`를 실행합니다.
 
 ## GitHub Pages 에 공개
 
@@ -195,7 +203,7 @@ git fetch --tags
 git tag --sort=-version:refname
 git checkout vYYYY.MM.DD
 cd ../..
-python3 build.py
+python3 command.py build
 npx -y pagefind --site public
 git add vendor/typst-blog-core
 git commit -m "Update blog core to vYYYY.MM.DD"
@@ -213,7 +221,9 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 새 글 추가:
 
 ```sh
-cp -R example-post new-post
+python3 command.py new new-post \
+  --title "New Post" \
+  --description "짧은 설명입니다."
 ```
 
 글을 다시 초안으로 돌리기:

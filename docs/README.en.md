@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-Document version: 2026.07.19.2
+Document version: 2026.07.19.3
 
 Languages: [日本語](../README.md) | English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -73,6 +73,7 @@ Start with these fields:
 - `github_repo`: GitHub repository URL for this blog
 - `language`: primary language
 - `theme`: `dark` or `light`
+- `posts_dir`: post directory; use `"."` for the blog root or `"posts"` for `posts/`
 - `author.name`: author name
 - `author.bio`: profile text
 - `author.socials`: links such as X, Misskey, and GitHub
@@ -88,13 +89,20 @@ If you use a custom domain, set `base_url` to that domain.
 ## Writing Posts
 
 Each post gets its own directory with an `index.typ` file inside.
-The easiest start is to copy `example-post/`.
+Create the directory and a metadata-filled `index.typ` together with:
 
 ```sh
-cp -R example-post my-first-post
+python3 command.py new my-first-post \
+  --title "My First Post" \
+  --description "A short description." \
+  --tag Typst
 ```
 
-Write the post metadata at the top of the post file.
+The command uses today as the creation date and creates a draft by default. Repeat `--tag` to add more tags, or add `--publish` only when the post should be published immediately. Use `--date 2026-07-19` to set another creation date. Existing directories, duplicate slugs, and reserved URLs are rejected without overwriting files.
+
+To keep articles under `posts/`, set `posts_dir: "posts"` in `site.typ`. Both the `new` destination and the build's post discovery scope then use `posts/`. Omit it or use `"."` to keep using the blog root.
+
+The generated post starts with metadata in this form:
 
 ```typst
 #import "/template.typ": article, calver, post-meta
@@ -105,7 +113,7 @@ Write the post metadata at the top of the post file.
   create: calver(2026, 1, 1),
   description: "A short description.",
   tags: ("Typst",),
-  draft: false,
+  draft: true,
 )
 
 #metadata(meta) <post-meta>
@@ -134,12 +142,12 @@ Set `draft: false` for posts you want to publish.
 Run:
 
 ```sh
-python3 build.py --preview
+python3 command.py preview
 ```
 
 After the first build, the preview server starts at `http://localhost:8000`. Saving a Typst file, CSS, JavaScript, image, or another site source automatically rebuilds the site and reloads open browser pages. If port 8000 is in use, another available port is selected; open the URL shown in the terminal. Press `Ctrl+C` to stop it.
 
-Keep `base_url` in `site.typ` set to the public URL. `--preview` changes only the base path used by CSS, post links, and other site resources to `/` for the local server. Canonical URLs, RSS, and sitemap still use `base_url`.
+Keep `base_url` in `site.typ` set to the public URL. `preview` changes only the base path used by CSS, post links, and other site resources to `/` for the local server. Canonical URLs, RSS, and sitemap still use `base_url`.
 
 To test search as well, build the search index in another terminal. Run it again after an automatic rebuild caused by a post change.
 
@@ -147,7 +155,7 @@ To test search as well, build the search index in another terminal. Run it again
 npx -y pagefind --site public
 ```
 
-To produce the deployable build, or to check its public paths, run `python3 build.py` without `--preview`.
+To produce the deployable build, or to check its public paths, run `python3 command.py build`.
 
 ## Publish With GitHub Pages
 
@@ -195,7 +203,7 @@ git fetch --tags
 git tag --sort=-version:refname
 git checkout vYYYY.MM.DD
 cd ../..
-python3 build.py
+python3 command.py build
 npx -y pagefind --site public
 git add vendor/typst-blog-core
 git commit -m "Update blog core to vYYYY.MM.DD"
@@ -213,7 +221,9 @@ After updating, preview locally before pushing.
 Add a new post:
 
 ```sh
-cp -R example-post new-post
+python3 command.py new new-post \
+  --title "New Post" \
+  --description "A short description."
 ```
 
 Turn a post back into a draft:

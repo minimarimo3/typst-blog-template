@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文書バージョン: 2026.07.19.2
+文書バージョン: 2026.07.19.3
 
 言語: [日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -73,6 +73,7 @@ git submodule update --init --recursive
 - `github_repo`: このブログの GitHub リポジトリ URL
 - `language`: 主に使う言語
 - `theme`: `dark` または `light`
+- `posts_dir`: 記事を置くディレクトリ。ルート直下なら `"."`、`posts/` にまとめるなら `"posts"`
 - `author.name`: 著者名
 - `author.bio`: プロフィール文
 - `author.socials`: X、Misskey、GitHub などのリンク
@@ -88,13 +89,20 @@ base_url: "https://USER.github.io/REPO"
 ## 記事を書く
 
 記事は、記事ごとにディレクトリを作り、その中に `index.typ` を置きます。
-最初は `example-post/` をコピーして始めるのが簡単です。
+次のコマンドでディレクトリとメタ情報入りの `index.typ` をまとめて作成できます。
 
 ```sh
-cp -R example-post my-first-post
+python3 command.py new my-first-post \
+  --title "My First Post" \
+  --description "記事の短い説明文です。" \
+  --tag Typst
 ```
 
-記事ファイルの先頭には、記事の情報を書きます。
+作成日は実行日、状態は安全のため下書きになります。タグを複数付ける場合は `--tag` を繰り返し、最初から公開状態にする場合だけ `--publish` を付けます。作成日を指定する場合は `--date 2026-07-19` の形式で指定できます。同名のディレクトリ、既存記事と同じ slug、予約済み URL がある場合は上書きせずエラーになります。
+
+記事を `posts/` 配下にまとめる場合は、`site.typ` で `posts_dir: "posts"` を指定してください。`new` の作成先とビルド時の記事探索範囲がどちらも `posts/` になります。未指定または `"."` なら従来どおりルート直下を使います。
+
+生成される記事ファイルの先頭は次のような形式です。
 
 ```typst
 #import "/template.typ": article, calver, post-meta
@@ -105,7 +113,7 @@ cp -R example-post my-first-post
   create: calver(2026, 1, 1),
   description: "記事の短い説明文です。",
   tags: ("Typst",),
-  draft: false,
+  draft: true,
 )
 
 #metadata(meta) <post-meta>
@@ -134,12 +142,12 @@ cp -R example-post my-first-post
 次のコマンドを実行します。
 
 ```sh
-python3 build.py --preview
+python3 command.py preview
 ```
 
 初回ビルド後に `http://localhost:8000` でプレビューサーバーが起動します。Typst ファイル、CSS、JavaScript、画像などを保存すると自動的に再ビルドされ、開いているブラウザも再読み込みされます。8000 番が使用中の場合は別の空きポートが選ばれるため、ターミナルに表示された URL を開いてください。終了するときは `Ctrl+C` を押します。
 
-`site.typ` の `base_url` は公開 URL のままで構いません。`--preview` は CSS、記事リンクなどの基準パスだけをローカルサーバー向けの `/` に切り替えます。canonical URL、RSS、sitemap には引き続き `base_url` が使われます。
+`site.typ` の `base_url` は公開 URL のままで構いません。`preview` は CSS、記事リンクなどの基準パスだけをローカルサーバー向けの `/` に切り替えます。canonical URL、RSS、sitemap には引き続き `base_url` が使われます。
 
 検索機能も確認したい場合は、別のターミナルで検索インデックスを作ります。記事を変更して自動再ビルドされた後は、もう一度実行してください。
 
@@ -147,7 +155,7 @@ python3 build.py --preview
 npx -y pagefind --site public
 ```
 
-公開用の生成結果を確認したい場合やデプロイ時は、`--preview` を付けずに `python3 build.py` を実行します。
+公開用の生成結果を確認したい場合やデプロイ時は、`python3 command.py build` を実行します。
 
 ## GitHub Pages で公開する
 
@@ -195,7 +203,7 @@ git fetch --tags
 git tag --sort=-version:refname
 git checkout vYYYY.MM.DD
 cd ../..
-python3 build.py
+python3 command.py build
 npx -y pagefind --site public
 git add vendor/typst-blog-core
 git commit -m "Update blog core to vYYYY.MM.DD"
@@ -213,7 +221,9 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 新しい記事を追加する:
 
 ```sh
-cp -R example-post new-post
+python3 command.py new new-post \
+  --title "New Post" \
+  --description "記事の短い説明文です。"
 ```
 
 記事を下書きに戻す:
