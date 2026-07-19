@@ -15,7 +15,7 @@
 #show: article.with(..meta)
 
 #env(
-  ("Typst", "0.14.2", "HTML export"),
+  ("Typst", "0.15.0", "HTML export"),
   ("Python", "3.x", "command.py"),
   ("Pagefind", "optional", "検索インデックスがある場合だけ有効"),
 )
