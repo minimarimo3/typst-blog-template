@@ -2,6 +2,7 @@ name: Deploy to GitHub Pages
 
 env:
   TYPST_VERSION: 0.15.0
+  PAGEFIND_VERSION: 1.5.2
 
 on:
   push:
@@ -53,7 +54,7 @@ jobs:
         run: python3 command.py build
 
       - name: Build search index
-        run: npx -y pagefind@1.5.2 --site public
+        run: npx -y pagefind@$PAGEFIND_VERSION --site public
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
