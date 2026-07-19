@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-문서 버전: 2026.06.23.1
+문서 버전: 2026.07.19.1
 
 언어: [日本語](../README.md) | [English](README.en.md) | 한국어 | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -131,26 +131,23 @@ cp -R example-post my-first-post
 
 ## 로컬에서 확인
 
-블로그를 생성합니다.
+다음 명령을 실행합니다.
 
 ```sh
-python3 build.py
+python3 build.py --preview
 ```
 
-검색 기능도 확인하려면 이어서 검색 인덱스를 만듭니다.
+첫 빌드가 끝나면 `http://localhost:8000`에서 미리보기 서버가 시작됩니다. Typst 파일, CSS, JavaScript, 이미지 등의 사이트 소스를 저장하면 자동으로 다시 빌드되고 열려 있는 브라우저 페이지도 새로고침됩니다. 8000번 포트가 사용 중이면 다른 빈 포트가 선택되므로 터미널에 표시된 URL을 열어 주세요. 종료하려면 `Ctrl+C`를 누릅니다.
+
+`site.typ`의 `base_url`은 공개 URL로 유지해도 됩니다. `--preview`는 CSS, 글 링크 등 사이트 리소스의 기준 경로만 로컬 서버용 `/`로 바꿉니다. canonical URL, RSS, sitemap에는 계속 `base_url`이 사용됩니다.
+
+검색 기능도 확인하려면 다른 터미널에서 검색 인덱스를 만듭니다. 글 변경으로 자동 재빌드된 뒤에는 다시 실행해 주세요.
 
 ```sh
 npx -y pagefind --site public
 ```
 
-생성 결과는 `public/` 에 저장됩니다.
-로컬에서 보려면 다음처럼 정적 파일 서버를 실행합니다.
-
-```sh
-python3 -m http.server 8000 -d public
-```
-
-브라우저에서 `http://localhost:8000` 을 열어 확인합니다.
+배포용 결과를 생성하거나 공개 경로를 확인할 때는 `--preview` 없이 `python3 build.py`를 실행합니다.
 
 ## GitHub Pages 에 공개
 

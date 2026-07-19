@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import importlib.util
 import sys
 from pathlib import Path
@@ -31,9 +32,23 @@ def _load_core_build():
     return module
 
 
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Build the Typst blog.")
+    parser.add_argument(
+        "--preview",
+        action="store_true",
+        help="build, serve, watch, and live-reload the site locally",
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
+    args = _parse_args()
     core_build = _load_core_build()
-    core_build.build(root_dir=ROOT_DIR)
+    if args.preview:
+        core_build.preview(root_dir=ROOT_DIR)
+    else:
+        core_build.build(root_dir=ROOT_DIR)
 
 
 if __name__ == "__main__":

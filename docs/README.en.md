@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-Document version: 2026.06.23.1
+Document version: 2026.07.19.1
 
 Languages: [日本語](../README.md) | English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -131,26 +131,23 @@ Set `draft: false` for posts you want to publish.
 
 ## Preview Locally
 
-Build the blog:
+Run:
 
 ```sh
-python3 build.py
+python3 build.py --preview
 ```
 
-To test search as well, build the search index:
+After the first build, the preview server starts at `http://localhost:8000`. Saving a Typst file, CSS, JavaScript, image, or another site source automatically rebuilds the site and reloads open browser pages. If port 8000 is in use, another available port is selected; open the URL shown in the terminal. Press `Ctrl+C` to stop it.
+
+Keep `base_url` in `site.typ` set to the public URL. `--preview` changes only the base path used by CSS, post links, and other site resources to `/` for the local server. Canonical URLs, RSS, and sitemap still use `base_url`.
+
+To test search as well, build the search index in another terminal. Run it again after an automatic rebuild caused by a post change.
 
 ```sh
 npx -y pagefind --site public
 ```
 
-The output is written to `public/`.
-Serve it locally with:
-
-```sh
-python3 -m http.server 8000 -d public
-```
-
-Then open `http://localhost:8000` in your browser.
+To produce the deployable build, or to check its public paths, run `python3 build.py` without `--preview`.
 
 ## Publish With GitHub Pages
 

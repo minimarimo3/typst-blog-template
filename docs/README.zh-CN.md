@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文档版本: 2026.06.23.1
+文档版本: 2026.07.19.1
 
 语言: [日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | 简体中文 | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -131,26 +131,23 @@ cp -R example-post my-first-post
 
 ## 本地预览
 
-生成博客：
+运行以下命令：
 
 ```sh
-python3 build.py
+python3 build.py --preview
 ```
 
-如果也想确认搜索功能，请继续生成搜索索引。
+首次构建完成后，预览服务器会在 `http://localhost:8000` 启动。保存 Typst 文件、CSS、JavaScript、图片等站点源文件后，网站会自动重新构建，已打开的浏览器页面也会自动刷新。如果 8000 端口已被占用，则会选择其他可用端口，请打开终端中显示的 URL。按 `Ctrl+C` 即可停止。
+
+`site.typ` 中的 `base_url` 可以继续保持为公开 URL。`--preview` 只会把 CSS、文章链接等站点资源的基准路径切换为本地服务器使用的 `/`。canonical URL、RSS 和 sitemap 仍然使用 `base_url`。
+
+如果也想确认搜索功能，请在另一个终端生成搜索索引。文章修改触发自动重建后，请再次运行此命令。
 
 ```sh
 npx -y pagefind --site public
 ```
 
-构建结果会输出到 `public/`。
-本地查看时，可以启动一个静态文件服务器。
-
-```sh
-python3 -m http.server 8000 -d public
-```
-
-然后在浏览器打开 `http://localhost:8000`。
+生成部署用结果或检查公开路径时，请不加 `--preview`，直接运行 `python3 build.py`。
 
 ## 发布到 GitHub Pages
 

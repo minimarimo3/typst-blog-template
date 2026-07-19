@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文書バージョン: 2026.06.23.1
+文書バージョン: 2026.07.19.1
 
 言語: [日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -131,26 +131,23 @@ cp -R example-post my-first-post
 
 ## ローカルで確認する
 
-ブログを生成します。
+次のコマンドを実行します。
 
 ```sh
-python3 build.py
+python3 build.py --preview
 ```
 
-検索機能も確認したい場合は、続けて検索インデックスを作ります。
+初回ビルド後に `http://localhost:8000` でプレビューサーバーが起動します。Typst ファイル、CSS、JavaScript、画像などを保存すると自動的に再ビルドされ、開いているブラウザも再読み込みされます。8000 番が使用中の場合は別の空きポートが選ばれるため、ターミナルに表示された URL を開いてください。終了するときは `Ctrl+C` を押します。
+
+`site.typ` の `base_url` は公開 URL のままで構いません。`--preview` は CSS、記事リンクなどの基準パスだけをローカルサーバー向けの `/` に切り替えます。canonical URL、RSS、sitemap には引き続き `base_url` が使われます。
+
+検索機能も確認したい場合は、別のターミナルで検索インデックスを作ります。記事を変更して自動再ビルドされた後は、もう一度実行してください。
 
 ```sh
 npx -y pagefind --site public
 ```
 
-生成結果は `public/` に出ます。
-ローカルで見るには、次のように静的ファイルサーバーを起動します。
-
-```sh
-python3 -m http.server 8000 -d public
-```
-
-ブラウザで `http://localhost:8000` を開くと確認できます。
+公開用の生成結果を確認したい場合やデプロイ時は、`--preview` を付けずに `python3 build.py` を実行します。
 
 ## GitHub Pages で公開する
 
