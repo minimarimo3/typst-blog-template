@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文書バージョン: 2026.07.19.4
+文書バージョン: 2026.07.19.5
 
 言語: 日本語 | [English](docs/README.en.md) | [한국어](docs/README.ko.md) | [简体中文](docs/README.zh-CN.md) | [繁體中文（台灣）](docs/README.zh-TW.md)
 
@@ -148,6 +148,8 @@ python3 command.py new my-first-post \
 python3 command.py preview
 ```
 
+`preview` では `draft: true` の下書きも表示され、一覧と記事ページに「下書き」バッジが付きます。下書きには `noindex` が設定され、Pagefind の検索対象にもなりません。`build` と GitHub Pages の公開では、下書きの記事ページ、一覧、タグページ、RSS、sitemap は生成されません。
+
 初回ビルド後に `http://localhost:8000` でプレビューサーバーが起動します。Typst ファイル、CSS、JavaScript、画像などを保存すると自動的に再ビルドされ、開いているブラウザも再読み込みされます。8000 番が使用中の場合は別の空きポートが選ばれるため、ターミナルに表示された URL を開いてください。終了するときは `Ctrl+C` を押します。
 
 `site.typ` の `base_url` は公開 URL のままで構いません。`preview` は CSS、記事リンクなどの基準パスだけをローカルサーバー向けの `/` に切り替えます。canonical URL、RSS、sitemap には引き続き `base_url` が使われます。
@@ -258,7 +260,7 @@ git submodule update --init --recursive
 - `typst-blog-core submodule is missing` と出る場合は、`git submodule update --init --recursive` を実行してください。
 - `vendor/typst-blog-core` が空の場合は、submodule が未取得です。`git submodule update --init --recursive` を実行してください。
 - `site.theme '...' does not exist` と出る場合は、`site.typ` の `theme` と `static/themes/` のファイル名を確認してください。
-- 記事が出てこない場合は、記事の `draft` が `false` になっているか確認してください。
+- 公開ビルドに記事が出てこない場合は、記事の `draft` が `false` になっているか確認してください。`preview` では下書きも確認できます。
 - 公開 URL がおかしい場合は、`site.typ` の `base_url` を確認してください。末尾の `/` は不要です。
 - GitHub Pages で core が見つからない場合は、`.github/workflows/deploy.yml` の checkout 設定に `submodules: recursive` があるか確認してください。
 - 検索が動かない場合は、`npx -y pagefind --site public` を実行したあとに確認してください。

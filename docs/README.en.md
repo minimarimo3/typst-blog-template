@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-Document version: 2026.07.19.4
+Document version: 2026.07.19.5
 
 Languages: [日本語](../README.md) | English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -148,6 +148,8 @@ Run:
 python3 command.py preview
 ```
 
+`preview` includes posts with `draft: true` and marks them with a Draft badge on lists and post pages. Drafts receive `noindex` metadata and are excluded from Pagefind. Regular `build` and GitHub Pages deployment do not generate draft post pages, list entries, tag pages, RSS entries, or sitemap entries.
+
 After the first build, the preview server starts at `http://localhost:8000`. Saving a Typst file, CSS, JavaScript, image, or another site source automatically rebuilds the site and reloads open browser pages. If port 8000 is in use, another available port is selected; open the URL shown in the terminal. Press `Ctrl+C` to stop it.
 
 Keep `base_url` in `site.typ` set to the public URL. `preview` changes only the base path used by CSS, post links, and other site resources to `/` for the local server. Canonical URLs, RSS, and sitemap still use `base_url`.
@@ -258,7 +260,7 @@ git submodule update --init --recursive
 - `typst-blog-core submodule is missing`: run `git submodule update --init --recursive`.
 - Empty `vendor/typst-blog-core`: the submodule has not been fetched. Run `git submodule update --init --recursive`.
 - `site.theme '...' does not exist`: check `theme` in `site.typ` and the file names under `static/themes/`.
-- A post does not appear: make sure the post has `draft: false`.
+- A post is missing from a published build: make sure the post has `draft: false`. Drafts remain visible in `preview`.
 - Public URLs look wrong: check `base_url` in `site.typ`. It should not end with `/`.
 - GitHub Pages cannot find the core: make sure `.github/workflows/deploy.yml` uses `submodules: recursive` in the checkout step.
 - Search does not work: run `npx -y pagefind --site public` and check again.

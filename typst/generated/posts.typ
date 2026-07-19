@@ -5,6 +5,7 @@
     update: (year: 2026, month: 7, day: 19, patch: 0),
     description: "サンプル記事です。meta.descriptionになります。",
     tags: ("Typst", "Template", "Test"),
+    draft: false,
     source_url_path: "example-post/index.typ",
   ),
 )

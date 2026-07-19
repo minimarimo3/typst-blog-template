@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-문서 버전: 2026.07.19.4
+문서 버전: 2026.07.19.5
 
 언어: [日本語](../README.md) | [English](README.en.md) | 한국어 | [简体中文](README.zh-CN.md) | [繁體中文（台灣）](README.zh-TW.md)
 
@@ -148,6 +148,8 @@ python3 command.py new my-first-post \
 python3 command.py preview
 ```
 
+`preview`에서는 `draft: true`인 초안도 표시하며 목록과 글 페이지에 "초안" 배지를 붙입니다. 초안에는 `noindex`가 설정되고 Pagefind 검색에서도 제외됩니다. 일반 `build`와 GitHub Pages 배포에서는 초안 글 페이지, 목록, 태그 페이지, RSS 및 sitemap 항목을 생성하지 않습니다.
+
 첫 빌드가 끝나면 `http://localhost:8000`에서 미리보기 서버가 시작됩니다. Typst 파일, CSS, JavaScript, 이미지 등의 사이트 소스를 저장하면 자동으로 다시 빌드되고 열려 있는 브라우저 페이지도 새로고침됩니다. 8000번 포트가 사용 중이면 다른 빈 포트가 선택되므로 터미널에 표시된 URL을 열어 주세요. 종료하려면 `Ctrl+C`를 누릅니다.
 
 `site.typ`의 `base_url`은 공개 URL로 유지해도 됩니다. `preview`는 CSS, 글 링크 등 사이트 리소스의 기준 경로만 로컬 서버용 `/`로 바꿉니다. canonical URL, RSS, sitemap에는 계속 `base_url`이 사용됩니다.
@@ -258,7 +260,7 @@ git submodule update --init --recursive
 - `typst-blog-core submodule is missing`: `git submodule update --init --recursive` 를 실행하세요.
 - `vendor/typst-blog-core` 가 비어 있음: submodule 이 아직 받아지지 않은 상태입니다. `git submodule update --init --recursive` 를 실행하세요.
 - `site.theme '...' does not exist`: `site.typ` 의 `theme` 과 `static/themes/` 의 파일 이름을 확인하세요.
-- 글이 보이지 않음: 글의 `draft` 가 `false` 인지 확인하세요.
+- 공개 빌드에 글이 보이지 않음: 글의 `draft` 가 `false` 인지 확인하세요. `preview`에서는 초안도 확인할 수 있습니다.
 - 공개 URL 이 이상함: `site.typ` 의 `base_url` 을 확인하세요. 끝의 `/` 는 필요 없습니다.
 - GitHub Pages 에서 core 를 찾지 못함: `.github/workflows/deploy.yml` 의 checkout 설정에 `submodules: recursive` 가 있는지 확인하세요.
 - 검색이 동작하지 않음: `npx -y pagefind --site public` 를 실행한 뒤 다시 확인하세요.

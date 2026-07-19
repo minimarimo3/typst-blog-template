@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-文件版本: 2026.07.19.4
+文件版本: 2026.07.19.5
 
 語言: [日本語](../README.md) | [English](README.en.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md) | 繁體中文（台灣）
 
@@ -148,6 +148,8 @@ python3 command.py new my-first-post \
 python3 command.py preview
 ```
 
+`preview` 會顯示 `draft: true` 的草稿，並在列表與文章頁標示「草稿」徽章。草稿會設定 `noindex`，也不會進入 Pagefind 搜尋。一般 `build` 與 GitHub Pages 發布不會產生草稿文章頁、列表項目、標籤頁、RSS 項目或 sitemap 項目。
+
 首次建置完成後，預覽伺服器會在 `http://localhost:8000` 啟動。儲存 Typst 檔案、CSS、JavaScript、圖片等網站來源檔案後，網站會自動重新建置，已開啟的瀏覽器頁面也會自動重新載入。如果 8000 連接埠已被占用，則會選擇其他可用連接埠，請開啟終端中顯示的 URL。按下 `Ctrl+C` 即可停止。
 
 `site.typ` 中的 `base_url` 可以繼續保留公開 URL。`preview` 只會把 CSS、文章連結等網站資源的基準路徑切換為本機伺服器使用的 `/`。canonical URL、RSS 與 sitemap 仍會使用 `base_url`。
@@ -258,7 +260,7 @@ git submodule update --init --recursive
 - 出現 `typst-blog-core submodule is missing`：執行 `git submodule update --init --recursive`。
 - `vendor/typst-blog-core` 是空的：submodule 尚未取得。執行 `git submodule update --init --recursive`。
 - 出現 `site.theme '...' does not exist`：檢查 `site.typ` 中的 `theme` 與 `static/themes/` 下的檔名。
-- 文章沒有出現：確認文章的 `draft` 是否為 `false`。
+- 文章沒有出現在發布建置中：確認文章的 `draft` 是否為 `false`。`preview` 中仍可查看草稿。
 - 公開 URL 不正確：檢查 `site.typ` 中的 `base_url`。結尾不需要 `/`。
 - GitHub Pages 找不到 core：確認 `.github/workflows/deploy.yml` 的 checkout 設定中有 `submodules: recursive`。
 - 搜尋不可用：執行 `npx -y pagefind --site public` 後再確認。
