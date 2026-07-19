@@ -53,7 +53,7 @@ jobs:
         run: python3 command.py build
 
       - name: Build search index
-        run: npx -y pagefind --site public
+        run: npx -y pagefind@1.5.2 --site public
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
