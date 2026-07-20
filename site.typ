@@ -32,7 +32,6 @@
       weights: "300..700",
       fallback: "monospace",
     ),
-    // 数式フォントは PDF のみ有効。web は SVG にベイクされるため web: none にする。
     // math: (
     //   pdf: "STIX Two Math",
     //   web: none,
