@@ -117,9 +117,9 @@ python3 command.py new my-first-post \
 생성되는 `index.typ` 의 첫 부분은 다음과 같습니다.
 
 ```typst
-#import "/template.typ": article, calver, post-meta
+#import "/template.typ": post, calver
 
-#let meta = post-meta(
+#show: post.with(
   slug: "my-first-post",
   title: "My First Post",
   create: calver(2026, 1, 1),
@@ -128,13 +128,12 @@ python3 command.py new my-first-post \
   draft: true,
 )
 
-#metadata(meta) <post-meta>
-#show: article.with(..meta)
-
 = 시작하며
 
 본문을 작성합니다.
 ```
+
+`post` show 규칙은 이 값들을 빌드용 메타데이터로 등록하고 이후의 본문을 글 레이아웃으로 렌더링합니다.
 
 | 항목 | 내용 |
 | --- | --- |

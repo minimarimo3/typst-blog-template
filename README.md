@@ -117,9 +117,9 @@ python3 command.py new my-first-post \
 The top of a generated `index.typ` looks like this:
 
 ```typst
-#import "/template.typ": article, calver, post-meta
+#import "/template.typ": post, calver
 
-#let meta = post-meta(
+#show: post.with(
   slug: "my-first-post",
   title: "My First Post",
   create: calver(2026, 1, 1),
@@ -128,13 +128,13 @@ The top of a generated `index.typ` looks like this:
   draft: true,
 )
 
-#metadata(meta) <post-meta>
-#show: article.with(..meta)
-
 = Introduction
 
 Write your content here.
 ```
+
+The `post` show rule registers these values as build metadata and renders all
+following content with the article layout.
 
 | Key | Description |
 | --- | --- |
