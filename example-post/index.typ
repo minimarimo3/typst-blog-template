@@ -1,6 +1,6 @@
-#import "/template.typ": article, calver, env, note, tip, important, warning, caution, raw_html, youtube, post-meta
+#import "/template.typ": post, calver, env, note, tip, important, warning, caution, raw_html, youtube
 
-#let meta = post-meta(
+#show: post.with(
   slug: "example-post",
   title: "Typst blog template Sample Page",
   create: calver(2026, 1, 1),
@@ -10,9 +10,6 @@
   abstract: "記事の内容（アブストラクト）",
   draft: false,
 )
-
-#metadata(meta) <post-meta>
-#show: article.with(..meta)
 
 #env(
   ("Typst", "0.15.0", "HTML export"),

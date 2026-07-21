@@ -117,9 +117,9 @@ python3 command.py new my-first-post \
 產生的 `index.typ` 開頭如下：
 
 ```typst
-#import "/template.typ": article, calver, post-meta
+#import "/template.typ": post, calver
 
-#let meta = post-meta(
+#show: post.with(
   slug: "my-first-post",
   title: "My First Post",
   create: calver(2026, 1, 1),
@@ -128,13 +128,12 @@ python3 command.py new my-first-post \
   draft: true,
 )
 
-#metadata(meta) <post-meta>
-#show: article.with(..meta)
-
 = 前言
 
 在這裡撰寫內文。
 ```
+
+`post` show 規則會將這些值註冊為建置中繼資料，並使用文章版面配置呈現後續內文。
 
 | 欄位 | 說明 |
 | --- | --- |
