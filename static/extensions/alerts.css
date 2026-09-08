@@ -1,9 +1,16 @@
 .markdown-alert {
+  /*
+   * Keep a generic fallback so alerts still have sensible colors even when
+   * data-color-scheme is missing or a custom color scheme is introduced.
+   */
   --alert-color: var(--accent-color);
+  --alert-border-color: var(--alert-color);
+  --alert-title-color: var(--alert-color);
   --alert-background: var(--card-bg);
+
   padding: 16px;
   margin-bottom: 24px;
-  border-left: 4px solid var(--border-color);
+  border-left: 4px solid var(--alert-border-color);
   background-color: var(--alert-background);
   border-radius: 6px;
   border-right: 1px solid var(--border-color);
@@ -18,6 +25,7 @@
   font-size: 0.95rem;
   margin: 0 0 8px 0;
   line-height: 1;
+  color: var(--alert-title-color);
 }
 
 .markdown-alert-icon {
@@ -34,10 +42,7 @@
   margin-bottom: 0;
 }
 
-.markdown-alert-title {
-  color: var(--alert-color);
-}
-
+/* Generic fallbacks. Theme-specific values below restore the original core colors. */
 .markdown-alert-note {
   --alert-color: #388bfd;
 }
@@ -58,51 +63,64 @@
   --alert-color: #cf222e;
 }
 
-:root[data-theme="dark"] .markdown-alert {
+/* Dark color scheme: values restored from the pre-move core theme. */
+:root[data-color-scheme="dark"] .markdown-alert-note {
   --alert-background: #0d1117;
+  --alert-border-color: #388bfd;
+  --alert-title-color: #58a6ff;
 }
 
-:root[data-theme="dark"] .markdown-alert-note {
-  --alert-color: #58a6ff;
+:root[data-color-scheme="dark"] .markdown-alert-tip {
+  --alert-background: #0d1117;
+  --alert-border-color: #3fb950;
+  --alert-title-color: #3fb950;
 }
 
-:root[data-theme="dark"] .markdown-alert-tip {
-  --alert-color: #3fb950;
+:root[data-color-scheme="dark"] .markdown-alert-important {
+  --alert-background: #0d1117;
+  --alert-border-color: #a371f7;
+  --alert-title-color: #a371f7;
 }
 
-:root[data-theme="dark"] .markdown-alert-important {
-  --alert-color: #a371f7;
+:root[data-color-scheme="dark"] .markdown-alert-warning {
+  --alert-background: #0d1117;
+  --alert-border-color: #d29922;
+  --alert-title-color: #d29922;
 }
 
-:root[data-theme="dark"] .markdown-alert-warning {
-  --alert-color: #d29922;
+:root[data-color-scheme="dark"] .markdown-alert-caution {
+  --alert-background: #0d1117;
+  --alert-border-color: #f85149;
+  --alert-title-color: #f85149;
 }
 
-:root[data-theme="dark"] .markdown-alert-caution {
-  --alert-color: #f85149;
-}
-
-:root[data-theme="light"] .markdown-alert-note {
+/* Light color scheme: values restored from the pre-move core theme. */
+:root[data-color-scheme="light"] .markdown-alert-note {
   --alert-background: #eff6ff;
-  --alert-color: #1d4ed8;
+  --alert-border-color: #2563eb;
+  --alert-title-color: #1d4ed8;
 }
 
-:root[data-theme="light"] .markdown-alert-tip {
+:root[data-color-scheme="light"] .markdown-alert-tip {
   --alert-background: #ecfdf5;
-  --alert-color: #047857;
+  --alert-border-color: #059669;
+  --alert-title-color: #047857;
 }
 
-:root[data-theme="light"] .markdown-alert-important {
+:root[data-color-scheme="light"] .markdown-alert-important {
   --alert-background: #f5f3ff;
-  --alert-color: #6d28d9;
+  --alert-border-color: #7c3aed;
+  --alert-title-color: #6d28d9;
 }
 
-:root[data-theme="light"] .markdown-alert-warning {
+:root[data-color-scheme="light"] .markdown-alert-warning {
   --alert-background: #fffbeb;
-  --alert-color: #b45309;
+  --alert-border-color: #d97706;
+  --alert-title-color: #b45309;
 }
 
-:root[data-theme="light"] .markdown-alert-caution {
+:root[data-color-scheme="light"] .markdown-alert-caution {
   --alert-background: #fef2f2;
-  --alert-color: #b91c1c;
+  --alert-border-color: #dc2626;
+  --alert-title-color: #b91c1c;
 }
