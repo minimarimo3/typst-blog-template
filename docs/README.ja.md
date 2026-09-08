@@ -16,7 +16,8 @@ Typst で記事を書いて、静的なブログとして公開するための�
 - RSS と sitemap も自動生成します
 - [Pagefind](https://pagefind.app/) によるサイト内検索に対応しています
 - GitHub Pages にそのまま公開できます（ワークフロー同梱）
-- 色テーマの切り替え、favicon・画像・追加 CSS・独自ドメインの設定ができます
+- coreを変更せず、`theme/` で記事・トップ・タグ・404ページの構造を作り替えられます
+- 配色の切り替え、favicon・画像・追加 CSS・独自ドメインの設定ができます
 - core を変更せず、Typst・CSS・JavaScript をまとめた template 側の拡張を追加できます
 - ブログエンジン部分（`vendor/typst-blog-core`）だけを後から更新できます
 
@@ -56,7 +57,7 @@ cd REPO
 | `base_url` | 公開後の URL（末尾に `/` は付けない） |
 | `github_repo` | このブログの GitHub リポジトリ URL |
 | `language` | 主に使う言語。`"ja"` の短縮形、または `lang`・`region`・`script` を個別に指定 |
-| `theme` | `"dark"` または `"light"` |
+| `theme.color_scheme` | `"dark"` または `"light"` |
 | `posts_dir` | 記事を置く場所。ルート直下なら `"."`、`posts/` にまとめるなら `"posts"` |
 | `update_policy` | 更新日の決め方。`"git"`（既定・Git 履歴から自動算出）か `"manual"`（記事の `update` を使う） |
 | `author.name` | 著者名 |
@@ -218,23 +219,33 @@ npx -y pagefind --site public
 1. `static/CNAME`（またはリポジトリ直下の `CNAME`）にドメイン名を書く
 2. `site.typ` の `base_url` も独自ドメインに合わせる
 
-## 見た目を変える
+## サイトthemeを変更する
 
-### テーマを切り替える
+完成したHTMLページの構造はcoreではなく `theme/` が所有します。記事は
+`theme/pages/article.typ`、トップは `home.typ`、タグ関連は `tag.typ` と
+`tags-index.typ`、404は `not-found.typ` で変更できます。共通レイアウトやhead、
+カード、widgetは `theme/components/`、CSSとJavaScriptは `theme/static/` にあります。
 
-`site.typ` の `theme` で切り替えます。最初から使えるのは `dark` と `light` です。
+`theme/theme.typ` はbuilderが利用するrendererの公開窓口です。内部を整理する場合も、
+5種類のrendererのexportは維持してください。coreは確定済みURL、日付、前後記事、
+SEOデータを渡し、themeがそれをどのようなHTMLにするかを決めます。
+
+### 配色を切り替える
+
+`site.typ` の `theme.color_scheme` で切り替えます。最初から使えるのは `dark` と `light` です。
 
 ```typst
-theme: "light"
+theme: theme-config(color_scheme: "light")
 ```
 
-### 独自テーマを作る
+### 独自の配色を作る
 
-`static/themes/` に CSS を追加し、ファイル名（拡張子なし）を `theme` に指定します。
+`theme/static/color-schemes/` にCSSを追加し、ファイル名（拡張子なし）を
+`theme.color_scheme` に指定します。
 
 ```typst
-// static/themes/my-theme.css を作った場合
-theme: "my-theme"
+// theme/static/color-schemes/paper.css を作った場合
+theme: theme-config(color_scheme: "paper")
 ```
 
 ### 画像・favicon・追加 CSS
@@ -251,12 +262,15 @@ theme: "my-theme"
 
 | パス | 内容 |
 | --- | --- |
-| `site.typ` | ブログ名、公開 URL、著者情報、テーマなどのサイト設定 |
+| `site.typ` | ブログ名、公開 URL、著者情報、配色などのサイト設定 |
+| `theme/pages/` | 記事・トップ・タグ・タグ一覧・404ページの完成renderer |
+| `theme/components/` | head、共通レイアウト、カード、widgetなどの部品 |
+| `theme/static/` | themeが使うCSSとJavaScript |
 | `extensions.typ` | 有効にする標準・独自拡張の登録簿 |
 | `extensions/` | 標準・独自拡張の Typst モジュール |
 | `記事ディレクトリ/index.typ` | 自分の記事 |
 | `example-post/index.typ` | 記事の書き方のサンプル |
-| `static/` | 画像、favicon、拡張の CSS・JavaScript、独自テーマ、`CNAME` など |
+| `static/` | サイト固有の画像、favicon、拡張用asset、`CNAME` など |
 
 基本的に触らないファイル:
 
@@ -293,7 +307,7 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 | 症状 | 対処 |
 | --- | --- |
 | `typst-blog-core submodule is missing` と出る / `vendor/typst-blog-core` が空 | `git submodule update --init --recursive` を実行する |
-| `site.theme '...' does not exist` と出る | `site.typ` の `theme` と `static/themes/` のファイル名が一致しているか確認する |
+| 配色のCSSファイルが見つからないと出る | `theme.color_scheme` と `theme/static/color-schemes/` のCSSファイル名が一致しているか確認する |
 | 公開ビルドに記事が出てこない | 記事の `draft` が `false` になっているか確認する（`preview` なら下書きも表示される） |
 | 公開 URL がおかしい | `site.typ` の `base_url` を確認する。末尾の `/` は不要 |
 | GitHub Pages で core が見つからない | `.github/workflows/deploy.yml` の checkout 設定に `submodules: recursive` があるか確認する |
@@ -301,7 +315,7 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 
 ## Misskey アイコンについて
 
-Misskey 共有ボタンとサイドバーの Misskey アイコンはデフォルトで有効です。core に同梱している Misskey アイコンは Simple Icons 由来で、Misskey project によって CC-BY-NC-SA-4.0 で提供されています。商用利用などでこの条件が合わない場合は、`site.typ` の `share.misskey` を `false` にしてください。
+Misskey共有ボタンとサイドバーのMisskeyアイコンはデフォルトで有効です。templateのthemeにあるアイコンはSimple Icons由来で、Misskey projectによってCC-BY-NC-SA-4.0で提供されています。商用利用などでこの条件が合わない場合は、`site.typ` の `share.misskey` を `false` にしてください。
 
 ## ライセンス
 
@@ -309,5 +323,5 @@ Misskey 共有ボタンとサイドバーの Misskey アイコンはデフォル
 
 ---
 
-文書バージョン: 2026.07.19.7
+文書バージョン: 2026.09.08.1
 （この README を更新するときは、ルートの README.md と `docs/` 配下の他言語ファイルも更新し、文書バージョンをそろえてください）

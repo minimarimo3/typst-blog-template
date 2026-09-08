@@ -16,7 +16,8 @@ Typst 로 글을 쓰고 정적 블로그로 공개하기 위한 템플릿입니�
 - RSS 와 sitemap 도 자동 생성합니다
 - [Pagefind](https://pagefind.app/) 기반 사이트 내 검색을 지원합니다
 - GitHub Pages 에 그대로 공개할 수 있습니다 (워크플로 포함)
-- 색상 테마 전환, favicon·이미지·추가 CSS·커스텀 도메인 설정이 가능합니다
+- core를 수정하지 않고 `theme/` 에서 글·홈·태그·404 페이지 구조를 변경할 수 있습니다
+- 색상 배합 전환, favicon·이미지·추가 CSS·커스텀 도메인 설정이 가능합니다
 - core를 수정하지 않고 Typst·CSS·JavaScript를 묶은 template 측 확장을 추가할 수 있습니다
 - 블로그 엔진 부분(`vendor/typst-blog-core`)만 나중에 업데이트할 수 있습니다
 
@@ -56,7 +57,7 @@ cd REPO
 | `base_url` | 공개 후 URL (끝에 `/` 를 붙이지 않음) |
 | `github_repo` | 이 블로그의 GitHub 저장소 URL |
 | `language` | 주로 사용하는 언어. `"ja"` 단축형 또는 `lang`, `region`, `script`를 개별 지정 |
-| `theme` | `"dark"` 또는 `"light"` |
+| `theme.color_scheme` | `"dark"` 또는 `"light"` |
 | `posts_dir` | 글을 두는 위치. 루트 바로 아래면 `"."`, `posts/` 에 모으려면 `"posts"` |
 | `update_policy` | 수정일 결정 방식. `"git"`(기본값, Git 이력에서 자동 산출) 또는 `"manual"`(글의 `update` 사용) |
 | `author.name` | 작성자 이름 |
@@ -220,21 +221,30 @@ npx -y pagefind --site public
 
 ## 모양 바꾸기
 
-### 테마 전환하기
+완성된 HTML 페이지 구조는 core가 아니라 `theme/` 가 소유합니다. 글, 홈,
+태그, 태그 목록, 404 renderer는 `theme/pages/` 에 있고, 공통 레이아웃과
+head, 카드, widget은 `theme/components/` 에 있습니다. CSS와 JavaScript는
+`theme/static/` 에서 수정할 수 있습니다.
 
-`site.typ` 의 `theme` 로 전환합니다. 처음부터 사용할 수 있는 것은 `dark` 와 `light` 입니다.
+`theme/theme.typ` 은 builder가 사용하는 공개 renderer 창구입니다. core는
+확정된 URL, 날짜, 이전·다음 글, SEO 데이터를 전달하고 theme가 최종 HTML을
+결정합니다.
+
+### 색상 배합 전환하기
+
+`site.typ` 의 `theme.color_scheme` 로 전환합니다. 처음부터 사용할 수 있는 것은 `dark` 와 `light` 입니다.
 
 ```typst
-theme: "light"
+theme: theme-config(color_scheme: "light")
 ```
 
-### 나만의 테마 만들기
+### 나만의 색상 배합 만들기
 
-`static/themes/` 에 CSS 를 추가하고, 파일 이름(확장자 제외)을 `theme` 에 지정합니다.
+`theme/static/color-schemes/` 에 CSS 를 추가하고, 파일 이름(확장자 제외)을 `theme.color_scheme` 에 지정합니다.
 
 ```typst
-// static/themes/my-theme.css 를 만든 경우
-theme: "my-theme"
+// theme/static/color-schemes/paper.css 를 만든 경우
+theme: theme-config(color_scheme: "paper")
 ```
 
 ### 이미지·favicon·추가 CSS
@@ -251,12 +261,15 @@ theme: "my-theme"
 
 | 경로 | 내용 |
 | --- | --- |
-| `site.typ` | 블로그 이름, 공개 URL, 작성자 정보, 테마 등 사이트 설정 |
+| `site.typ` | 블로그 이름, 공개 URL, 작성자 정보, 색상 배합 등 사이트 설정 |
+| `theme/pages/` | 글·홈·태그·태그 목록·404 페이지 renderer |
+| `theme/components/` | head, 공통 레이아웃, 카드, widget 부품 |
+| `theme/static/` | theme의 CSS와 JavaScript |
 | `extensions.typ` | 사용할 기본 및 사용자 확장 목록 |
 | `extensions/` | 기본 및 사용자 확장의 Typst 모듈 |
 | `글 디렉터리/index.typ` | 자신의 글 |
 | `example-post/index.typ` | 글 작성 방법 샘플 |
-| `static/` | 이미지, favicon, 확장 CSS·JavaScript, 커스텀 테마, `CNAME` 등 |
+| `static/` | 사이트 고유 이미지, favicon, 확장 asset, `CNAME` 등 |
 
 기본적으로 건드리지 않는 파일:
 
@@ -293,7 +306,7 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 | 증상 | 대처 |
 | --- | --- |
 | `typst-blog-core submodule is missing` 이 표시됨 / `vendor/typst-blog-core` 가 비어 있음 | `git submodule update --init --recursive` 를 실행 |
-| `site.theme '...' does not exist` 가 표시됨 | `site.typ` 의 `theme` 와 `static/themes/` 의 파일 이름이 일치하는지 확인 |
+| 색상 배합 CSS 파일을 찾을 수 없음 | `site.typ` 의 `theme.color_scheme` 와 `theme/static/color-schemes/` 의 파일 이름이 일치하는지 확인 |
 | 공개 빌드에 글이 나오지 않음 | 글의 `draft` 가 `false` 인지 확인 (`preview` 에서는 초안도 표시됨) |
 | 공개 URL 이 이상함 | `site.typ` 의 `base_url` 을 확인. 끝의 `/` 는 불필요 |
 | GitHub Pages 에서 core 를 찾지 못함 | `.github/workflows/deploy.yml` 의 checkout 설정에 `submodules: recursive` 가 있는지 확인 |
@@ -301,7 +314,7 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 
 ## Misskey 아이콘에 대해
 
-Misskey 공유 버튼과 사이드바의 Misskey 아이콘은 기본으로 활성화되어 있습니다. core 에 포함된 Misskey 아이콘은 Simple Icons 에서 유래했으며, Misskey project 가 CC-BY-NC-SA-4.0 으로 제공합니다. 상업적 이용 등 이 조건이 맞지 않는 경우 `site.typ` 의 `share.misskey` 를 `false` 로 설정하세요.
+Misskey 공유 버튼과 사이드바의 Misskey 아이콘은 기본으로 활성화되어 있습니다. template theme의 아이콘은 Simple Icons 에서 유래했으며, Misskey project 가 CC-BY-NC-SA-4.0 으로 제공합니다. 상업적 이용 등 이 조건이 맞지 않는 경우 `site.typ` 의 `share.misskey` 를 `false` 로 설정하세요.
 
 ## 라이선스
 
@@ -309,5 +322,5 @@ Misskey 공유 버튼과 사이드바의 Misskey 아이콘은 기본으로 활�
 
 ---
 
-문서 버전: 2026.07.19.7
+문서 버전: 2026.09.08.1
 (이 README 를 업데이트할 때는 루트의 README.md 와 `docs/` 아래 다른 언어 파일도 함께 업데이트하고, 문서 버전을 맞춰 주세요)

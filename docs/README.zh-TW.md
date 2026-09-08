@@ -16,7 +16,8 @@
 - 自動產生 RSS 與 sitemap
 - 支援基於 [Pagefind](https://pagefind.app/) 的站內搜尋
 - 可直接發佈到 GitHub Pages（附帶工作流程）
-- 支援切換色彩主題，設定 favicon、圖片、額外 CSS 與自訂網域
+- 無需修改 core，即可在 `theme/` 中重做文章、首頁、標籤與404頁面結構
+- 支援切換配色，設定 favicon、圖片、額外 CSS 與自訂網域
 - 無需修改 core，即可新增由 Typst、CSS 與 JavaScript 組成的 template 端擴充功能
 - 之後可以只更新部落格引擎部分（`vendor/typst-blog-core`）
 
@@ -56,7 +57,7 @@ cd REPO
 | `base_url` | 發佈後的 URL（結尾不要加 `/`） |
 | `github_repo` | 本部落格的 GitHub 儲存庫 URL |
 | `language` | 主要使用的語言。可用 `"ja"` 簡寫，或分別指定 `lang`、`region`、`script` |
-| `theme` | `"dark"` 或 `"light"` |
+| `theme.color_scheme` | `"dark"` 或 `"light"` |
 | `posts_dir` | 文章存放位置。放在根目錄下用 `"."`，集中到 `posts/` 用 `"posts"` |
 | `update_policy` | 更新日期的決定方式。`"git"`（預設，從 Git 歷史自動計算）或 `"manual"`（使用文章的 `update`） |
 | `author.name` | 作者名稱 |
@@ -220,21 +221,28 @@ npx -y pagefind --site public
 
 ## 更改外觀
 
-### 切換主題
+完整的HTML頁面結構由 `theme/` 而不是core負責。文章、首頁、標籤、標籤目錄和
+404 renderer位於 `theme/pages/`；共用版面、head、卡片和widget位於
+`theme/components/`；CSS和JavaScript位於 `theme/static/`。
 
-用 `site.typ` 的 `theme` 切換。內建可用的是 `dark` 和 `light`。
+`theme/theme.typ` 是builder使用的renderer公開入口。core提供已確定的URL、
+日期、上一篇與下一篇文章以及SEO資料，theme決定最終HTML結構。
+
+### 切換配色
+
+用 `site.typ` 的 `theme.color_scheme` 切換。內建可用的是 `dark` 和 `light`。
 
 ```typst
-theme: "light"
+theme: theme-config(color_scheme: "light")
 ```
 
-### 製作自己的主題
+### 製作自己的配色
 
-在 `static/themes/` 下新增 CSS，並把檔案名稱（不含副檔名）指定給 `theme`。
+在 `theme/static/color-schemes/` 下新增 CSS，並把檔案名稱（不含副檔名）指定給 `theme.color_scheme`。
 
 ```typst
-// 建立了 static/themes/my-theme.css 時
-theme: "my-theme"
+// 建立了 theme/static/color-schemes/paper.css 時
+theme: theme-config(color_scheme: "paper")
 ```
 
 ### 圖片、favicon、額外 CSS
@@ -251,12 +259,15 @@ theme: "my-theme"
 
 | 路徑 | 說明 |
 | --- | --- |
-| `site.typ` | 部落格名稱、發佈 URL、作者資訊、主題等網站設定 |
+| `site.typ` | 部落格名稱、發佈 URL、作者資訊、配色等網站設定 |
+| `theme/pages/` | 文章、首頁、標籤、標籤目錄與404頁面renderer |
+| `theme/components/` | head、共用版面、卡片與widget元件 |
+| `theme/static/` | theme使用的CSS與JavaScript |
 | `extensions.typ` | 已啟用的內建與自訂擴充功能 |
 | `extensions/` | 內建與自訂擴充功能的 Typst 模組 |
 | `文章目錄/index.typ` | 自己的文章 |
 | `example-post/index.typ` | 文章寫法範例 |
-| `static/` | 圖片、favicon、擴充功能的 CSS/JavaScript、自訂主題、`CNAME` 等 |
+| `static/` | 網站專用圖片、favicon、擴充資源、`CNAME` 等 |
 
 基本上不需要動的檔案：
 
@@ -293,7 +304,7 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 | 症狀 | 處理 |
 | --- | --- |
 | 顯示 `typst-blog-core submodule is missing` / `vendor/typst-blog-core` 是空的 | 執行 `git submodule update --init --recursive` |
-| 顯示 `site.theme '...' does not exist` | 檢查 `site.typ` 的 `theme` 與 `static/themes/` 的檔案名稱是否一致 |
+| 找不到配色CSS檔案 | 檢查 `site.typ` 的 `theme.color_scheme` 與 `theme/static/color-schemes/` 的檔案名稱是否一致 |
 | 發佈建置中沒有出現文章 | 檢查文章的 `draft` 是否為 `false`（`preview` 中可以看到草稿） |
 | 發佈 URL 不對 | 檢查 `site.typ` 的 `base_url`。結尾不需要 `/` |
 | GitHub Pages 上找不到 core | 檢查 `.github/workflows/deploy.yml` 的 checkout 設定中是否有 `submodules: recursive` |
@@ -301,7 +312,7 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 
 ## 關於 Misskey 圖示
 
-Misskey 分享按鈕和側邊欄的 Misskey 圖示預設啟用。core 中附帶的 Misskey 圖示來自 Simple Icons，由 Misskey project 以 CC-BY-NC-SA-4.0 提供。如商用等情境下該條款不適用，請把 `site.typ` 的 `share.misskey` 設為 `false`。
+Misskey 分享按鈕和側邊欄的 Misskey 圖示預設啟用。template theme中的圖示來自 Simple Icons，由 Misskey project 以 CC-BY-NC-SA-4.0 提供。如商用等情境下該條款不適用，請把 `site.typ` 的 `share.misskey` 設為 `false`。
 
 ## 授權條款
 
@@ -309,5 +320,5 @@ Misskey 分享按鈕和側邊欄的 Misskey 圖示預設啟用。core 中附帶�
 
 ---
 
-文件版本: 2026.07.19.7
+文件版本: 2026.09.08.1
 （更新此 README 時，請同時更新根目錄的 README.md 和 `docs/` 下的其他語言檔案，並保持文件版本一致）

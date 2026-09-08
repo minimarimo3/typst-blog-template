@@ -1,0 +1,67 @@
+/* Shared page shell and responsive layout. */
+
+.site-container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: grid;
+  grid-template-columns: 1fr var(--sidebar-width);
+  gap: var(--gap-width);
+  align-items: start;
+}
+
+.main-content {
+  grid-column: 1;
+  min-width: 0;
+}
+
+.sidebar {
+  grid-column: 2;
+  position: sticky;
+  top: 40px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+@media (min-width: 1300px) {
+  .site-container {
+    max-width: none;
+    grid-template-columns: 1fr var(--content-width) 1fr;
+    gap: 0;
+  }
+
+  .main-content {
+    grid-column: 2;
+  }
+
+  .sidebar {
+    grid-column: 3;
+    width: var(--sidebar-width);
+    margin-left: var(--gap-width);
+    justify-self: start;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-container {
+    display: block;
+    padding: 20px 15px;
+  }
+
+  .main-content {
+    margin-bottom: 60px;
+  }
+
+  .sidebar {
+    border-top: 1px solid var(--border-color);
+    padding-top: 40px;
+    padding-right: 0;
+    margin-left: 0;
+    width: 100%;
+    max-height: none;
+    overflow-y: visible;
+    position: static;
+  }
+}

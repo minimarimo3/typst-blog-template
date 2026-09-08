@@ -53,7 +53,7 @@ jobs:
 
       - name: Check JavaScript modules
         run: |
-          for js_file in vendor/typst-blog-core/static/scripts/*.js; do
+          for js_file in theme/static/scripts/*.js; do
             node --input-type=module --check < "$js_file"
           done
 

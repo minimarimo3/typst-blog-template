@@ -1,4 +1,5 @@
 #import "/vendor/typst-blog-core/typst/core/site-impl.typ": _site
+#import "/theme/config.typ": theme-config
 
 // ─── サイト設定 ───────────────────────────────────────────────────────────────
 #let site = _site(
@@ -9,7 +10,9 @@
   // "ja" の短縮形、または (lang: "zh", region: "TW", script: "hani") を指定できる。
   // region は省略可、script の既定値は auto。
   language: "ja",
-  theme: "dark",
+  theme: theme-config(
+    color_scheme: "dark",
+  ),
   // 記事を posts/ 配下にまとめる場合は "posts" にする。
   posts_dir: ".",
   // "git" は記事ディレクトリの最終コミット日を更新日として自動表示する。

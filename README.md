@@ -16,7 +16,8 @@ Languages: [日本語](docs/README.ja.md) | English | [한국어](docs/README.ko
 - Auto-generate RSS and sitemap
 - Site search powered by [Pagefind](https://pagefind.app/)
 - Publish to GitHub Pages as-is (workflow included)
-- Switch color themes; add a favicon, images, extra CSS, and a custom domain
+- Rebuild article, home, tag, and 404 page structures under `theme/` without editing core
+- Switch color schemes; add a favicon, images, extra CSS, and a custom domain
 - Add template-owned extensions that combine Typst, CSS, and JavaScript without editing the core
 - Update only the blog engine (`vendor/typst-blog-core`) later
 
@@ -56,7 +57,7 @@ Open `site.typ` and adjust it for your blog. Start with these:
 | `base_url` | Public URL (no trailing `/`) |
 | `github_repo` | GitHub repository URL of this blog |
 | `language` | Primary language. Use `"ja"` as shorthand, or specify `lang`, `region`, and `script` separately |
-| `theme` | `"dark"` or `"light"` |
+| `theme.color_scheme` | `"dark"` or `"light"` |
 | `posts_dir` | Where posts live. `"."` for the repository root, `"posts"` to keep them under `posts/` |
 | `update_policy` | How the updated date is determined. `"git"` (default; derived from Git history) or `"manual"` (uses the post's `update`) |
 | `author.name` | Author name |
@@ -219,23 +220,34 @@ From then on, every push triggers GitHub Actions to build and deploy the content
 1. Write your domain name in `static/CNAME` (or `CNAME` at the repository root)
 2. Set `base_url` in `site.typ` to the custom domain as well
 
-## Changing the Look
+## Customizing the Site Theme
 
-### Switch themes
+The complete HTML page structure belongs to `theme/`, not to the core submodule.
+Edit `theme/pages/article.typ`, `home.typ`, `tag.typ`, `tags-index.typ`, or
+`not-found.typ` to change a page. Shared layout, head, cards, and widgets live in
+`theme/components/`; CSS and JavaScript live in `theme/static/`.
 
-Switch with `theme` in `site.typ`. `dark` and `light` are available out of the box.
+`theme/theme.typ` is the renderer contract used by the builder. Keep its five
+renderer exports when reorganizing the implementation. The core supplies
+resolved URLs, dates, navigation, and SEO data, while the theme decides how to
+turn that data into HTML.
+
+### Switch color schemes
+
+Switch with `theme.color_scheme` in `site.typ`. `dark` and `light` are included.
 
 ```typst
-theme: "light"
+theme: theme-config(color_scheme: "light")
 ```
 
-### Create your own theme
+### Create your own color scheme
 
-Add a CSS file under `static/themes/` and set its file name (without the extension) as `theme`.
+Add a CSS file under `theme/static/color-schemes/` and set its file name without
+the extension as `theme.color_scheme`.
 
 ```typst
-// If you created static/themes/my-theme.css
-theme: "my-theme"
+// If you created theme/static/color-schemes/paper.css
+theme: theme-config(color_scheme: "paper")
 ```
 
 ### Images, favicon, extra CSS
@@ -252,12 +264,15 @@ Files you usually edit:
 
 | Path | Description |
 | --- | --- |
-| `site.typ` | Site settings: blog name, public URL, author profile, theme, etc. |
+| `site.typ` | Site settings: blog name, public URL, author profile, color scheme, etc. |
+| `theme/pages/` | Complete renderers for article, home, tag, tag-index, and 404 pages |
+| `theme/components/` | Shared head, layout, card, and widget components |
+| `theme/static/` | CSS and JavaScript used by the theme |
 | `extensions.typ` | Enabled built-in and custom extensions |
 | `extensions/` | Typst modules for built-in and custom extensions |
 | `POST_DIR/index.typ` | Your posts |
 | `example-post/index.typ` | Sample showing how to write a post |
-| `static/` | Images, favicon, extension CSS/JavaScript, custom themes, `CNAME`, etc. |
+| `static/` | Site-specific images, favicon, extension assets, `CNAME`, etc. |
 
 Files you normally do not touch:
 
@@ -294,7 +309,7 @@ After updating, check the site locally before pushing.
 | Symptom | Fix |
 | --- | --- |
 | `typst-blog-core submodule is missing` appears / `vendor/typst-blog-core` is empty | Run `git submodule update --init --recursive` |
-| `site.theme '...' does not exist` appears | Check that `theme` in `site.typ` matches a file name under `static/themes/` |
+| A color-scheme CSS file cannot be found | Check that `theme.color_scheme` matches a CSS file under `theme/static/color-schemes/` |
 | A post does not appear in the production build | Check that the post's `draft` is `false` (drafts are visible in `preview`) |
 | Public URLs look wrong | Check `base_url` in `site.typ`. No trailing `/` |
 | GitHub Pages cannot find core | Check that the checkout step in `.github/workflows/deploy.yml` has `submodules: recursive` |
@@ -302,7 +317,7 @@ After updating, check the site locally before pushing.
 
 ## About the Misskey Icon
 
-The Misskey share button and the Misskey icon in the sidebar are enabled by default. The Misskey icon bundled in core comes from Simple Icons and is provided by the Misskey project under CC-BY-NC-SA-4.0. If these terms do not fit your use case (e.g., commercial use), set `share.misskey` to `false` in `site.typ`.
+The Misskey share button and sidebar icon are enabled by default. The icon in the template theme comes from Simple Icons and is provided by the Misskey project under CC-BY-NC-SA-4.0. If these terms do not fit your use case (e.g., commercial use), set `share.misskey` to `false` in `site.typ`.
 
 ## License
 
@@ -310,5 +325,5 @@ The code in this template is provided under the MIT License.
 
 ---
 
-Document version: 2026.07.19.7
+Document version: 2026.09.08.1
 (When updating this README, also update the language files under `docs/` and keep the document version aligned.)
