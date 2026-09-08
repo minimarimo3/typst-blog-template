@@ -48,11 +48,14 @@ a.tag:hover {
   opacity: 0.8;
 }
 
-.meta-edit-history {
+.meta-resource-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
   margin-top: 8px;
 }
 
-.edit-history-link {
+.meta-resource-link {
   font-size: 0.8rem;
   color: var(--text-muted);
   text-decoration: none;
@@ -63,7 +66,11 @@ a.tag:hover {
   content: "🕐 ";
 }
 
-.edit-history-link:hover {
+.extra-output-link::before {
+  content: "↓ ";
+}
+
+.meta-resource-link:hover {
   opacity: 1;
   text-decoration: underline;
 }

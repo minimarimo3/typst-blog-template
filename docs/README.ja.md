@@ -19,6 +19,7 @@ Typst で記事を書いて、静的なブログとして公開するための�
 - coreを変更せず、`theme/` で記事・トップ・タグ・404ページの構造を作り替えられます
 - 配色の切り替え、favicon・画像・追加 CSS・独自ドメインの設定ができます
 - core を変更せず、Typst・CSS・JavaScript をまとめた template 側の拡張を追加できます
+- `blog.py`からPDF・EPUB生成やPythonによる後処理を追加できます
 - ブログエンジン部分（`vendor/typst-blog-core`）だけを後から更新できます
 
 ## 動作環境
@@ -256,6 +257,11 @@ theme: theme-config(color_scheme: "paper")
 
 拡張は、記事で使う Typst 関数と CSS・JavaScript をひとまとまりにします。template 側にある標準 alert と YouTube 埋め込みも、ユーザーが利用できるものと同じ拡張の仕組みで実装されています。作り方は[ブログ拡張を作る](extensions.ja.md)を参照してください。
 
+### ビルドパイプラインを拡張する
+
+記事・サイト単位の追加出力、HTML後処理、ローカル成果物完成後の処理は`blog.py`へ
+登録できます。詳しくは[ビルドパイプラインを拡張する](build-hooks.ja.md)を参照してください。
+
 ## ファイル構成
 
 普段よく編集するファイル:
@@ -268,6 +274,7 @@ theme: theme-config(color_scheme: "paper")
 | `theme/static/` | themeが使うCSSとJavaScript |
 | `extensions.typ` | 有効にする標準・独自拡張の登録簿 |
 | `extensions/` | 標準・独自拡張の Typst モジュール |
+| `blog.py` | 追加出力やビルド処理を登録するPython設定 |
 | `記事ディレクトリ/index.typ` | 自分の記事 |
 | `example-post/index.typ` | 記事の書き方のサンプル |
 | `static/` | サイト固有の画像、favicon、拡張用asset、`CNAME` など |
@@ -277,7 +284,7 @@ theme: theme-config(color_scheme: "paper")
 | パス | 内容 |
 | --- | --- |
 | `vendor/typst-blog-core` | ブログを生成する本体。直接編集せず、[更新手順](#ブログエンジンを更新する)でバージョンを上げる |
-| `.build/generated/posts.typ` | ビルド時に自動更新される記事一覧データ |
+| `.build/` | coreが所有し、ビルドごとに再生成する非公開の中間データ |
 | `public/` | ビルド結果。公開用に生成されるもの |
 
 ## ブログエンジンを更新する
@@ -323,5 +330,5 @@ Misskey共有ボタンとサイドバーのMisskeyアイコンはデフォルト
 
 ---
 
-文書バージョン: 2026.09.08.1
+文書バージョン: 2026.09.08.2
 （この README を更新するときは、ルートの README.md と `docs/` 配下の他言語ファイルも更新し、文書バージョンをそろえてください）

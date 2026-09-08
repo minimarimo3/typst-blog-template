@@ -39,18 +39,31 @@
           }
         })
       }
-      if post.source-url != none {
-        html.elem("div", attrs: (class: "meta-edit-history", "data-pagefind-ignore": "all", "data-nosnippet": ""), {
-          html.elem(
-            "a",
-            attrs: (
-              class: "edit-history-link",
-              href: post.source-url,
-              target: "_blank",
-              rel: "noopener noreferrer",
-            ),
-            i18n.edit_history,
-          )
+      if post.source-url != none or post.outputs.len() > 0 {
+        html.elem("div", attrs: (class: "meta-resource-links", "data-pagefind-ignore": "all", "data-nosnippet": ""), {
+          if post.source-url != none {
+            html.elem(
+              "a",
+              attrs: (
+                class: "meta-resource-link edit-history-link",
+                href: post.source-url,
+                target: "_blank",
+                rel: "noopener noreferrer",
+              ),
+              i18n.edit_history,
+            )
+          }
+          for output in post.outputs {
+            html.elem(
+              "a",
+              attrs: (
+                class: "meta-resource-link extra-output-link",
+                href: output.url,
+                type: output.at("media-type"),
+              ),
+              output.label,
+            )
+          }
         })
       }
     })

@@ -19,6 +19,7 @@
 - 无需修改 core，即可在 `theme/` 中重做文章、首页、标签和404页面结构
 - 支持切换配色，配置 favicon、图片、附加 CSS 和自定义域名
 - 无需修改 core，即可添加由 Typst、CSS 和 JavaScript 组成的 template 侧扩展
+- 可通过 `blog.py` 添加PDF、EPUB生成和Python后处理
 - 之后可以只更新博客引擎部分（`vendor/typst-blog-core`）
 
 ## 环境要求
@@ -265,6 +266,7 @@ theme: theme-config(color_scheme: "paper")
 | `theme/static/` | theme使用的CSS和JavaScript |
 | `extensions.typ` | 已启用的内置扩展和自定义扩展 |
 | `extensions/` | 内置扩展和自定义扩展的 Typst 模块 |
+| `blog.py` | 注册附加输出和构建处理的Python配置 |
 | `文章目录/index.typ` | 自己的文章 |
 | `example-post/index.typ` | 文章写法示例 |
 | `static/` | 站点专用图片、favicon、扩展资源、`CNAME` 等 |
@@ -274,7 +276,7 @@ theme: theme-config(color_scheme: "paper")
 | 路径 | 说明 |
 | --- | --- |
 | `vendor/typst-blog-core` | 生成博客的主体。不直接编辑，通过[更新步骤](#更新博客引擎)升级版本 |
-| `.build/generated/posts.typ` | 构建时自动更新的文章列表数据 |
+| `.build/` | 由core负责并在每次构建时重新生成的私有中间数据 |
 | `public/` | 构建结果，作为发布内容生成 |
 
 ## 更新博客引擎
@@ -320,5 +322,5 @@ Misskey 分享按钮和侧边栏的 Misskey 图标默认启用。template theme�
 
 ---
 
-文档版本: 2026.09.08.1
+文档版本: 2026.09.08.2
 （更新此 README 时，请同时更新根目录的 README.md 和 `docs/` 下的其他语言文件，并保持文档版本一致）

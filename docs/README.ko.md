@@ -19,6 +19,7 @@ Typst 로 글을 쓰고 정적 블로그로 공개하기 위한 템플릿입니�
 - core를 수정하지 않고 `theme/` 에서 글·홈·태그·404 페이지 구조를 변경할 수 있습니다
 - 색상 배합 전환, favicon·이미지·추가 CSS·커스텀 도메인 설정이 가능합니다
 - core를 수정하지 않고 Typst·CSS·JavaScript를 묶은 template 측 확장을 추가할 수 있습니다
+- `blog.py`에서 PDF·EPUB 생성과 Python 후처리를 추가할 수 있습니다
 - 블로그 엔진 부분(`vendor/typst-blog-core`)만 나중에 업데이트할 수 있습니다
 
 ## 요구 사항
@@ -267,6 +268,7 @@ theme: theme-config(color_scheme: "paper")
 | `theme/static/` | theme의 CSS와 JavaScript |
 | `extensions.typ` | 사용할 기본 및 사용자 확장 목록 |
 | `extensions/` | 기본 및 사용자 확장의 Typst 모듈 |
+| `blog.py` | 추가 출력과 빌드 처리를 등록하는 Python 설정 |
 | `글 디렉터리/index.typ` | 자신의 글 |
 | `example-post/index.typ` | 글 작성 방법 샘플 |
 | `static/` | 사이트 고유 이미지, favicon, 확장 asset, `CNAME` 등 |
@@ -276,7 +278,7 @@ theme: theme-config(color_scheme: "paper")
 | 경로 | 내용 |
 | --- | --- |
 | `vendor/typst-blog-core` | 블로그를 생성하는 본체. 직접 수정하지 않고 [업데이트 절차](#블로그-엔진-업데이트하기)로 버전을 올림 |
-| `.build/generated/posts.typ` | 빌드 시 자동 갱신되는 글 목록 데이터 |
+| `.build/` | core가 소유하고 빌드마다 다시 만드는 비공개 중간 데이터 |
 | `public/` | 빌드 결과. 공개용으로 생성됨 |
 
 ## 블로그 엔진 업데이트하기
@@ -322,5 +324,5 @@ Misskey 공유 버튼과 사이드바의 Misskey 아이콘은 기본으로 활�
 
 ---
 
-문서 버전: 2026.09.08.1
+문서 버전: 2026.09.08.2
 (이 README 를 업데이트할 때는 루트의 README.md 와 `docs/` 아래 다른 언어 파일도 함께 업데이트하고, 문서 버전을 맞춰 주세요)

@@ -19,6 +19,7 @@ Languages: [日本語](docs/README.ja.md) | English | [한국어](docs/README.ko
 - Rebuild article, home, tag, and 404 page structures under `theme/` without editing core
 - Switch color schemes; add a favicon, images, extra CSS, and a custom domain
 - Add template-owned extensions that combine Typst, CSS, and JavaScript without editing the core
+- Generate PDF/EPUB outputs or run Python post-processing through `blog.py`
 - Update only the blog engine (`vendor/typst-blog-core`) later
 
 ## Requirements
@@ -258,6 +259,11 @@ Files placed in `static/` are copied to `public/` as-is at build time.
 
 Extensions combine a Typst authoring function with its CSS and JavaScript. The template-owned alerts and YouTube embed use the same extension contract available to your own features. See [Create a Blog Extension](docs/extensions.md) for a complete example.
 
+### Extend the build pipeline
+
+Register per-post outputs, site-wide outputs, HTML processing, and final local
+build steps in `blog.py`. See [Extend the build pipeline](docs/build-hooks.md).
+
 ## File Layout
 
 Files you usually edit:
@@ -270,6 +276,7 @@ Files you usually edit:
 | `theme/static/` | CSS and JavaScript used by the theme |
 | `extensions.typ` | Enabled built-in and custom extensions |
 | `extensions/` | Typst modules for built-in and custom extensions |
+| `blog.py` | Python pipeline registration for extra outputs and build processing |
 | `POST_DIR/index.typ` | Your posts |
 | `example-post/index.typ` | Sample showing how to write a post |
 | `static/` | Site-specific images, favicon, extension assets, `CNAME`, etc. |
@@ -279,7 +286,7 @@ Files you normally do not touch:
 | Path | Description |
 | --- | --- |
 | `vendor/typst-blog-core` | The engine that generates the blog. Do not edit directly; upgrade it via the [update steps](#updating-the-blog-engine) |
-| `.build/generated/posts.typ` | Post list data updated automatically at build time |
+| `.build/` | Private intermediate data regenerated and owned by the core build |
 | `public/` | Build output, generated for publishing |
 
 ## Updating the Blog Engine
@@ -325,5 +332,5 @@ The code in this template is provided under the MIT License.
 
 ---
 
-Document version: 2026.09.08.1
+Document version: 2026.09.08.2
 (When updating this README, also update the language files under `docs/` and keep the document version aligned.)
