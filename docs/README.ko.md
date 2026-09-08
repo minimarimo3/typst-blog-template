@@ -276,7 +276,7 @@ theme: theme-config(color_scheme: "paper")
 | 경로 | 내용 |
 | --- | --- |
 | `vendor/typst-blog-core` | 블로그를 생성하는 본체. 직접 수정하지 않고 [업데이트 절차](#블로그-엔진-업데이트하기)로 버전을 올림 |
-| `typst/generated/posts.typ` | 빌드 시 자동 갱신되는 글 목록 데이터 |
+| `.build/generated/posts.typ` | 빌드 시 자동 갱신되는 글 목록 데이터 |
 | `public/` | 빌드 결과. 공개용으로 생성됨 |
 
 ## 블로그 엔진 업데이트하기

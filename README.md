@@ -279,7 +279,7 @@ Files you normally do not touch:
 | Path | Description |
 | --- | --- |
 | `vendor/typst-blog-core` | The engine that generates the blog. Do not edit directly; upgrade it via the [update steps](#updating-the-blog-engine) |
-| `typst/generated/posts.typ` | Post list data updated automatically at build time |
+| `.build/generated/posts.typ` | Post list data updated automatically at build time |
 | `public/` | Build output, generated for publishing |
 
 ## Updating the Blog Engine

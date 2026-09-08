@@ -274,7 +274,7 @@ theme: theme-config(color_scheme: "paper")
 | 路徑 | 說明 |
 | --- | --- |
 | `vendor/typst-blog-core` | 產生部落格的主體。不直接編輯，透過[更新步驟](#更新部落格引擎)升級版本 |
-| `typst/generated/posts.typ` | 建置時自動更新的文章列表資料 |
+| `.build/generated/posts.typ` | 建置時自動更新的文章列表資料 |
 | `public/` | 建置結果，作為發佈內容產生 |
 
 ## 更新部落格引擎

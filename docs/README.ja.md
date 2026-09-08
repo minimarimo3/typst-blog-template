@@ -277,7 +277,7 @@ theme: theme-config(color_scheme: "paper")
 | パス | 内容 |
 | --- | --- |
 | `vendor/typst-blog-core` | ブログを生成する本体。直接編集せず、[更新手順](#ブログエンジンを更新する)でバージョンを上げる |
-| `typst/generated/posts.typ` | ビルド時に自動更新される記事一覧データ |
+| `.build/generated/posts.typ` | ビルド時に自動更新される記事一覧データ |
 | `public/` | ビルド結果。公開用に生成されるもの |
 
 ## ブログエンジンを更新する

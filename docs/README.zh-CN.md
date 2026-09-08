@@ -274,7 +274,7 @@ theme: theme-config(color_scheme: "paper")
 | 路径 | 说明 |
 | --- | --- |
 | `vendor/typst-blog-core` | 生成博客的主体。不直接编辑，通过[更新步骤](#更新博客引擎)升级版本 |
-| `typst/generated/posts.typ` | 构建时自动更新的文章列表数据 |
+| `.build/generated/posts.typ` | 构建时自动更新的文章列表数据 |
 | `public/` | 构建结果，作为发布内容生成 |
 
 ## 更新博客引擎
