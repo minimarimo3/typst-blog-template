@@ -1,0 +1,108 @@
+.markdown-alert {
+  --alert-color: var(--accent-color);
+  --alert-background: var(--card-bg);
+  padding: 16px;
+  margin-bottom: 24px;
+  border-left: 4px solid var(--border-color);
+  background-color: var(--alert-background);
+  border-radius: 6px;
+  border-right: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.markdown-alert-title {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 0.95rem;
+  margin: 0 0 8px 0;
+  line-height: 1;
+}
+
+.markdown-alert-icon {
+  margin-right: 8px;
+  font-family: var(--font-code);
+  font-size: 0.9em;
+}
+
+.markdown-alert-content > *:first-child {
+  margin-top: 0;
+}
+
+.markdown-alert-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-alert-title {
+  color: var(--alert-color);
+}
+
+.markdown-alert-note {
+  --alert-color: #388bfd;
+}
+
+.markdown-alert-tip {
+  --alert-color: #2da44e;
+}
+
+.markdown-alert-important {
+  --alert-color: #8957e5;
+}
+
+.markdown-alert-warning {
+  --alert-color: #bf8700;
+}
+
+.markdown-alert-caution {
+  --alert-color: #cf222e;
+}
+
+:root[data-theme="dark"] .markdown-alert {
+  --alert-background: #0d1117;
+}
+
+:root[data-theme="dark"] .markdown-alert-note {
+  --alert-color: #58a6ff;
+}
+
+:root[data-theme="dark"] .markdown-alert-tip {
+  --alert-color: #3fb950;
+}
+
+:root[data-theme="dark"] .markdown-alert-important {
+  --alert-color: #a371f7;
+}
+
+:root[data-theme="dark"] .markdown-alert-warning {
+  --alert-color: #d29922;
+}
+
+:root[data-theme="dark"] .markdown-alert-caution {
+  --alert-color: #f85149;
+}
+
+:root[data-theme="light"] .markdown-alert-note {
+  --alert-background: #eff6ff;
+  --alert-color: #1d4ed8;
+}
+
+:root[data-theme="light"] .markdown-alert-tip {
+  --alert-background: #ecfdf5;
+  --alert-color: #047857;
+}
+
+:root[data-theme="light"] .markdown-alert-important {
+  --alert-background: #f5f3ff;
+  --alert-color: #6d28d9;
+}
+
+:root[data-theme="light"] .markdown-alert-warning {
+  --alert-background: #fffbeb;
+  --alert-color: #b45309;
+}
+
+:root[data-theme="light"] .markdown-alert-caution {
+  --alert-background: #fef2f2;
+  --alert-color: #b91c1c;
+}

@@ -17,6 +17,7 @@
 - 支持基于 [Pagefind](https://pagefind.app/) 的站内搜索
 - 可直接发布到 GitHub Pages（附带工作流）
 - 支持切换颜色主题，配置 favicon、图片、附加 CSS 和自定义域名
+- 无需修改 core，即可添加由 Typst、CSS 和 JavaScript 组成的 template 侧扩展
 - 之后可以只更新博客引擎部分（`vendor/typst-blog-core`）
 
 ## 环境要求
@@ -240,6 +241,10 @@ theme: "my-theme"
 
 放在 `static/` 中的文件会在构建时原样复制到 `public/`。
 
+### 添加博客扩展
+
+扩展把文章中使用的 Typst 函数与 CSS、JavaScript 组合在一起。template 侧内置的 alert 和 YouTube 嵌入也使用与用户扩展相同的机制。完整示例请参阅 [Create a Blog Extension](extensions.md)。
+
 ## 文件结构
 
 平时经常编辑的文件：
@@ -247,9 +252,11 @@ theme: "my-theme"
 | 路径 | 说明 |
 | --- | --- |
 | `site.typ` | 博客名称、发布 URL、作者信息、主题等站点配置 |
+| `extensions.typ` | 已启用的内置扩展和自定义扩展 |
+| `extensions/` | 内置扩展和自定义扩展的 Typst 模块 |
 | `文章目录/index.typ` | 自己的文章 |
 | `example-post/index.typ` | 文章写法示例 |
-| `static/` | 图片、favicon、附加 CSS、自定义主题、`CNAME` 等 |
+| `static/` | 图片、favicon、扩展 CSS/JavaScript、自定义主题、`CNAME` 等 |
 
 基本不需要碰的文件：
 

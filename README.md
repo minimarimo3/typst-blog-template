@@ -17,6 +17,7 @@ Languages: [日本語](docs/README.ja.md) | English | [한국어](docs/README.ko
 - Site search powered by [Pagefind](https://pagefind.app/)
 - Publish to GitHub Pages as-is (workflow included)
 - Switch color themes; add a favicon, images, extra CSS, and a custom domain
+- Add template-owned extensions that combine Typst, CSS, and JavaScript without editing the core
 - Update only the blog engine (`vendor/typst-blog-core`) later
 
 ## Requirements
@@ -241,6 +242,10 @@ theme: "my-theme"
 
 Files placed in `static/` are copied to `public/` as-is at build time.
 
+### Add a blog extension
+
+Extensions combine a Typst authoring function with its CSS and JavaScript. The template-owned alerts and YouTube embed use the same extension contract available to your own features. See [Create a Blog Extension](docs/extensions.md) for a complete example.
+
 ## File Layout
 
 Files you usually edit:
@@ -248,9 +253,11 @@ Files you usually edit:
 | Path | Description |
 | --- | --- |
 | `site.typ` | Site settings: blog name, public URL, author profile, theme, etc. |
+| `extensions.typ` | Enabled built-in and custom extensions |
+| `extensions/` | Typst modules for built-in and custom extensions |
 | `POST_DIR/index.typ` | Your posts |
 | `example-post/index.typ` | Sample showing how to write a post |
-| `static/` | Images, favicon, extra CSS, custom themes, `CNAME`, etc. |
+| `static/` | Images, favicon, extension CSS/JavaScript, custom themes, `CNAME`, etc. |
 
 Files you normally do not touch:
 

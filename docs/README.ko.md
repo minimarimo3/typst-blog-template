@@ -17,6 +17,7 @@ Typst 로 글을 쓰고 정적 블로그로 공개하기 위한 템플릿입니�
 - [Pagefind](https://pagefind.app/) 기반 사이트 내 검색을 지원합니다
 - GitHub Pages 에 그대로 공개할 수 있습니다 (워크플로 포함)
 - 색상 테마 전환, favicon·이미지·추가 CSS·커스텀 도메인 설정이 가능합니다
+- core를 수정하지 않고 Typst·CSS·JavaScript를 묶은 template 측 확장을 추가할 수 있습니다
 - 블로그 엔진 부분(`vendor/typst-blog-core`)만 나중에 업데이트할 수 있습니다
 
 ## 요구 사항
@@ -240,6 +241,10 @@ theme: "my-theme"
 
 `static/` 에 둔 파일은 빌드 시 그대로 `public/` 으로 복사됩니다.
 
+### 블로그 확장 추가하기
+
+확장은 글에서 사용하는 Typst 함수와 CSS·JavaScript를 하나로 묶습니다. template 측의 기본 alert와 YouTube 삽입도 사용자 확장과 같은 구조를 사용합니다. 전체 예제는 [Create a Blog Extension](extensions.md)을 참고하세요.
+
 ## 파일 구성
 
 자주 수정하는 파일:
@@ -247,9 +252,11 @@ theme: "my-theme"
 | 경로 | 내용 |
 | --- | --- |
 | `site.typ` | 블로그 이름, 공개 URL, 작성자 정보, 테마 등 사이트 설정 |
+| `extensions.typ` | 사용할 기본 및 사용자 확장 목록 |
+| `extensions/` | 기본 및 사용자 확장의 Typst 모듈 |
 | `글 디렉터리/index.typ` | 자신의 글 |
 | `example-post/index.typ` | 글 작성 방법 샘플 |
-| `static/` | 이미지, favicon, 추가 CSS, 커스텀 테마, `CNAME` 등 |
+| `static/` | 이미지, favicon, 확장 CSS·JavaScript, 커스텀 테마, `CNAME` 등 |
 
 기본적으로 건드리지 않는 파일:
 

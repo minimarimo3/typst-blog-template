@@ -17,6 +17,7 @@ Typst で記事を書いて、静的なブログとして公開するための�
 - [Pagefind](https://pagefind.app/) によるサイト内検索に対応しています
 - GitHub Pages にそのまま公開できます（ワークフロー同梱）
 - 色テーマの切り替え、favicon・画像・追加 CSS・独自ドメインの設定ができます
+- core を変更せず、Typst・CSS・JavaScript をまとめた template 側の拡張を追加できます
 - ブログエンジン部分（`vendor/typst-blog-core`）だけを後から更新できます
 
 ## 動作環境
@@ -240,6 +241,10 @@ theme: "my-theme"
 
 `static/` に置いたファイルは、ビルド時にそのまま `public/` へコピーされます。
 
+### ブログ拡張を追加する
+
+拡張は、記事で使う Typst 関数と CSS・JavaScript をひとまとまりにします。template 側にある標準 alert と YouTube 埋め込みも、ユーザーが利用できるものと同じ拡張の仕組みで実装されています。作り方は[ブログ拡張を作る](extensions.ja.md)を参照してください。
+
 ## ファイル構成
 
 普段よく編集するファイル:
@@ -247,9 +252,11 @@ theme: "my-theme"
 | パス | 内容 |
 | --- | --- |
 | `site.typ` | ブログ名、公開 URL、著者情報、テーマなどのサイト設定 |
+| `extensions.typ` | 有効にする標準・独自拡張の登録簿 |
+| `extensions/` | 標準・独自拡張の Typst モジュール |
 | `記事ディレクトリ/index.typ` | 自分の記事 |
 | `example-post/index.typ` | 記事の書き方のサンプル |
-| `static/` | 画像、favicon、追加 CSS、独自テーマ、`CNAME` など |
+| `static/` | 画像、favicon、拡張の CSS・JavaScript、独自テーマ、`CNAME` など |
 
 基本的に触らないファイル:
 

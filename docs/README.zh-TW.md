@@ -17,6 +17,7 @@
 - 支援基於 [Pagefind](https://pagefind.app/) 的站內搜尋
 - 可直接發佈到 GitHub Pages（附帶工作流程）
 - 支援切換色彩主題，設定 favicon、圖片、額外 CSS 與自訂網域
+- 無需修改 core，即可新增由 Typst、CSS 與 JavaScript 組成的 template 端擴充功能
 - 之後可以只更新部落格引擎部分（`vendor/typst-blog-core`）
 
 ## 環境需求
@@ -240,6 +241,10 @@ theme: "my-theme"
 
 放在 `static/` 中的檔案會在建置時原樣複製到 `public/`。
 
+### 新增部落格擴充功能
+
+擴充功能會把文章使用的 Typst 函式與 CSS、JavaScript 組合在一起。template 端內建的 alert 與 YouTube 嵌入也使用和使用者擴充功能相同的機制。完整範例請參閱 [Create a Blog Extension](extensions.md)。
+
 ## 檔案結構
 
 平常經常編輯的檔案：
@@ -247,9 +252,11 @@ theme: "my-theme"
 | 路徑 | 說明 |
 | --- | --- |
 | `site.typ` | 部落格名稱、發佈 URL、作者資訊、主題等網站設定 |
+| `extensions.typ` | 已啟用的內建與自訂擴充功能 |
+| `extensions/` | 內建與自訂擴充功能的 Typst 模組 |
 | `文章目錄/index.typ` | 自己的文章 |
 | `example-post/index.typ` | 文章寫法範例 |
-| `static/` | 圖片、favicon、額外 CSS、自訂主題、`CNAME` 等 |
+| `static/` | 圖片、favicon、擴充功能的 CSS/JavaScript、自訂主題、`CNAME` 等 |
 
 基本上不需要動的檔案：
 
