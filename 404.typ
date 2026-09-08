@@ -1,10 +1,11 @@
 #import "site.typ": site
 #import "/vendor/typst-blog-core/typst/core/i18n.typ": i18n
+#import "/vendor/typst-blog-core/typst/core/language.typ": html-language
 #import "/vendor/typst-blog-core/typst/components/head.typ": common-head
 
 #let title = "404 Not Found"
 
-#html.html(lang: site.language, {
+#html.html(lang: html-language(site.language), {
   html.head({
     common-head(title, description: i18n.not_found_desc)
   })

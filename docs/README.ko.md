@@ -54,13 +54,25 @@ cd REPO
 | `description` | 블로그 설명 |
 | `base_url` | 공개 후 URL (끝에 `/` 를 붙이지 않음) |
 | `github_repo` | 이 블로그의 GitHub 저장소 URL |
-| `language` | 주로 사용하는 언어 |
+| `language` | 주로 사용하는 언어. `"ja"` 단축형 또는 `lang`, `region`, `script`를 개별 지정 |
 | `theme` | `"dark"` 또는 `"light"` |
 | `posts_dir` | 글을 두는 위치. 루트 바로 아래면 `"."`, `posts/` 에 모으려면 `"posts"` |
 | `update_policy` | 수정일 결정 방식. `"git"`(기본값, Git 이력에서 자동 산출) 또는 `"manual"`(글의 `update` 사용) |
 | `author.name` | 작성자 이름 |
 | `author.bio` | 프로필 문구 |
 | `author.socials` | X, Misskey, GitHub 등의 링크 |
+
+지역이나 문자 체계를 구분해야 하는 언어는 BCP 47 문자열 대신 Typst의 언어 요소를 개별 지정합니다.
+
+```typst
+language: (
+  lang: "zh",
+  region: "TW",
+  script: "hani",
+)
+```
+
+`lang`은 필수 ISO 639-1/2/3 코드입니다. `region`은 선택 사항인 ISO 3166-1 alpha-2 코드이고, `script`도 선택 사항이며 기본값은 `auto`입니다. 생성된 HTML에서는 이 값들을 `zh-Hani-TW`와 같은 BCP 47 태그로 변환합니다.
 
 GitHub Pages 로 공개하는 경우 `base_url` 은 다음 형태가 됩니다.
 

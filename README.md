@@ -54,13 +54,25 @@ Open `site.typ` and adjust it for your blog. Start with these:
 | `description` | Blog description |
 | `base_url` | Public URL (no trailing `/`) |
 | `github_repo` | GitHub repository URL of this blog |
-| `language` | Primary language |
+| `language` | Primary language. Use `"ja"` as shorthand, or specify `lang`, `region`, and `script` separately |
 | `theme` | `"dark"` or `"light"` |
 | `posts_dir` | Where posts live. `"."` for the repository root, `"posts"` to keep them under `posts/` |
 | `update_policy` | How the updated date is determined. `"git"` (default; derived from Git history) or `"manual"` (uses the post's `update`) |
 | `author.name` | Author name |
 | `author.bio` | Profile text |
 | `author.socials` | Links to X, Misskey, GitHub, etc. |
+
+For languages with regional or script variants, use Typst's language components instead of a BCP 47 string:
+
+```typst
+language: (
+  lang: "zh",
+  region: "TW",
+  script: "hani",
+)
+```
+
+`lang` is an ISO 639-1/2/3 code and is required. `region` is an optional ISO 3166-1 alpha-2 code. `script` is optional and defaults to `auto`. The generated HTML converts these values to a BCP 47 tag such as `zh-Hani-TW`.
 
 When publishing on GitHub Pages, `base_url` looks like this:
 

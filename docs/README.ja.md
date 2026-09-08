@@ -54,13 +54,25 @@ cd REPO
 | `description` | ブログの説明文 |
 | `base_url` | 公開後の URL（末尾に `/` は付けない） |
 | `github_repo` | このブログの GitHub リポジトリ URL |
-| `language` | 主に使う言語 |
+| `language` | 主に使う言語。`"ja"` の短縮形、または `lang`・`region`・`script` を個別に指定 |
 | `theme` | `"dark"` または `"light"` |
 | `posts_dir` | 記事を置く場所。ルート直下なら `"."`、`posts/` にまとめるなら `"posts"` |
 | `update_policy` | 更新日の決め方。`"git"`（既定・Git 履歴から自動算出）か `"manual"`（記事の `update` を使う） |
 | `author.name` | 著者名 |
 | `author.bio` | プロフィール文 |
 | `author.socials` | X、Misskey、GitHub などのリンク |
+
+地域や用字系を区別する言語では、BCP 47 文字列ではなく Typst の言語要素を個別に指定します。
+
+```typst
+language: (
+  lang: "zh",
+  region: "TW",
+  script: "hani",
+)
+```
+
+`lang` は必須の ISO 639-1/2/3 コードです。`region` は省略可能な ISO 3166-1 alpha-2 コード、`script` も省略可能で既定値は `auto` です。生成される HTML では、これらを `zh-Hani-TW` のような BCP 47 タグへ変換します。
 
 GitHub Pages で公開する場合、`base_url` は次の形になります。
 

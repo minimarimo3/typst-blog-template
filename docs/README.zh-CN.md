@@ -54,13 +54,25 @@ cd REPO
 | `description` | 博客描述 |
 | `base_url` | 发布后的 URL（结尾不要加 `/`） |
 | `github_repo` | 本博客的 GitHub 仓库 URL |
-| `language` | 主要使用的语言 |
+| `language` | 主要使用的语言。可用 `"ja"` 简写，或分别指定 `lang`、`region`、`script` |
 | `theme` | `"dark"` 或 `"light"` |
 | `posts_dir` | 文章存放位置。放在根目录下用 `"."`，集中到 `posts/` 用 `"posts"` |
 | `update_policy` | 更新日期的确定方式。`"git"`（默认，从 Git 历史自动计算）或 `"manual"`（使用文章的 `update`） |
 | `author.name` | 作者名 |
 | `author.bio` | 个人简介 |
 | `author.socials` | X、Misskey、GitHub 等链接 |
+
+对于需要区分地区或书写系统的语言，请分别指定 Typst 的语言要素，而不是填写 BCP 47 字符串。
+
+```typst
+language: (
+  lang: "zh",
+  region: "TW",
+  script: "hani",
+)
+```
+
+`lang` 是必填的 ISO 639-1/2/3 代码。`region` 是可选的 ISO 3166-1 alpha-2 代码；`script` 也是可选项，默认值为 `auto`。生成 HTML 时，这些值会转换为 `zh-Hani-TW` 这样的 BCP 47 标签。
 
 在 GitHub Pages 上发布时，`base_url` 形如：
 
