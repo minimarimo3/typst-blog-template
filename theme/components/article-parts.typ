@@ -1,5 +1,6 @@
 #import "/site.typ": site
-#import "/vendor/typst-blog-core/typst/core/shared.typ": calver-display, calver-iso
+#import "../api.typ": core
+#import core: calver-display, calver-iso
 #import "../i18n.typ": i18n
 
 #let article-header(post) = {

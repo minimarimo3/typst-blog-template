@@ -5,8 +5,9 @@
 
 ## 公開renderer
 
-`theme.typ` はbuilderと記事用 `template.typ` が参照する公開窓口です。次の
-rendererをexportします。
+`theme.typ` はbuilderと記事用 `template.typ` が参照する公開窓口です。生成ページは
+このfacadeだけをimportし、`vendor/typst-blog-core`のファイルを直接参照しません。
+次のrendererをexportします。
 
 - `render-article(data)`
 - `render-home(data)`
@@ -16,6 +17,11 @@ rendererをexportします。
 
 関数を別ファイルへ移動しても構いませんが、この名前と `theme.typ` からのexportは
 維持してください。
+
+`theme.typ` は生成ページ向けに`core`名前空間もexportします。`api.typ`はcoreの
+公開moduleを名前空間のまま転送するため、coreにAPIが追加されてもtemplate側で
+exportを追加する必要はありません。独自themeへ置き換える場合も、生成ページとの
+境界として`theme.typ`の`core`とrendererのexportを維持してください。
 
 ## coreから渡されるもの
 
@@ -41,6 +47,7 @@ URLエンコード、Git由来の更新日、前後記事、タグURL、SEOデ�
 
 - `pages/`: 各ページの完成renderer
 - `components/`: 標準theme内で共有する部品
+- `api.typ`: coreの公開moduleを`core`名前空間として転送する内部facade
 - `static/`: build時に公開ディレクトリへコピーするCSSとJavaScript
 - `static/color-schemes/`: `site.theme.color_scheme` で選ぶ配色
 - `config.typ`: 標準theme固有の設定と検証

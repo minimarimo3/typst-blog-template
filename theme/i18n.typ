@@ -214,7 +214,8 @@
 )
 
 // Falls back to Japanese for unrecognized language codes.
-#import "/vendor/typst-blog-core/typst/core/language.typ": translation-language
+#import "api.typ": core
+#import core: translation-language
 #let i18n = _translations.at(translation-language(site.language, _translations))
 
 // Renders a coverage table comparing each non-Japanese language against Japanese.

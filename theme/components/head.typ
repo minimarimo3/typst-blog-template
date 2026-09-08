@@ -1,8 +1,7 @@
 #import "/site.typ": site
 #import "/extensions.typ": extensions
-#import "/vendor/typst-blog-core/typst/core/shared.typ": base-path
-#import "/vendor/typst-blog-core/typst/core/extensions.typ": extension-assets, extension-asset-url
-#import "/vendor/typst-blog-core/typst/components/font-config.typ": google-font-families, font-css-lines
+#import "../api.typ": core
+#import core: base-path, extension-assets, extension-asset-url, google-font-families, font-css-lines
 
 #let _json-ld-text(value) = {
   json.encode(value)

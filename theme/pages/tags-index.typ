@@ -1,4 +1,5 @@
-#import "/vendor/typst-blog-core/typst/core/shared.typ": base-path
+#import "../api.typ": core
+#import core: base-path
 #import "../i18n.typ": i18n
 #import "../components/head.typ": common-head
 #import "../components/page-layout.typ": page-layout

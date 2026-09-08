@@ -22,6 +22,11 @@ Languages: [日本語](docs/README.ja.md) | English | [한국어](docs/README.ko
 - Generate PDF/EPUB outputs or run Python post-processing through `blog.py`
 - Update only the blog engine (`vendor/typst-blog-core`) later
 
+After creating a blog from this template, all files outside
+`vendor/typst-blog-core` belong to the user and may be freely customized. Normal
+engine fixes and support for newer Typst versions are delivered by updating the
+core submodule alone; an existing template is not overwritten by that update.
+
 ## Requirements
 
 | Tool | Version |

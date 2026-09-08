@@ -1,5 +1,6 @@
 #import "/site.typ": site
-#import "/vendor/typst-blog-core/typst/core/language.typ": html-language
+#import "../api.typ": core
+#import core: html-language
 
 #let page-layout(
   head-content: none,

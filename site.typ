@@ -1,8 +1,8 @@
-#import "/vendor/typst-blog-core/typst/core/site-impl.typ": _site
+#import "/vendor/typst-blog-core/typst/site-api.typ" as core-site-api
 #import "/theme/config.typ": theme-config
 
 // ─── サイト設定 ───────────────────────────────────────────────────────────────
-#let site = _site(
+#let site = core-site-api.site(
   title: "My Typst Blog",
   description: "Typstで書く小さなブログです。",
   base_url: "https://minimarimo3.github.io/typst-blog-template",

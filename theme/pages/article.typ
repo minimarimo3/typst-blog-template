@@ -1,4 +1,5 @@
-#import "/vendor/typst-blog-core/typst/core/shared.typ": calver-iso-datetime, main-font, heading-font, math-font, base-path
+#import "../api.typ": core
+#import core: calver-iso-datetime, main-font, heading-font, math-font, base-path
 #import "../i18n.typ": i18n
 #import "../components/article-parts.typ": article-header, article-actions, post-navigation
 #import "../components/head.typ": common-head
