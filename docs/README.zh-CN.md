@@ -158,7 +158,12 @@ python3 command.py new my-first-post \
 | `update` | 更新日期。仅在 `update_policy: "manual"` 时使用 |
 | `description` | 用于文章列表和搜索结果的简短描述 |
 | `tags` | 标签。即使显示名包含中文、空格或符号，也会自动生成 URL 安全且不重复的标签页 |
+| `extra` | 用于自定义 JSON 兼容元数据的可选字典。core 不解释其内容，并将其传递给 theme 和 Python 构建 callback |
 | `draft` | `true` 为草稿，`false` 为发布对象。省略时视为草稿 |
+
+例如，设置 `extra: (course: "typst-basics", lesson: 1)` 并在 renderer 中读取
+`data.post.extra`，即可在不修改 core 的情况下由 theme 实现课程概念。
+`extra` 中可以使用字符串、数字、布尔值、`none`、数组和嵌套字典。
 
 ### 草稿与发布
 

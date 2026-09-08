@@ -126,6 +126,8 @@ def configure(pipeline):
 すべてのcallbackは、絶対パスの`root_dir`、`build_dir`、`output_dir`、モード
 （`"build"`または`"preview"`）、読み取り専用として扱うサイト設定、対象記事一覧を
 受け取ります。`post_output`には`task.post`と`task.destination`も渡されます。
+任意の投稿メタデータは`task.post.extra`から参照できます。coreはこのJSON互換辞書の
+キーに意味を持たせず、そのまま保持します。
 
 subprocessには`task.run([...])`、Typstには`task.run_typst(...)`を使えます。どちらも
 ブログルートで実行され、0以外で終了するとビルドを失敗させます。coreはPythonやNodeの

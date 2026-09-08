@@ -159,7 +159,13 @@ following content with the article layout.
 | `update` | Updated date. Used only when `update_policy: "manual"` |
 | `description` | Short description used in post lists and search results |
 | `tags` | Tags. Even if a display name contains non-ASCII characters, spaces, or symbols, a tag page with a safe, unique URL is generated automatically |
+| `extra` | Optional dictionary for custom, JSON-compatible metadata. Core preserves it without interpreting it and exposes it to themes and Python build callbacks |
 | `draft` | `true` for draft, `false` to publish. Treated as a draft when omitted |
+
+For example, a theme can implement a course concept without changing core by
+setting `extra: (course: "typst-basics", lesson: 1)` and reading
+`data.post.extra` in its renderer. Use strings, numbers, booleans, `none`,
+arrays, and nested dictionaries inside `extra`.
 
 ### Drafts and publishing
 

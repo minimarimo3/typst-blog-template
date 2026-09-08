@@ -158,7 +158,12 @@ python3 command.py new my-first-post \
 | `update` | 更新日。`update_policy: "manual"` のときだけ使われる |
 | `description` | 記事一覧や検索結果で使われる短い説明文 |
 | `tags` | タグ。表示名に日本語・空白・記号を使っても、安全で重複しない URL のタグページが自動で作られる |
+| `extra` | 任意のJSON互換メタデータを入れる省略可能な辞書。coreは内容を解釈せず、themeとPythonのビルドcallbackへそのまま渡す |
 | `draft` | `true` なら下書き、`false` なら公開対象。省略すると下書き扱い |
+
+例えば`extra: (course: "typst-basics", lesson: 1)`を指定し、rendererから
+`data.post.extra`を読むことで、coreを変更せずにtheme側でコースという概念を実装できます。
+`extra`の中では、文字列・数値・真偽値・`none`・配列・ネストした辞書を使用できます。
 
 ### 下書きと公開
 

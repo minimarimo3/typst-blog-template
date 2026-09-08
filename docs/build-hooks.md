@@ -133,6 +133,8 @@ webhook secret are available.
 All callbacks receive absolute `root_dir`, `build_dir`, and `output_dir` paths,
 the mode (`"build"` or `"preview"`), read-only-by-contract site data, and the
 included posts. `post_output` also receives `task.post` and `task.destination`.
+Custom post metadata is available as `task.post.extra`; core preserves this
+JSON-compatible dictionary without assigning meaning to its keys.
 
 Use `task.run([...])` for subprocesses and `task.run_typst(...)` for Typst. Both
 run from the blog root and fail the build on a non-zero exit status. The core

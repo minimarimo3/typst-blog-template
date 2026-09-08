@@ -158,7 +158,12 @@ python3 command.py new my-first-post \
 | `update` | 수정일. `update_policy: "manual"` 일 때만 사용됨 |
 | `description` | 글 목록이나 검색 결과에 사용되는 짧은 설명 |
 | `tags` | 태그. 표시 이름에 한국어·공백·기호를 사용해도 안전하고 중복되지 않는 URL 의 태그 페이지가 자동 생성됨 |
+| `extra` | 사용자 정의 JSON 호환 메타데이터를 위한 선택적 딕셔너리. core는 내용을 해석하지 않고 theme와 Python 빌드 callback에 전달함 |
 | `draft` | `true` 면 초안, `false` 면 공개 대상. 생략하면 초안으로 처리됨 |
+
+예를 들어 `extra: (course: "typst-basics", lesson: 1)`을 지정하고 renderer에서
+`data.post.extra`를 읽으면 core를 변경하지 않고 theme에서 코스 개념을 구현할 수 있습니다.
+`extra` 안에는 문자열, 숫자, 불리언, `none`, 배열 및 중첩 딕셔너리를 사용할 수 있습니다.
 
 ### 초안과 공개
 
