@@ -72,8 +72,11 @@
 }
 
 #let article-actions() = {
-  let share-enabled = site.share.x or site.share.misskey or site.share.copy
-  let feedback-enabled = site.feedback.google_form_url != none and site.feedback.google_form_url != ""
+  let actions = site.theme.article_actions
+  let share = actions.share
+  let feedback = actions.feedback
+  let share-enabled = share.x or share.misskey or share.copy
+  let feedback-enabled = feedback.google_form_url != none and feedback.google_form_url != ""
 
   if share-enabled or feedback-enabled {
     html.elem("aside", attrs: (class: "share-feedback-section", "aria-label": i18n.article_actions, "data-pagefind-ignore": "all", "data-nosnippet": ""), {
@@ -82,13 +85,13 @@
         html.elem("section", attrs: (class: "share-area", "aria-labelledby": "share-heading"), {
           html.elem("h3", attrs: (id: "share-heading"), i18n.share)
           html.div(class: "share-buttons", {
-            if site.share.x {
+            if share.x {
               html.elem("button", attrs: (class: "share-btn btn-x", type: "button", "data-article-action": "share-x"), i18n.post_on_x)
             }
-            if site.share.misskey {
+            if share.misskey {
               html.elem("button", attrs: (class: "share-btn btn-misskey", type: "button", "data-article-action": "share-misskey"), i18n.note_on_misskey)
             }
-            if site.share.copy {
+            if share.copy {
               html.elem("button", attrs: (class: "share-btn btn-copy", type: "button", "data-article-action": "copy-info"), i18n.copy_info)
             }
           })
@@ -96,7 +99,7 @@
       }
 
       if feedback-enabled {
-        let feedback-entry-id = if site.feedback.entry_id == none { "" } else { site.feedback.entry_id }
+        let feedback-entry-id = if feedback.entry_id == none { "" } else { feedback.entry_id }
         html.elem("section", attrs: (class: "feedback-area", "aria-labelledby": "feedback-heading"), {
           html.elem("h3", attrs: (id: "feedback-heading"), i18n.feedback_title)
           html.p(i18n.feedback_body)
@@ -106,7 +109,7 @@
               class: "feedback-link",
               type: "button",
               "data-article-action": "open-feedback",
-              "data-feedback-url": site.feedback.google_form_url,
+              "data-feedback-url": feedback.google_form_url,
               "data-feedback-entry-id": feedback-entry-id,
             ),
             i18n.feedback_send,

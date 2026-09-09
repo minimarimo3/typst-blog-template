@@ -16,7 +16,8 @@ Typst 로 글을 쓰고 정적 블로그로 공개하기 위한 템플릿입니�
 - RSS 와 sitemap 도 자동 생성합니다
 - [Pagefind](https://pagefind.app/) 기반 사이트 내 검색을 지원합니다
 - GitHub Pages 에 그대로 공개할 수 있습니다 (워크플로 포함)
-- core를 수정하지 않고 `theme/` 에서 글·홈·태그·404 페이지 구조를 변경할 수 있습니다
+- 글로 취급하지 않는 About·FAQ·정책 등의 일반 페이지를 만들 수 있습니다
+- core를 수정하지 않고 `theme/` 에서 글·일반 페이지·홈·태그·404 구조를 변경할 수 있습니다
 - 색상 배합 전환, favicon·이미지·추가 CSS·커스텀 도메인 설정이 가능합니다
 - core를 수정하지 않고 Typst·CSS·JavaScript를 묶은 template 측 확장을 추가할 수 있습니다
 - `blog.py`에서 PDF·EPUB 생성과 Python 후처리를 추가할 수 있습니다
@@ -59,11 +60,13 @@ cd REPO
 | `github_repo` | 이 블로그의 GitHub 저장소 URL |
 | `language` | 주로 사용하는 언어. `"ja"` 단축형 또는 `lang`, `region`, `script`를 개별 지정 |
 | `theme.color_scheme` | `"dark"` 또는 `"light"` |
+| `theme.navigation` | 선택 사항인 탐색 링크. 비워 두면 표시하지 않음 |
+| `theme.article_actions` | 공유 버튼과 선택 사항인 글 피드백 폼 |
 | `posts_dir` | 글을 두는 위치. 루트 바로 아래면 `"."`, `posts/` 에 모으려면 `"posts"` |
 | `update_policy` | 수정일 결정 방식. `"git"`(기본값, Git 이력에서 자동 산출) 또는 `"manual"`(글의 `update` 사용) |
 | `author.name` | 작성자 이름 |
 | `author.bio` | 프로필 문구 |
-| `author.socials` | X, Misskey, GitHub 등의 링크 |
+| `author.links` | 각각 `id`, `label`, `url`을 가진 작성자 프로필 링크 |
 
 지역이나 문자 체계를 구분해야 하는 언어는 BCP 47 문자열 대신 Typst의 언어 요소를 개별 지정합니다.
 
@@ -88,7 +91,7 @@ base_url: "https://USER.github.io/REPO"
 ### 3. 글 만들기
 
 ```sh
-python3 command.py new my-first-post \
+python3 command.py new post my-first-post \
   --title "My First Post" \
   --description "글의 짧은 설명입니다." \
   --tag Typst
@@ -115,7 +118,7 @@ python3 command.py preview
 ### 새 글 만들기
 
 ```sh
-python3 command.py new my-first-post \
+python3 command.py new post my-first-post \
   --title "My First Post" \
   --description "글의 짧은 설명입니다." \
   --tag Typst
@@ -227,7 +230,7 @@ npx -y pagefind --site public
 
 ## 모양 바꾸기
 
-완성된 HTML 페이지 구조는 core가 아니라 `theme/` 가 소유합니다. 글, 홈,
+완성된 HTML 페이지 구조는 core가 아니라 `theme/` 가 소유합니다. 글, 일반 페이지, 홈,
 태그, 태그 목록, 404 renderer는 `theme/pages/` 에 있고, 공통 레이아웃과
 head, 카드, widget은 `theme/components/` 에 있습니다. CSS와 JavaScript는
 `theme/static/` 에서 수정할 수 있습니다.
@@ -268,13 +271,14 @@ theme: theme-config(color_scheme: "paper")
 | 경로 | 내용 |
 | --- | --- |
 | `site.typ` | 블로그 이름, 공개 URL, 작성자 정보, 색상 배합 등 사이트 설정 |
-| `theme/pages/` | 글·홈·태그·태그 목록·404 페이지 renderer |
+| `theme/pages/` | 글·일반·홈·태그·태그 목록·404 페이지 renderer |
 | `theme/components/` | head, 공통 레이아웃, 카드, widget 부품 |
 | `theme/static/` | theme의 CSS와 JavaScript |
 | `extensions.typ` | 사용할 기본 및 사용자 확장 목록 |
 | `extensions/` | 기본 및 사용자 확장의 Typst 모듈 |
 | `blog.py` | 추가 출력과 빌드 처리를 등록하는 Python 설정 |
 | `글 디렉터리/index.typ` | 자신의 글 |
+| `pages/페이지/index.typ` | About이나 정책 등의 일반 페이지 |
 | `example-post/index.typ` | 글 작성 방법 샘플 |
 | `static/` | 사이트 고유 이미지, favicon, 확장 asset, `CNAME` 등 |
 

@@ -9,7 +9,7 @@
 
 #let widget-author() = {
   let author = site.author
-  let socials = author.socials
+  let links = author.at("links", default: ())
   html.elem(
     "div",
     attrs: (class: "sidebar-widget author-widget", "data-pagefind-ignore": "all", "data-nosnippet": ""),
@@ -23,19 +23,15 @@
         )
       }
       html.div(class: "author-links", {
-        if "x" in socials and socials.x != "" {
-          html.elem("a", attrs: (class: "author-icon-link", href: socials.x, target: "_blank", rel: "noopener noreferrer", "aria-label": "X"), {
-            html.elem("div", attrs: (class: "raw-html-embed icon-x", "data-html": icons.x))
-          })
-        }
-        if "misskey" in socials and socials.misskey != "" {
-          html.elem("a", attrs: (class: "author-icon-link", href: socials.misskey, target: "_blank", rel: "noopener noreferrer", "aria-label": "Misskey"), {
-            html.elem("div", attrs: (class: "raw-html-embed icon-misskey", "data-html": icons.misskey))
-          })
-        }
-        if "github" in socials and socials.github != "" {
-          html.elem("a", attrs: (class: "author-icon-link", href: socials.github, target: "_blank", rel: "noopener noreferrer", "aria-label": "GitHub"), {
-            html.elem("div", attrs: (class: "raw-html-embed icon-github", "data-html": icons.github))
+        for link in links {
+          let icon = icons.at(link.id, default: none)
+          let link-class = "author-icon-link" + if icon == none { " author-text-link" } else { "" }
+          html.elem("a", attrs: (class: link-class, href: link.url, target: "_blank", rel: "noopener noreferrer", "aria-label": link.label), {
+            if icon == none {
+              link.label
+            } else {
+              html.elem("div", attrs: (class: "raw-html-embed icon-" + link.id, "data-html": icon))
+            }
           })
         }
       })

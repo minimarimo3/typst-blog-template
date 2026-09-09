@@ -12,6 +12,19 @@
   language: "ja",
   theme: theme-config(
     color_scheme: "dark",
+    // 任意。空のままならナビゲーションは表示されない。
+    navigation: (),
+    article_actions: (
+      share: (
+        x: true,
+        misskey: true,
+        copy: true,
+      ),
+      feedback: (
+        google_form_url: none,
+        entry_id: none,
+      ),
+    ),
   ),
   // 記事を posts/ 配下にまとめる場合は "posts" にする。
   posts_dir: ".",
@@ -54,23 +67,13 @@
   author: (
     name: "Your Name",
     bio: "Typstでブログを書いています。",
-    socials: (
-      x: "",
-      misskey: "https://misskey.io/@yourname",
-      github: "https://github.com/yourname",
+    links: (
+      (id: "misskey", label: "Misskey", url: "https://misskey.io/@yourname"),
+      (id: "github", label: "GitHub", url: "https://github.com/yourname"),
     ),
   ),
   analytics: (
     cloudflare_token: none,
-  ),
-  feedback: (
-    google_form_url: none,
-    entry_id: none,
-  ),
-  share: (
-    x: true,
-    misskey: true,
-    copy: true,
   ),
 )
 

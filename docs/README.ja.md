@@ -16,7 +16,8 @@ Typst で記事を書いて、静的なブログとして公開するための�
 - RSS と sitemap も自動生成します
 - [Pagefind](https://pagefind.app/) によるサイト内検索に対応しています
 - GitHub Pages にそのまま公開できます（ワークフロー同梱）
-- coreを変更せず、`theme/` で記事・トップ・タグ・404ページの構造を作り替えられます
+- About・FAQ・利用規約などを、記事ではない汎用ページとして作れます
+- coreを変更せず、`theme/` で記事・汎用・トップ・タグ・404ページの構造を作り替えられます
 - 配色の切り替え、favicon・画像・追加 CSS・独自ドメインの設定ができます
 - core を変更せず、Typst・CSS・JavaScript をまとめた template 側の拡張を追加できます
 - `blog.py`からPDF・EPUB生成やPythonによる後処理を追加できます
@@ -59,11 +60,13 @@ cd REPO
 | `github_repo` | このブログの GitHub リポジトリ URL |
 | `language` | 主に使う言語。`"ja"` の短縮形、または `lang`・`region`・`script` を個別に指定 |
 | `theme.color_scheme` | `"dark"` または `"light"` |
+| `theme.navigation` | 任意のナビゲーション。空なら何も表示しない |
+| `theme.article_actions` | シェアボタンと任意の記事フィードバックフォーム |
 | `posts_dir` | 記事を置く場所。ルート直下なら `"."`、`posts/` にまとめるなら `"posts"` |
 | `update_policy` | 更新日の決め方。`"git"`（既定・Git 履歴から自動算出）か `"manual"`（記事の `update` を使う） |
 | `author.name` | 著者名 |
 | `author.bio` | プロフィール文 |
-| `author.socials` | X、Misskey、GitHub などのリンク |
+| `author.links` | `id`・`label`・`url`を持つ著者プロフィールリンク |
 
 地域や用字系を区別する言語では、BCP 47 文字列ではなく Typst の言語要素を個別に指定します。
 
@@ -88,7 +91,7 @@ base_url: "https://USER.github.io/REPO"
 ### 3. 記事を作る
 
 ```sh
-python3 command.py new my-first-post \
+python3 command.py new post my-first-post \
   --title "My First Post" \
   --description "記事の短い説明文です。" \
   --tag Typst
@@ -115,7 +118,7 @@ python3 command.py preview
 ### 記事を新規作成する
 
 ```sh
-python3 command.py new my-first-post \
+python3 command.py new post my-first-post \
   --title "My First Post" \
   --description "記事の短い説明文です。" \
   --tag Typst
@@ -164,6 +167,52 @@ python3 command.py new my-first-post \
 例えば`extra: (course: "typst-basics", lesson: 1)`を指定し、rendererから
 `data.post.extra`を読むことで、coreを変更せずにtheme側でコースという概念を実装できます。
 `extra`の中では、文字列・数値・真偽値・`none`・配列・ネストした辞書を使用できます。
+
+## 汎用ページを書く
+
+About、FAQ、利用規約などの記事ではないページは、記事一覧・タグページ・前後記事・
+RSSへ入らない汎用ページとして作れます。公開かつindex対象のページはsitemapと
+Pagefindへ含まれます。
+
+```sh
+python3 command.py new page about \
+  --title "このサイトについて" \
+  --description "このサイトと運営者について紹介します。"
+```
+
+作成直後は下書きです。すぐ公開する場合は`--publish`を付けます。公開はするものの
+検索エンジン・Pagefind・sitemapに含めない補助ページには`--no-index`を付けます。
+生成される`pages/about/index.typ`は次の形式です。
+
+```typst
+#import "/template.typ": site-page
+
+#show: site-page.with(
+  slug: "about",
+  title: "このサイトについて",
+  description: "このサイトと運営者について紹介します。",
+  draft: true,
+  index: true,
+)
+
+= このサイトについて
+```
+
+ナビゲーションはページとは独立して、必要な場合だけ`theme-config`へ設定します。
+サイト内リンクは`path`、外部リンクは`url`を使います。
+
+```typst
+theme: theme-config(
+  color_scheme: "dark",
+  navigation: (
+    (label: "ホーム", path: "/"),
+    (label: "About", path: "/about/"),
+    (label: "GitHub", url: "https://github.com/example"),
+  ),
+)
+```
+
+## 記事の公開と配置
 
 ### 下書きと公開
 
@@ -228,12 +277,12 @@ npx -y pagefind --site public
 ## サイトthemeを変更する
 
 完成したHTMLページの構造はcoreではなく `theme/` が所有します。記事は
-`theme/pages/article.typ`、トップは `home.typ`、タグ関連は `tag.typ` と
+`theme/pages/article.typ`、汎用ページは`page.typ`、トップは `home.typ`、タグ関連は `tag.typ` と
 `tags-index.typ`、404は `not-found.typ` で変更できます。共通レイアウトやhead、
 カード、widgetは `theme/components/`、CSSとJavaScriptは `theme/static/` にあります。
 
 `theme/theme.typ` はbuilderが利用するrendererの公開窓口です。内部を整理する場合も、
-5種類のrendererのexportは維持してください。coreは確定済みURL、日付、前後記事、
+6種類のrendererのexportは維持してください。coreは確定済みURL、日付、前後記事、
 SEOデータを渡し、themeがそれをどのようなHTMLにするかを決めます。
 
 ### 配色を切り替える
@@ -274,13 +323,14 @@ theme: theme-config(color_scheme: "paper")
 | パス | 内容 |
 | --- | --- |
 | `site.typ` | ブログ名、公開 URL、著者情報、配色などのサイト設定 |
-| `theme/pages/` | 記事・トップ・タグ・タグ一覧・404ページの完成renderer |
+| `theme/pages/` | 記事・汎用・トップ・タグ・タグ一覧・404ページの完成renderer |
 | `theme/components/` | head、共通レイアウト、カード、widgetなどの部品 |
 | `theme/static/` | themeが使うCSSとJavaScript |
 | `extensions.typ` | 有効にする標準・独自拡張の登録簿 |
 | `extensions/` | 標準・独自拡張の Typst モジュール |
 | `blog.py` | 追加出力やビルド処理を登録するPython設定 |
 | `記事ディレクトリ/index.typ` | 自分の記事 |
+| `pages/ページ名/index.typ` | Aboutや利用規約などの汎用ページ |
 | `example-post/index.typ` | 記事の書き方のサンプル |
 | `static/` | サイト固有の画像、favicon、拡張用asset、`CNAME` など |
 

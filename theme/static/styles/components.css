@@ -338,6 +338,12 @@
   transform: translateY(-2px);
 }
 
+.author-text-link {
+  width: auto;
+  padding: 0 10px;
+  font-size: 0.8rem;
+}
+
 .author-icon-link:hover .icon-x,
 .author-icon-link:hover .icon-github {
   fill: var(--text-color);

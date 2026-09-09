@@ -10,6 +10,7 @@
 次のrendererをexportします。
 
 - `render-article(data)`
+- `render-page(data)`
 - `render-home(data)`
 - `render-tag(data)`
 - `render-tags-index(data)`
@@ -34,7 +35,7 @@ coreは完成HTMLを作りません。代わりに、検証・正規化済みの
 - `data.post`: 記事renderer用のメタデータ、タグリンク、編集履歴URL
 - `data.navigation`: 前後記事とそのURL
 - `data.seo`: OGP画像URLとJSON-LD
-- `data.body`: 記事本文
+- `data.body`: 記事または汎用ページの本文
 
 ページ種類によって存在するフィールドは異なります。標準rendererは
 `pages/` の各ファイルで、実際の利用例を兼ねています。

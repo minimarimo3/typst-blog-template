@@ -1,5 +1,5 @@
 #import "/theme/api.typ": core
-#import "/theme/theme.typ": render-article
+#import "/theme/theme.typ": render-article, render-page
 #import "/theme/authoring.typ": env
 #import "/extensions/alerts.typ": note, tip, important, warning, caution
 #import "/extensions/youtube.typ": youtube
@@ -9,4 +9,6 @@
 #let post-meta = core.post-meta
 #let article = core.article.with(renderer: render-article)
 #let post = core.post.with(renderer: render-article)
+#let page-meta = core.page-meta
+#let site-page = core.site-page.with(renderer: render-page)
 #let project = article

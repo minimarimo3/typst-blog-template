@@ -1,6 +1,7 @@
 #import "/site.typ": site
 #import "../api.typ": core
 #import core: html-language
+#import "navigation.typ": site-navigation
 
 #let page-layout(
   head-content: none,
@@ -18,6 +19,7 @@
       if before-content != none {
         before-content
       }
+      site-navigation()
       html.div(class: "site-container", {
         html.main(class: "main-content", main-content)
         if sidebar-content != none {

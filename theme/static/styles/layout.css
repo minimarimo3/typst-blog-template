@@ -1,5 +1,30 @@
 /* Shared page shell and responsive layout. */
 
+.site-navigation {
+  border-bottom: 1px solid var(--border-color);
+  background: var(--sidebar-bg);
+}
+
+.site-navigation-inner {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+.site-navigation-link {
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+.site-navigation-link:hover {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
 .site-container {
   width: 100%;
   max-width: var(--container-width);
@@ -26,6 +51,10 @@
 }
 
 @media (min-width: 1300px) {
+  .site-navigation-inner {
+    max-width: var(--content-width);
+  }
+
   .site-container {
     max-width: none;
     grid-template-columns: 1fr var(--content-width) 1fr;
@@ -45,6 +74,10 @@
 }
 
 @media (max-width: 900px) {
+  .site-navigation-inner {
+    padding: 10px 15px;
+  }
+
   .site-container {
     display: block;
     padding: 20px 15px;

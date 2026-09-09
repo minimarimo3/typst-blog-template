@@ -16,7 +16,8 @@ Languages: [日本語](docs/README.ja.md) | English | [한국어](docs/README.ko
 - Auto-generate RSS and sitemap
 - Site search powered by [Pagefind](https://pagefind.app/)
 - Publish to GitHub Pages as-is (workflow included)
-- Rebuild article, home, tag, and 404 page structures under `theme/` without editing core
+- Create general pages such as About, FAQ, and policies without treating them as posts
+- Rebuild article, general-page, home, tag, and 404 structures under `theme/` without editing core
 - Switch color schemes; add a favicon, images, extra CSS, and a custom domain
 - Add template-owned extensions that combine Typst, CSS, and JavaScript without editing the core
 - Generate PDF/EPUB outputs or run Python post-processing through `blog.py`
@@ -64,11 +65,13 @@ Open `site.typ` and adjust it for your blog. Start with these:
 | `github_repo` | GitHub repository URL of this blog |
 | `language` | Primary language. Use `"ja"` as shorthand, or specify `lang`, `region`, and `script` separately |
 | `theme.color_scheme` | `"dark"` or `"light"` |
+| `theme.navigation` | Optional ordered navigation links. Leave it empty to render no navigation |
+| `theme.article_actions` | Share buttons and the optional article feedback form |
 | `posts_dir` | Where posts live. `"."` for the repository root, `"posts"` to keep them under `posts/` |
 | `update_policy` | How the updated date is determined. `"git"` (default; derived from Git history) or `"manual"` (uses the post's `update`) |
 | `author.name` | Author name |
 | `author.bio` | Profile text |
-| `author.socials` | Links to X, Misskey, GitHub, etc. |
+| `author.links` | Author profile links, each with an `id`, `label`, and `url` |
 
 For languages with regional or script variants, use Typst's language components instead of a BCP 47 string:
 
@@ -93,7 +96,7 @@ If you use a custom domain, set that domain's URL instead.
 ### 3. Create a post
 
 ```sh
-python3 command.py new my-first-post \
+python3 command.py new post my-first-post \
   --title "My First Post" \
   --description "A short description of the post." \
   --tag Typst
@@ -120,7 +123,7 @@ One post = one directory; the `index.typ` in each directory is the post body. Pu
 ### Create a new post
 
 ```sh
-python3 command.py new my-first-post \
+python3 command.py new post my-first-post \
   --title "My First Post" \
   --description "A short description of the post." \
   --tag Typst
@@ -171,6 +174,52 @@ For example, a theme can implement a course concept without changing core by
 setting `extra: (course: "typst-basics", lesson: 1)` and reading
 `data.post.extra` in its renderer. Use strings, numbers, booleans, `none`,
 arrays, and nested dictionaries inside `extra`.
+
+## Writing General Pages
+
+General pages use the shared site layout but stay out of post lists, tag pages,
+adjacent-post navigation, and RSS. Published, indexed pages are included in the
+sitemap and Pagefind.
+
+```sh
+python3 command.py new page about \
+  --title "About" \
+  --description "About this site."
+```
+
+Pages start as drafts. Add `--publish` to publish immediately, and `--no-index`
+for a public utility page that should be omitted from search engines, Pagefind,
+and the sitemap. The generated `pages/about/index.typ` looks like this:
+
+```typst
+#import "/template.typ": site-page
+
+#show: site-page.with(
+  slug: "about",
+  title: "About",
+  description: "About this site.",
+  draft: true,
+  index: true,
+)
+
+= About this site
+```
+
+Navigation is independent from pages and remains optional. Internal `path`
+values receive the deployment base path; external links use `url`.
+
+```typst
+theme: theme-config(
+  color_scheme: "dark",
+  navigation: (
+    (label: "Home", path: "/"),
+    (label: "About", path: "/about/"),
+    (label: "GitHub", url: "https://github.com/example"),
+  ),
+)
+```
+
+## Publishing and Organizing Posts
 
 ### Drafts and publishing
 
@@ -235,11 +284,11 @@ From then on, every push triggers GitHub Actions to build and deploy the content
 ## Customizing the Site Theme
 
 The complete HTML page structure belongs to `theme/`, not to the core submodule.
-Edit `theme/pages/article.typ`, `home.typ`, `tag.typ`, `tags-index.typ`, or
+Edit `theme/pages/article.typ`, `page.typ`, `home.typ`, `tag.typ`, `tags-index.typ`, or
 `not-found.typ` to change a page. Shared layout, head, cards, and widgets live in
 `theme/components/`; CSS and JavaScript live in `theme/static/`.
 
-`theme/theme.typ` is the renderer contract used by the builder. Keep its five
+`theme/theme.typ` is the renderer contract used by the builder. Keep its six
 renderer exports when reorganizing the implementation. The core supplies
 resolved URLs, dates, navigation, and SEO data, while the theme decides how to
 turn that data into HTML.
@@ -282,13 +331,14 @@ Files you usually edit:
 | Path | Description |
 | --- | --- |
 | `site.typ` | Site settings: blog name, public URL, author profile, color scheme, etc. |
-| `theme/pages/` | Complete renderers for article, home, tag, tag-index, and 404 pages |
+| `theme/pages/` | Complete renderers for article, general, home, tag, tag-index, and 404 pages |
 | `theme/components/` | Shared head, layout, card, and widget components |
 | `theme/static/` | CSS and JavaScript used by the theme |
 | `extensions.typ` | Enabled built-in and custom extensions |
 | `extensions/` | Typst modules for built-in and custom extensions |
 | `blog.py` | Python pipeline registration for extra outputs and build processing |
 | `POST_DIR/index.typ` | Your posts |
+| `pages/PAGE/index.typ` | General pages such as About and policies |
 | `example-post/index.typ` | Sample showing how to write a post |
 | `static/` | Site-specific images, favicon, extension assets, `CNAME`, etc. |
 

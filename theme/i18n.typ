@@ -2,6 +2,7 @@
 
 #let _translations = (
   ja: (
+    site_navigation: "サイトナビゲーション",
     back_home: "← ホームに戻る",
     author: "執筆者",
     about_blog: "このブログについて",
@@ -44,6 +45,7 @@
     edit_history: "編集履歴",
   ),
   en: (
+    site_navigation: "Site navigation",
     back_home: "← Back to home",
     author: "Author",
     about_blog: "About this blog",
@@ -86,6 +88,7 @@
     edit_history: "Edit History",
   ),
   ko: (
+    site_navigation: "사이트 탐색",
     back_home: "← 홈으로 돌아가기",
     author: "글쓴이",
     about_blog: "이 블로그에 대하여",
@@ -128,6 +131,7 @@
     edit_history: "수정 기록",
   ),
   "zh-CN": (
+    site_navigation: "网站导航",
     back_home: "← 返回首页",
     author: "作者",
     about_blog: "关于本博客",
@@ -170,6 +174,7 @@
     edit_history: "编辑历史",
   ),
   "zh-TW": (
+    site_navigation: "網站導覽",
     back_home: "← 返回首頁",
     author: "作者",
     about_blog: "關於本部落格",

@@ -16,7 +16,8 @@
 - 自動產生 RSS 與 sitemap
 - 支援基於 [Pagefind](https://pagefind.app/) 的站內搜尋
 - 可直接發佈到 GitHub Pages（附帶工作流程）
-- 無需修改 core，即可在 `theme/` 中重做文章、首頁、標籤與404頁面結構
+- 可建立不作為文章處理的 About、FAQ、政策等通用頁面
+- 無需修改 core，即可在 `theme/` 中重做文章、通用頁面、首頁、標籤與404頁面結構
 - 支援切換配色，設定 favicon、圖片、額外 CSS 與自訂網域
 - 無需修改 core，即可新增由 Typst、CSS 與 JavaScript 組成的 template 端擴充功能
 - 可透過 `blog.py` 新增PDF、EPUB產生與Python後處理
@@ -59,11 +60,13 @@ cd REPO
 | `github_repo` | 本部落格的 GitHub 儲存庫 URL |
 | `language` | 主要使用的語言。可用 `"ja"` 簡寫，或分別指定 `lang`、`region`、`script` |
 | `theme.color_scheme` | `"dark"` 或 `"light"` |
+| `theme.navigation` | 選用的導覽連結。留空時不顯示導覽 |
+| `theme.article_actions` | 分享按鈕與選用的文章回饋表單 |
 | `posts_dir` | 文章存放位置。放在根目錄下用 `"."`，集中到 `posts/` 用 `"posts"` |
 | `update_policy` | 更新日期的決定方式。`"git"`（預設，從 Git 歷史自動計算）或 `"manual"`（使用文章的 `update`） |
 | `author.name` | 作者名稱 |
 | `author.bio` | 個人簡介 |
-| `author.socials` | X、Misskey、GitHub 等連結 |
+| `author.links` | 含有 `id`、`label`、`url` 的作者資料連結 |
 
 需要區分地區或書寫系統的語言，請分別指定 Typst 的語言要素，而不是填寫 BCP 47 字串。
 
@@ -88,7 +91,7 @@ base_url: "https://USER.github.io/REPO"
 ### 3. 建立文章
 
 ```sh
-python3 command.py new my-first-post \
+python3 command.py new post my-first-post \
   --title "My First Post" \
   --description "文章的簡短描述。" \
   --tag Typst
@@ -115,7 +118,7 @@ push 到 `main` 分支後，GitHub Actions 會自動建置並發佈到 GitHub Pa
 ### 新增文章
 
 ```sh
-python3 command.py new my-first-post \
+python3 command.py new post my-first-post \
   --title "My First Post" \
   --description "文章的簡短描述。" \
   --tag Typst
@@ -227,7 +230,7 @@ npx -y pagefind --site public
 
 ## 更改外觀
 
-完整的HTML頁面結構由 `theme/` 而不是core負責。文章、首頁、標籤、標籤目錄和
+完整的HTML頁面結構由 `theme/` 而不是core負責。文章、通用頁面、首頁、標籤、標籤目錄和
 404 renderer位於 `theme/pages/`；共用版面、head、卡片和widget位於
 `theme/components/`；CSS和JavaScript位於 `theme/static/`。
 
@@ -266,13 +269,14 @@ theme: theme-config(color_scheme: "paper")
 | 路徑 | 說明 |
 | --- | --- |
 | `site.typ` | 部落格名稱、發佈 URL、作者資訊、配色等網站設定 |
-| `theme/pages/` | 文章、首頁、標籤、標籤目錄與404頁面renderer |
+| `theme/pages/` | 文章、通用頁面、首頁、標籤、標籤目錄與404頁面renderer |
 | `theme/components/` | head、共用版面、卡片與widget元件 |
 | `theme/static/` | theme使用的CSS與JavaScript |
 | `extensions.typ` | 已啟用的內建與自訂擴充功能 |
 | `extensions/` | 內建與自訂擴充功能的 Typst 模組 |
 | `blog.py` | 註冊額外輸出與建置處理的Python設定 |
 | `文章目錄/index.typ` | 自己的文章 |
+| `pages/頁面/index.typ` | About、政策等通用頁面 |
 | `example-post/index.typ` | 文章寫法範例 |
 | `static/` | 網站專用圖片、favicon、擴充資源、`CNAME` 等 |
 
