@@ -1,7 +1,6 @@
 #import "/template.typ": post, calver, env, note, tip, important, warning, caution, raw_html, youtube
 
 #show: post.with(
-  slug: "example-post",
   title: "Typst blog template Sample Page",
   create: calver(2026, 1, 1),
   update: calver(2026, 4, 1),

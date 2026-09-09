@@ -128,7 +128,7 @@ python3 command.py new post my-first-post \
 - タグを複数付けるときは `--tag` を繰り返します
 - 最初から公開状態にするときは `--publish` を付けます
 - 作成日を指定するときは `--date 2026-07-19` の形式で指定します
-- 同名のディレクトリ・既存記事と同じ slug・予約済み URL がある場合はエラーになります
+- 同名の出力先ディレクトリがすでにある場合はエラーになります
 
 #### `new post` をブログ側で拡張する
 
@@ -202,7 +202,6 @@ def main() -> int:
 #import "/template.typ": post, calver
 
 #show: post.with(
-  slug: "my-first-post",
   title: "My First Post",
   create: calver(2026, 1, 1),
   description: "記事の短い説明文です。",
@@ -219,7 +218,8 @@ def main() -> int:
 
 | 項目 | 内容 |
 | --- | --- |
-| `slug` | 記事の URL。空白・大文字・句読点・記号を含む自然な Unicode テキストを使用でき、生成 URL ではパーセントエンコードされます。パス区切り、制御文字、移植性のないファイル名だけは拒否されます。上の例は `/my-first-post/` で公開される |
+| `permalink` | 正式URLを変える省略可能な指定。`"/notes/hello/"` のように書く。省略すると `posts_dir` からのディレクトリ階層がURLになる |
+| `aliases` | 以前のURLを `("/hello/", "/2025/hello/")` のように指定する省略可能な配列。各URLに正式URLへの転送ページが生成される |
 | `title` | 記事タイトル |
 | `create` | 作成日 |
 | `update` | 更新日。`update_policy: "manual"` のときだけ使われる |
@@ -252,7 +252,6 @@ python3 command.py new page about \
 #import "/template.typ": site-page
 
 #show: site-page.with(
-  slug: "about",
   title: "このサイトについて",
   description: "このサイトと運営者について紹介します。",
   draft: true,
@@ -260,6 +259,20 @@ python3 command.py new page about \
 )
 
 = このサイトについて
+```
+
+初期状態では、ディレクトリの階層がそのままURLの階層になります。たとえば
+`posts_dir: "posts"` のとき、`posts/guides/install/index.typ` は
+`/guides/install/`、`pages/legal/privacy/index.typ` は `/legal/privacy/` で
+公開されます。別のURLで公開する場合や、移動前のリンクを残す場合は
+`permalink` と `aliases` を指定します。
+
+```typst
+#show: post.with(
+  permalink: "/blog/install/",
+  aliases: ("/guides/install/",),
+  // ...
+)
 ```
 
 ナビゲーションはページとは独立して、必要な場合だけ`theme-config`へ設定します。

@@ -134,7 +134,7 @@ python3 command.py new post my-first-post \
 - Repeat `--tag` to add multiple tags
 - Add `--publish` to start in the published state
 - Use `--date 2026-07-19` to set the created date explicitly
-- If a directory with the same name, a post with the same slug, or a reserved URL already exists, the command fails with an error
+- If the destination directory already exists, the command fails with an error
 
 #### Extend `new post` from your blog
 
@@ -207,7 +207,6 @@ The top of a generated `index.typ` looks like this:
 #import "/template.typ": post, calver
 
 #show: post.with(
-  slug: "my-first-post",
   title: "My First Post",
   create: calver(2026, 1, 1),
   description: "A short description of the post.",
@@ -225,7 +224,8 @@ following content with the article layout.
 
 | Key | Description |
 | --- | --- |
-| `slug` | The post URL. Human-readable Unicode text, including spaces, uppercase letters, punctuation, and symbols, is supported and percent-encoded in generated URLs. Path separators, control characters, and non-portable filesystem names are rejected. The example above is published at `/my-first-post/` |
+| `permalink` | Optional canonical URL such as `"/notes/hello/"`. When omitted, the directory path relative to `posts_dir` is used |
+| `aliases` | Optional old URLs such as `("/hello/", "/2025/hello/")`. Each generates a redirect page to the canonical URL |
 | `title` | Post title |
 | `create` | Created date |
 | `update` | Updated date. Used only when `update_policy: "manual"` |
@@ -259,7 +259,6 @@ and the sitemap. The generated `pages/about/index.typ` looks like this:
 #import "/template.typ": site-page
 
 #show: site-page.with(
-  slug: "about",
   title: "About",
   description: "About this site.",
   draft: true,
@@ -267,6 +266,20 @@ and the sitemap. The generated `pages/about/index.typ` looks like this:
 )
 
 = About this site
+```
+
+By default, directory nesting becomes URL nesting. For example,
+`posts/guides/install/index.typ` is published at `/guides/install/` when
+`posts_dir` is `"posts"`, and `pages/legal/privacy/index.typ` is published at
+`/legal/privacy/`. To publish a file elsewhere or preserve old links after a
+move, set `permalink` and `aliases`:
+
+```typst
+#show: post.with(
+  permalink: "/blog/install/",
+  aliases: ("/guides/install/",),
+  // ...
+)
 ```
 
 Navigation is independent from pages and remains optional. Internal `path`

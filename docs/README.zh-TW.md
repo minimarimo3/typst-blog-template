@@ -128,7 +128,7 @@ python3 command.py new post my-first-post \
 - 需要多個標籤時重複使用 `--tag`
 - 想一開始就是發佈狀態時加上 `--publish`
 - 指定建立日期時使用 `--date 2026-07-19` 的格式
-- 如果存在同名目錄、與既有文章相同的 slug 或保留 URL，會出現錯誤
+- 如果目標目錄已經存在，會出現錯誤
 
 ### 文章檔案格式
 
@@ -138,7 +138,6 @@ python3 command.py new post my-first-post \
 #import "/template.typ": post, calver
 
 #show: post.with(
-  slug: "my-first-post",
   title: "My First Post",
   create: calver(2026, 1, 1),
   description: "文章的簡短描述。",
@@ -155,7 +154,8 @@ python3 command.py new post my-first-post \
 
 | 欄位 | 說明 |
 | --- | --- |
-| `slug` | 文章的 URL。可使用包含空格、大寫字母、標點與符號的自然 Unicode 文字，產生的 URL 會使用百分比編碼。路徑分隔符、控制字元與不可攜的檔名會被拒絕。上例會發佈在 `/my-first-post/` |
+| `permalink` | 可選的正式 URL。省略時使用相對於 `posts_dir` 的目錄路徑 |
+| `aliases` | 可選的舊 URL 陣列。每個 URL 都會產生指向正式 URL 的轉址頁面 |
 | `title` | 文章標題 |
 | `create` | 建立日期 |
 | `update` | 更新日期。僅在 `update_policy: "manual"` 時使用 |

@@ -128,7 +128,7 @@ python3 command.py new post my-first-post \
 - 태그를 여러 개 붙이려면 `--tag` 를 반복합니다
 - 처음부터 공개 상태로 만들려면 `--publish` 를 붙입니다
 - 작성일을 지정하려면 `--date 2026-07-19` 형식으로 지정합니다
-- 같은 이름의 디렉터리, 기존 글과 같은 slug, 예약된 URL 이 있으면 에러가 발생합니다
+- 같은 이름의 출력 디렉터리가 이미 있으면 오류가 발생합니다
 
 ### 글 파일 형식
 
@@ -138,7 +138,6 @@ python3 command.py new post my-first-post \
 #import "/template.typ": post, calver
 
 #show: post.with(
-  slug: "my-first-post",
   title: "My First Post",
   create: calver(2026, 1, 1),
   description: "글의 짧은 설명입니다.",
@@ -155,7 +154,8 @@ python3 command.py new post my-first-post \
 
 | 항목 | 내용 |
 | --- | --- |
-| `slug` | 글의 URL. 공백, 대문자, 문장 부호와 기호가 포함된 자연스러운 Unicode 텍스트를 사용할 수 있으며 생성 URL에서는 퍼센트 인코딩됨. 경로 구분자, 제어 문자와 이식성이 없는 파일 이름은 거부됨. 위 예시는 `/my-first-post/` 로 공개됨 |
+| `permalink` | 선택적인 정식 URL. 생략하면 `posts_dir` 기준 디렉터리 경로가 URL로 사용됨 |
+| `aliases` | 이전 URL의 선택적 배열. 각 URL에 정식 URL로 이동하는 페이지가 생성됨 |
 | `title` | 글 제목 |
 | `create` | 작성일 |
 | `update` | 수정일. `update_policy: "manual"` 일 때만 사용됨 |
