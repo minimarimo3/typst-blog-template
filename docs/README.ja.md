@@ -130,6 +130,70 @@ python3 command.py new post my-first-post \
 - 作成日を指定するときは `--date 2026-07-19` の形式で指定します
 - 同名のディレクトリ・既存記事と同じ slug・予約済み URL がある場合はエラーになります
 
+#### `new post` をブログ側で拡張する
+
+ブログ固有のメタデータ用オプションは、core を変更せず、ルートの
+`command.py` から追加できます。たとえば `--course` と `--lesson` を
+追加する場合は、次の関数を定義して `core_api.main()` に渡します。
+
+```python
+import argparse
+
+
+core_api = _load_core_api()
+
+
+def configure_new_post(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--course", required=True)
+    parser.add_argument("--lesson", required=True, type=int)
+
+
+def main() -> int:
+    return core_api.main(
+        root_dir=ROOT_DIR,
+        configure_new_post=configure_new_post,
+    )
+```
+
+これで次のように実行できます。
+
+```sh
+python3 command.py new post lesson-one \
+  --title "Lesson one" \
+  --description "最初のレッスンです。" \
+  --course typst-basics \
+  --lesson 1
+```
+
+追加した値は core 標準の投稿テンプレートに `extra` 辞書として書き込まれます。
+値には JSON として表現できる文字列・数値・真偽値・配列・辞書を使用してください。
+値が `None` の省略可能な引数は `extra` に書き込まれません。
+
+記事ファイル全体の雛形も変えたい場合は、検証済みの
+`PostTemplateContext` を受け取る関数を `new_post_template` に指定できます。
+メタデータ部分を標準のまま保つ場合は、core の標準雛形を呼び出して本文だけを
+置き換える方法が簡単です。
+
+```python
+def course_post_template(post: core_api.PostTemplateContext) -> str:
+    source = core_api.default_post_template(post)
+    return source.replace(
+        "// Write the post body below.",
+        "= 目標\n\n= レッスン\n\n= 練習問題",
+    )
+
+
+def main() -> int:
+    return core_api.main(
+        root_dir=ROOT_DIR,
+        configure_new_post=configure_new_post,
+        new_post_template=course_post_template,
+    )
+```
+
+どちらも指定しない既定状態では、これまでどおり core 側の引数と投稿テンプレートが
+使用されます。
+
 ### 記事ファイルの形式
 
 生成される `index.typ` の先頭は次のようになっています。

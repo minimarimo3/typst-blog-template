@@ -135,6 +135,69 @@ python3 command.py new post my-first-post \
 - Use `--date 2026-07-19` to set the created date explicitly
 - If a directory with the same name, a post with the same slug, or a reserved URL already exists, the command fails with an error
 
+#### Extend `new post` from your blog
+
+Blog-specific metadata options can be added in the root `command.py` without
+editing core. For example, define a parser callback and pass it to
+`core_api.main()` to add `--course` and `--lesson`:
+
+```python
+import argparse
+
+
+core_api = _load_core_api()
+
+
+def configure_new_post(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--course", required=True)
+    parser.add_argument("--lesson", required=True, type=int)
+
+
+def main() -> int:
+    return core_api.main(
+        root_dir=ROOT_DIR,
+        configure_new_post=configure_new_post,
+    )
+```
+
+You can then run:
+
+```sh
+python3 command.py new post lesson-one \
+  --title "Lesson one" \
+  --description "The first lesson." \
+  --course typst-basics \
+  --lesson 1
+```
+
+Added values are written to the standard post template as the `extra`
+dictionary. Values must be JSON-compatible; optional arguments whose value is
+`None` are omitted.
+
+To replace the complete generated source, also pass a function as
+`new_post_template`. It receives a validated `PostTemplateContext`. You can
+reuse the core metadata header and replace only the starter body:
+
+```python
+def course_post_template(post: core_api.PostTemplateContext) -> str:
+    source = core_api.default_post_template(post)
+    return source.replace(
+        "// Write the post body below.",
+        "= Goals\n\n= Lesson\n\n= Exercises",
+    )
+
+
+def main() -> int:
+    return core_api.main(
+        root_dir=ROOT_DIR,
+        configure_new_post=configure_new_post,
+        new_post_template=course_post_template,
+    )
+```
+
+When neither customization is provided, the command continues to use the core
+arguments and core post template.
+
 ### Post file format
 
 The top of a generated `index.typ` looks like this:
