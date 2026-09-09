@@ -69,6 +69,7 @@ Open `site.typ` and adjust it for your blog. Start with these:
 | `theme.article_actions` | Share buttons and the optional article feedback form |
 | `posts_dir` | Where posts live. `"."` for the repository root, `"posts"` to keep them under `posts/` |
 | `update_policy` | How the updated date is determined. `"git"` (default; derived from Git history) or `"manual"` (uses the post's `update`) |
+| `asset_extensions` | File extensions copied from each post or page directory, such as `".mp4"`, `".mp3"`, and `".woff2"` |
 | `author.name` | Author name |
 | `author.bio` | Profile text |
 | `author.links` | Author profile links, each with an `id`, `label`, and `url` |

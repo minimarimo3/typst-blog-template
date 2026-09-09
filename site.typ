@@ -30,6 +30,14 @@
   posts_dir: ".",
   // "git" は記事ディレクトリの最終コミット日を更新日として自動表示する。
   update_policy: "git",
+  // 記事・固定ページのディレクトリから、HTML と同じ出力先へコピーするファイル拡張子。
+  asset_extensions: (
+    ".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".avif",
+    ".mp4", ".webm", ".ogv", ".mov",
+    ".mp3", ".m4a", ".ogg", ".oga", ".wav", ".flac", ".aac",
+    ".woff", ".woff2", ".ttf", ".otf",
+    ".pdf", ".js", ".yaml", ".yml", ".bib", ".txt",
+  ),
   fonts: (
     main: (
       pdf: ("Noto Serif", "Noto Serif CJK JP"),
