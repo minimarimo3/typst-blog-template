@@ -1,4 +1,6 @@
 #import "/site.typ": site
+#import "../api.typ": core
+#import core: base-path
 #import "../i18n.typ": i18n
 
 #let icons = (
@@ -24,13 +26,17 @@
       }
       html.div(class: "author-links", {
         for link in links {
-          let icon = icons.at(link.id, default: none)
-          let link-class = "author-icon-link" + if icon == none { " author-text-link" } else { "" }
+          let custom-icon = link.at("icon", default: none)
+          let built-in-icon = icons.at(link.id, default: none)
+          let has-icon = custom-icon != none or built-in-icon != none
+          let link-class = "author-icon-link" + if has-icon { "" } else { " author-text-link" }
           html.elem("a", attrs: (class: link-class, href: link.url, target: "_blank", rel: "noopener noreferrer", "aria-label": link.label), {
-            if icon == none {
-              link.label
+            if custom-icon != none {
+              html.elem("img", attrs: (class: "author-custom-icon", src: base-path + "/" + custom-icon, alt: ""))
+            } else if built-in-icon != none {
+              html.elem("div", attrs: (class: "raw-html-embed icon-" + link.id, "data-html": built-in-icon))
             } else {
-              html.elem("div", attrs: (class: "raw-html-embed icon-" + link.id, "data-html": icon))
+              link.label
             }
           })
         }

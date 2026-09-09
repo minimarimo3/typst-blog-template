@@ -10,6 +10,11 @@
   // "ja" の短縮形、または (lang: "zh", region: "TW", script: "hani") を指定できる。
   // region は省略可、script の既定値は auto。
   language: "ja",
+  // 記事一覧を分割する場合は enabled を true にし、1ページの件数を per_page で指定する。
+  pagination: (
+    home: (enabled: false, per_page: 10),
+    tag: (enabled: false, per_page: 10),
+  ),
   theme: theme-config(
     color_scheme: "dark",
     // 任意。空のままならナビゲーションは表示されない。
@@ -78,6 +83,8 @@
     links: (
       (id: "misskey", label: "Misskey", url: "https://misskey.io/@yourname"),
       (id: "github", label: "GitHub", url: "https://github.com/yourname"),
+      // 独自アイコンは static/ からの相対パスを icon に指定できる。
+      // (id: "bluesky", label: "Bluesky", url: "https://bsky.app/profile/yourname", icon: "icons/bluesky.svg"),
     ),
   ),
   analytics: (

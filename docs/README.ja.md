@@ -66,7 +66,7 @@ cd REPO
 | `update_policy` | 更新日の決め方。`"git"`（既定・Git 履歴から自動算出）か `"manual"`（記事の `update` を使う） |
 | `author.name` | 著者名 |
 | `author.bio` | プロフィール文 |
-| `author.links` | `id`・`label`・`url`を持つ著者プロフィールリンク |
+| `author.links` | `id`・`label`・`url`と、省略可能な`static/`基準の`icon`パスを持つ著者プロフィールリンク |
 
 地域や用字系を区別する言語では、BCP 47 文字列ではなく Typst の言語要素を個別に指定します。
 
@@ -288,6 +288,20 @@ theme: theme-config(
   ),
 )
 ```
+
+homeとタグ別の記事一覧は、初期状態では全件を1ページに表示します。分割したい一覧の
+`enabled`を`true`にし、1ページに表示する記事カード数を`per_page`で指定します。
+
+```typst
+pagination: (
+  home: (enabled: true, per_page: 10),
+  tag: (enabled: true, per_page: 20),
+),
+```
+
+homeは`/`、`/page/2/`、`/page/3/`の順に生成されます。タグ別一覧の2ページ目は
+`/tags/{タグ}/page/2/`です。`enabled: false`に戻すとその一覧は1ページになり、
+`per_page`は使用されません。
 
 ## 記事の公開と配置
 

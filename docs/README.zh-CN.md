@@ -66,7 +66,7 @@ cd REPO
 | `update_policy` | 更新日期的确定方式。`"git"`（默认，从 Git 历史自动计算）或 `"manual"`（使用文章的 `update`） |
 | `author.name` | 作者名 |
 | `author.bio` | 个人简介 |
-| `author.links` | 含有 `id`、`label`、`url` 的作者资料链接 |
+| `author.links` | 含有 `id`、`label`、`url` 及可选的相对于 `static/` 的 `icon` 路径的作者资料链接 |
 
 对于需要区分地区或书写系统的语言，请分别指定 Typst 的语言要素，而不是填写 BCP 47 字符串。
 

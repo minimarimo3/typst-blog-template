@@ -26,3 +26,29 @@
     }
   })
 }
+
+#let pagination-nav(pagination, label, previous-label, next-label) = {
+  if pagination.total > 1 {
+    html.elem("nav", attrs: (class: "pagination", aria-label: label), {
+      if pagination.previous != none {
+        html.a(class: "pagination-direction", href: pagination.previous, previous-label)
+      } else {
+        html.span(class: "pagination-direction is-disabled", previous-label)
+      }
+      html.div(class: "pagination-pages", {
+        for page in pagination.pages {
+          if page.number == pagination.current {
+            html.span(class: "pagination-page is-current", aria-current: "page", str(page.number))
+          } else {
+            html.a(class: "pagination-page", href: page.url, str(page.number))
+          }
+        }
+      })
+      if pagination.next != none {
+        html.a(class: "pagination-direction", href: pagination.next, next-label)
+      } else {
+        html.span(class: "pagination-direction is-disabled", next-label)
+      }
+    })
+  }
+}

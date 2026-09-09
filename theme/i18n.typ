@@ -43,6 +43,10 @@
     not_found_body: "ページが移動または削除された可能性があります。",
     back_to_top: "トップページに戻る",
     edit_history: "編集履歴",
+    pagination: "記事一覧のページ",
+    previous_page: "← 前へ",
+    next_page: "次へ →",
+    page: "ページ",
   ),
   en: (
     site_navigation: "Site navigation",
@@ -86,6 +90,10 @@
     not_found_body: "The page may have been moved or deleted.",
     back_to_top: "Back to top",
     edit_history: "Edit History",
+    pagination: "Post pages",
+    previous_page: "← Previous",
+    next_page: "Next →",
+    page: "Page",
   ),
   ko: (
     site_navigation: "사이트 탐색",
@@ -129,6 +137,10 @@
     not_found_body: "페이지가 이동되었거나 삭제되었을 수 있습니다.",
     back_to_top: "홈으로 돌아가기",
     edit_history: "수정 기록",
+    pagination: "글 목록 페이지",
+    previous_page: "← 이전",
+    next_page: "다음 →",
+    page: "페이지",
   ),
   "zh-CN": (
     site_navigation: "网站导航",
@@ -172,6 +184,10 @@
     not_found_body: "页面可能已移动或删除。",
     back_to_top: "返回首页",
     edit_history: "编辑历史",
+    pagination: "文章列表分页",
+    previous_page: "← 上一页",
+    next_page: "下一页 →",
+    page: "第",
   ),
   "zh-TW": (
     site_navigation: "網站導覽",
@@ -215,6 +231,10 @@
     not_found_body: "頁面可能已移動或刪除。",
     back_to_top: "返回首頁",
     edit_history: "編輯歷史",
+    pagination: "文章列表分頁",
+    previous_page: "← 上一頁",
+    next_page: "下一頁 →",
+    page: "第",
   ),
 )
 

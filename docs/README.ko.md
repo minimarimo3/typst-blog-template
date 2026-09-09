@@ -66,7 +66,7 @@ cd REPO
 | `update_policy` | 수정일 결정 방식. `"git"`(기본값, Git 이력에서 자동 산출) 또는 `"manual"`(글의 `update` 사용) |
 | `author.name` | 작성자 이름 |
 | `author.bio` | 프로필 문구 |
-| `author.links` | 각각 `id`, `label`, `url`을 가진 작성자 프로필 링크 |
+| `author.links` | `id`, `label`, `url` 및 선택적 `static/` 기준 `icon` 경로를 가진 작성자 프로필 링크 |
 
 지역이나 문자 체계를 구분해야 하는 언어는 BCP 47 문자열 대신 Typst의 언어 요소를 개별 지정합니다.
 

@@ -32,6 +32,7 @@ coreは完成HTMLを作りません。代わりに、検証・正規化済みの
 - `data.site`: `site.typ` のサイト設定
 - `data.page`: ページタイトル、説明、URL、著者など
 - `data.posts`: URLと日付順を解決済みの記事一覧
+- `data.pagination`: 現在ページ、総ページ数、ページ番号と前後ページのURL
 - `data.post`: 記事renderer用のメタデータ、タグリンク、編集履歴URL
 - `data.navigation`: 前後記事とそのURL
 - `data.seo`: OGP画像URLとJSON-LD

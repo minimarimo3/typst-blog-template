@@ -72,7 +72,7 @@ Open `site.typ` and adjust it for your blog. Start with these:
 | `asset_extensions` | File extensions copied from each post or page directory, such as `".mp4"`, `".mp3"`, and `".woff2"` |
 | `author.name` | Author name |
 | `author.bio` | Profile text |
-| `author.links` | Author profile links, each with an `id`, `label`, and `url` |
+| `author.links` | Author profile links with `id`, `label`, `url`, and an optional `icon` path relative to `static/` |
 
 For languages with regional or script variants, use Typst's language components instead of a BCP 47 string:
 
@@ -295,6 +295,20 @@ theme: theme-config(
   ),
 )
 ```
+
+Home and tag lists show every post by default. To split either list, enable its
+pagination setting and choose the number of post cards per page:
+
+```typst
+pagination: (
+  home: (enabled: true, per_page: 10),
+  tag: (enabled: true, per_page: 20),
+),
+```
+
+The first home page remains at `/`, followed by `/page/2/`, `/page/3/`, and so
+on. Tag pages use `/tags/{tag}/page/2/`. Set `enabled: false` to return that
+list to a single page; `per_page` is then ignored.
 
 ## Publishing and Organizing Posts
 
