@@ -7,6 +7,9 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).resolve().parent
 CORE_DIR = ROOT_DIR / "vendor" / "typst-blog-core"
 CORE_PACKAGE = CORE_DIR / "typst_blog_core"
+# Defaults for preview; command-line --host and --port take precedence.
+PREVIEW_HOST = "localhost"
+PREVIEW_PORT = 8000
 
 
 def _load_core_api():
@@ -22,7 +25,11 @@ def _load_core_api():
 
 
 def main() -> int:
-    return _load_core_api().main(root_dir=ROOT_DIR)
+    return _load_core_api().main(
+        root_dir=ROOT_DIR,
+        preview_host=PREVIEW_HOST,
+        preview_port=PREVIEW_PORT,
+    )
 
 
 if __name__ == "__main__":
