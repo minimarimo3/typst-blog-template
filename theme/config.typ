@@ -1,6 +1,7 @@
 /// 標準theme固有の設定を構築する。
 #let theme-config(
   color_scheme: "dark",
+  cloudflare_token: none,
   navigation: (),
   article_actions: (
     share: (x: true, misskey: true, copy: true),
@@ -15,6 +16,11 @@
     message: "theme.color_scheme: 英数字・アンダースコア・ハイフンのみ使用可能です",
   )
   let _stylesheet = read("/theme/static/color-schemes/" + color_scheme + ".css")
+
+  assert(
+    cloudflare_token == none or type(cloudflare_token) == str,
+    message: "theme.cloudflare_token: none か文字列が必要です",
+  )
 
   assert(type(navigation) == array, message: "theme.navigation: 配列が必要です")
   for (index, item) in navigation.enumerate() {
@@ -71,6 +77,7 @@
 
   (
     color_scheme: color_scheme,
+    cloudflare_token: cloudflare_token,
     navigation: navigation,
     article_actions: (
       share: (

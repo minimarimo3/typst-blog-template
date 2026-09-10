@@ -96,7 +96,7 @@
   }
   html.elem("link", attrs: (rel: "alternate", type: "application/rss+xml", title: site.title, href: base-path + "/feed.xml"))
 
-  let token = site.analytics.cloudflare_token
+  let token = site.theme.cloudflare_token
   if token != none and token != "" {
     html.elem(
       "script",

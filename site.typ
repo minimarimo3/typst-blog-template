@@ -17,6 +17,8 @@
   ),
   theme: theme-config(
     color_scheme: "dark",
+    // 任意。Cloudflare Web Analyticsを使う場合はtokenを指定する。
+    cloudflare_token: none,
     // 任意。空のままならナビゲーションは表示されない。
     navigation: (),
     article_actions: (
@@ -86,9 +88,6 @@
       // 独自アイコンは static/ からの相対パスを icon に指定できる。
       // (id: "bluesky", label: "Bluesky", url: "https://bsky.app/profile/yourname", icon: "icons/bluesky.svg"),
     ),
-  ),
-  analytics: (
-    cloudflare_token: none,
   ),
 )
 
