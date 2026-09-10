@@ -10,6 +10,26 @@
   let post = data.post
   let page = data.page
   let body = data.body
+  let generated-og-image = post.outputs.find(output => output.id == "og-image")
+  let authored-og-image = post.at("og-image", default: none)
+  let use-generated-og-image = (
+    (authored-og-image == none or authored-og-image == "")
+      and generated-og-image != none
+  )
+  let generated-og-image-url = if generated-og-image == none {
+    none
+  } else {
+    data.site.base_url.trim("/", at: end) + generated-og-image.path
+  }
+  let effective-og-image = if use-generated-og-image {
+    generated-og-image-url
+  } else {
+    data.seo.image-url
+  }
+  let effective-json-ld = data.seo.json-ld
+  if use-generated-og-image {
+    effective-json-ld.insert("image", generated-og-image-url)
+  }
 
   set heading(numbering: "1.")
   set text(font: main-font, ..data.site.language)
@@ -64,10 +84,10 @@
       common-head(
         page.title,
         description: page.description,
-        image: data.seo.image-url,
+        image: effective-og-image,
         url: page.url,
         og_type: "article",
-        json_ld: data.seo.json-ld,
+        json_ld: effective-json-ld,
         article_published_time: calver-iso-datetime(post.create),
         article_modified_time: calver-iso-datetime(modified),
         article_authors: post.authors,

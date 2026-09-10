@@ -64,6 +64,11 @@ current base path and is normally the right value for a theme link. The default
 theme displays these outputs beside the edit-history link. A replacement theme
 can place them anywhere by iterating over `data.post.outputs`.
 
+The standard template reserves the output ID `og-image` for its generated OGP,
+Twitter Card, and JSON-LD image. Its renderer finds that output through the
+existing `data.post.outputs` contract when the post does not explicitly set
+`og-image`. This social image is not displayed as an article download link.
+
 The default mode for extra outputs is `{"build"}`. Include `"preview"`
 explicitly when generating the output on every preview rebuild is useful and
 fast enough.

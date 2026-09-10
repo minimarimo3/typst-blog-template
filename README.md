@@ -405,6 +405,9 @@ theme: theme-config(color_scheme: "paper")
 ### Images, favicon, extra CSS
 
 Files placed in `static/` are copied to `public/` as-is at build time.
+The default pipeline also generates a 1200 x 630 `og.png` for every article
+from its title and description. An explicitly configured article `og-image`
+takes precedence. Edit `tools/og-image.typ` to customize the generated card.
 
 ### Add a blog extension
 

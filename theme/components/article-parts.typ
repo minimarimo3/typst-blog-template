@@ -4,6 +4,9 @@
 #import "../i18n.typ": i18n
 
 #let article-header(post) = {
+  let resource-outputs = post.outputs.filter(
+    output => output.id != "og-image",
+  )
   html.header(class: "article-header", {
     html.elem("h1", attrs: (id: "article-title", class: "article-title", itemprop: "headline"), post.title)
     if post.draft {
@@ -40,7 +43,7 @@
           }
         })
       }
-      if post.source-url != none or post.outputs.len() > 0 {
+      if post.source-url != none or resource-outputs.len() > 0 {
         html.elem("div", attrs: (class: "meta-resource-links", "data-pagefind-ignore": "all", "data-nosnippet": ""), {
           if post.source-url != none {
             html.elem(
@@ -54,7 +57,7 @@
               i18n.edit_history,
             )
           }
-          for output in post.outputs {
+          for output in resource-outputs {
             html.elem(
               "a",
               attrs: (

@@ -60,6 +60,11 @@ def configure(pipeline):
 theme向けリンクです。標準themeは編集履歴の横に追加出力を表示します。独自themeでは
 `data.post.outputs`を列挙し、好きな位置へ配置できます。
 
+標準テンプレートは出力ID `og-image`を、OGP・Twitter Card・JSON-LD共通の
+生成画像として予約しています。記事側で`og-image`が明示されていない場合、標準themeは
+既存の`data.post.outputs`契約からこの出力を見つけて使います。このsocial imageは
+記事のダウンロードリンクには表示されません。
+
 追加出力の既定モードは`{"build"}`です。preview再ビルドのたびに生成してもよい場合だけ、
 明示的に`"preview"`を追加してください。
 

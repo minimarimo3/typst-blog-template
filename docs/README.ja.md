@@ -397,6 +397,9 @@ theme: theme-config(color_scheme: "paper")
 ### 画像・favicon・追加 CSS
 
 `static/` に置いたファイルは、ビルド時にそのまま `public/` へコピーされます。
+標準パイプラインは各記事のタイトルと説明から1200×630の`og.png`も生成します。
+記事で`og-image`を明示した場合はそちらを優先します。生成カードの見た目は
+`tools/og-image.typ`で変更できます。
 
 ### ブログ拡張を追加する
 
