@@ -63,6 +63,7 @@ Open `site.typ` and adjust it for your blog. Start with these:
 | `description` | Blog description |
 | `base_url` | Public URL (no trailing `/`) |
 | `github_repo` | GitHub repository URL of this blog |
+| `github_branch` | Optional branch used by edit-history links. Defaults to `"main"` |
 | `language` | Primary language. Use `"ja"` as shorthand, or specify `lang`, `region`, and `script` separately |
 | `theme.color_scheme` | `"dark"` or `"light"` |
 | `theme.navigation` | Optional ordered navigation links. Leave it empty to render no navigation |

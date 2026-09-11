@@ -58,6 +58,7 @@ cd REPO
 | `description` | 部落格描述 |
 | `base_url` | 發佈後的 URL（結尾不要加 `/`） |
 | `github_repo` | 本部落格的 GitHub 儲存庫 URL |
+| `github_branch` | 編輯歷史連結使用的選用分支名稱，預設為 `"main"` |
 | `language` | 主要使用的語言。可用 `"ja"` 簡寫，或分別指定 `lang`、`region`、`script` |
 | `theme.color_scheme` | `"dark"` 或 `"light"` |
 | `theme.navigation` | 選用的導覽連結。留空時不顯示導覽 |

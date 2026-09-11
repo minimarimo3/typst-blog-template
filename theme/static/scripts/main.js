@@ -9,7 +9,9 @@ import {
   initReferencePreview,
 } from "./reference-preview.js";
 import { initSiteSearch } from "./search.js";
+import { initResponsiveToc } from "./responsive-toc.js";
 
+initResponsiveToc();
 initSiteSearch();
 initCodeCopy();
 initExternalLinks();

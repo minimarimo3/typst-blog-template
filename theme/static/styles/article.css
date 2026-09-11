@@ -289,19 +289,18 @@ tbody tr:last-child td {
   border-bottom: none;
 }
 
-.mobile-toc {
-  display: none;
+.responsive-toc {
   margin-bottom: 2rem;
   background-color: var(--sidebar-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
 }
 
-.mobile-toc details {
+.responsive-toc details {
   padding: 10px 15px;
 }
 
-.mobile-toc summary {
+.responsive-toc summary {
   cursor: pointer;
   font-weight: bold;
   color: var(--text-color);
@@ -309,47 +308,47 @@ tbody tr:last-child td {
   list-style: none;
 }
 
-.mobile-toc nav {
+.responsive-toc nav {
   margin-top: 15px;
   padding-top: 15px;
   border-top: 1px solid var(--border-color);
   font-size: 0.9rem;
 }
 
-.mobile-toc ul,
-.mobile-toc ol {
+.responsive-toc ul,
+.responsive-toc ol {
   padding-left: 10px;
   list-style: none;
   margin: 0;
 }
 
-.mobile-toc nav[role="doc-toc"] li {
+.responsive-toc nav[role="doc-toc"] li {
   margin-bottom: 7px;
   line-height: 1.4;
 }
 
-.mobile-toc nav[role="doc-toc"] a {
+.responsive-toc nav[role="doc-toc"] a {
   display: block;
   color: var(--text-color);
 }
 
-.mobile-toc nav[role="doc-toc"] a:hover {
+.responsive-toc nav[role="doc-toc"] a:hover {
   color: var(--accent-color);
   text-decoration: none;
 }
 
-.mobile-toc nav[role="doc-toc"] ol ol {
+.responsive-toc nav[role="doc-toc"] ol ol {
   margin-top: 7px;
   margin-left: 0.2rem;
   padding-left: 0.9rem;
   border-left: 1px solid var(--border-color);
 }
 
-.mobile-toc nav[role="doc-toc"] ol ol li {
+.responsive-toc nav[role="doc-toc"] ol ol li {
   margin-bottom: 5px;
 }
 
-.mobile-toc nav[role="doc-toc"] ol ol a {
+.responsive-toc nav[role="doc-toc"] ol ol a {
   color: var(--text-muted);
   font-size: 0.9em;
 }
@@ -526,10 +525,6 @@ tbody tr:last-child td {
 @media (max-width: 900px) {
   .article-title {
     font-size: 1.8rem;
-  }
-
-  .mobile-toc {
-    display: block;
   }
 }
 

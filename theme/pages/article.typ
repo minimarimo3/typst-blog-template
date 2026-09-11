@@ -4,7 +4,7 @@
 #import "../components/article-parts.typ": article-header, article-actions, post-navigation
 #import "../components/head.typ": common-head
 #import "../components/page-layout.typ": page-layout
-#import "../components/widgets.typ": widget-author, widget-search
+#import "../components/widgets.typ": widget-author, widget-search, widget-responsive-toc, widget-toc-desktop-slot
 
 #let render-article(data) = context {
   let post = data.post
@@ -126,12 +126,7 @@
       ), {
         article-header(post)
 
-        html.elem("nav", attrs: (class: "mobile-toc", "aria-label": i18n.toc, "data-pagefind-ignore": "all", "data-nosnippet": ""), {
-          html.details({
-            html.summary(i18n.toc_open)
-            outline(title: none)
-          })
-        })
+        widget-responsive-toc()
 
         if type(post.abstract) != str or post.abstract != "" {
           html.elem("section", attrs: (class: "article-abstract", "aria-labelledby": "article-abstract-heading"), {
@@ -174,10 +169,7 @@
     sidebar-content: {
       html.div(class: "sidebar-inner", {
         widget-search(extra-class: "desktop-search")
-        html.elem("nav", attrs: (class: "sidebar-widget toc-widget", "aria-label": i18n.toc, "data-pagefind-ignore": "all", "data-nosnippet": ""), {
-          html.div(class: "widget-title", i18n.toc)
-          outline(title: none)
-        })
+        widget-toc-desktop-slot()
         widget-author()
       })
     },

@@ -58,6 +58,7 @@ cd REPO
 | `description` | 博客描述 |
 | `base_url` | 发布后的 URL（结尾不要加 `/`） |
 | `github_repo` | 本博客的 GitHub 仓库 URL |
+| `github_branch` | 编辑历史链接使用的可选分支名，默认为 `"main"` |
 | `language` | 主要使用的语言。可用 `"ja"` 简写，或分别指定 `lang`、`region`、`script` |
 | `theme.color_scheme` | `"dark"` 或 `"light"` |
 | `theme.navigation` | 可选导航链接。留空时不显示导航 |

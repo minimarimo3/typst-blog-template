@@ -93,6 +93,30 @@
   })
 }
 
+#let widget-responsive-toc() = {
+  html.elem("span", attrs: (hidden: "", "data-toc-origin": ""))
+  html.elem(
+    "section",
+    attrs: (
+      class: "responsive-toc",
+      "aria-label": i18n.toc,
+      "data-responsive-toc": "",
+      "data-pagefind-ignore": "all",
+      "data-nosnippet": "",
+    ),
+    {
+      html.elem("details", attrs: (open: ""), {
+        html.summary(i18n.toc)
+        outline(title: none)
+      })
+    },
+  )
+}
+
+#let widget-toc-desktop-slot() = {
+  html.elem("div", attrs: (class: "toc-desktop-slot", "data-toc-desktop-slot": ""))
+}
+
 #let widget-site-sidebar() = {
   html.div(class: "sidebar-inner", {
     widget-search(extra-class: "desktop-search")

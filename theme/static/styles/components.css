@@ -85,6 +85,27 @@
   padding-bottom: 5px;
 }
 
+.toc-desktop-slot .responsive-toc {
+  margin-bottom: 30px;
+}
+
+.toc-desktop-slot .responsive-toc details {
+  padding: 20px;
+}
+
+.toc-desktop-slot .responsive-toc summary {
+  margin: 0;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--border-color);
+  font-size: 1rem;
+}
+
+.toc-desktop-slot .responsive-toc nav {
+  margin-top: 15px;
+  padding-top: 0;
+  border-top: 0;
+}
+
 .sidebar-widget nav[role="doc-toc"] ul,
 .sidebar-widget nav[role="doc-toc"] ol {
   list-style: none;
@@ -371,10 +392,6 @@
   }
 
   .desktop-search {
-    display: none;
-  }
-
-  .sidebar-widget.toc-widget {
     display: none;
   }
 

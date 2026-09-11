@@ -58,6 +58,7 @@ cd REPO
 | `description` | 블로그 설명 |
 | `base_url` | 공개 후 URL (끝에 `/` 를 붙이지 않음) |
 | `github_repo` | 이 블로그의 GitHub 저장소 URL |
+| `github_branch` | 편집 기록 링크에 사용할 선택적 브랜치 이름. 기본값은 `"main"` |
 | `language` | 주로 사용하는 언어. `"ja"` 단축형 또는 `lang`, `region`, `script`를 개별 지정 |
 | `theme.color_scheme` | `"dark"` 또는 `"light"` |
 | `theme.navigation` | 선택 사항인 탐색 링크. 비워 두면 표시하지 않음 |

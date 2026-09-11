@@ -58,6 +58,7 @@ cd REPO
 | `description` | ブログの説明文 |
 | `base_url` | 公開後の URL（末尾に `/` は付けない） |
 | `github_repo` | このブログの GitHub リポジトリ URL |
+| `github_branch` | 編集履歴リンクに使う省略可能なブランチ名。既定値は `"main"` |
 | `language` | 主に使う言語。`"ja"` の短縮形、または `lang`・`region`・`script` を個別に指定 |
 | `theme.color_scheme` | `"dark"` または `"light"` |
 | `theme.navigation` | 任意のナビゲーション。空なら何も表示しない |
