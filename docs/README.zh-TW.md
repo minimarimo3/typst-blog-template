@@ -203,13 +203,8 @@ python3 command.py preview
 
 `site.typ` 的 `base_url` 保持發佈 URL 即可。`preview` 只會把 CSS、文章連結等的基準路徑切換為本機伺服器的 `/`；canonical URL、RSS、sitemap 仍然使用 `base_url`。
 
-想同時確認搜尋功能時，在另一個終端機產生搜尋索引：
-
-```sh
-npx -y pagefind --site public
-```
-
-修改文章觸發自動重新建置後，請再次執行該指令。
+如果可以使用 `npx`，preview 伺服器啟動前會產生一次 Pagefind 搜尋索引。之後修改檔案時，
+為了保持快速的增量 preview，不會更新索引；需要查看最新搜尋結果時，請重新啟動 preview。
 
 想直接查看發佈用的產生結果時，執行 `python3 command.py build`。
 
@@ -306,7 +301,6 @@ git tag --sort=-version:refname   # 查看可用版本列表
 git checkout vYYYY.MM.DD          # 切換到想用的版本
 cd ../..
 python3 command.py build
-npx -y pagefind --site public
 git add vendor/typst-blog-core
 git commit -m "Update blog core to vYYYY.MM.DD"
 ```
@@ -324,7 +318,7 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 | 發佈建置中沒有出現文章 | 檢查文章的 `draft` 是否為 `false`（`preview` 中可以看到草稿） |
 | 發佈 URL 不對 | 檢查 `site.typ` 的 `base_url`。結尾不需要 `/` |
 | GitHub Pages 上找不到 core | 檢查 `.github/workflows/deploy.yml` 的 checkout 設定中是否有 `submodules: recursive` |
-| 搜尋沒有作用 | 先執行 `npx -y pagefind --site public` 再確認 |
+| 搜尋沒有作用 | 確認 Node.js 和 `npx` 可用，然後重新執行 `build` 或重新啟動 `preview` |
 
 ## 關於 Misskey 圖示
 

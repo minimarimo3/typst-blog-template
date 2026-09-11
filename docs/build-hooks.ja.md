@@ -3,7 +3,7 @@
 ルートの`blog.py`から、`vendor/typst-blog-core`を変更せずにPython処理を登録できます。
 coreは公開ビルドとpreview再ビルドのたびに`configure(pipeline)`を読み直します。
 
-拡張点は次の4種類です。
+拡張点は次の5種類です。
 
 | 登録 | 実行時点 | 主な用途 |
 | --- | --- | --- |
@@ -11,6 +11,7 @@ coreは公開ビルドとpreview再ビルドのたびに`configure(pipeline)`を
 | `site_output` | HTMLより前に1回 | ブログ全体のEPUB、JSON、アーカイブ |
 | `after_html` | サイト構築後、HTMLファイルごとに1回 | minify、HTMLの書き換え |
 | `post_build` | 全ファイルと`after_html`の完了後 | Pagefind、checksum、成果物一覧 |
+| `preview_start` | previewの初回ビルド後に1回 | 検索indexなど、preview開始時だけ必要な準備 |
 
 hookは登録順に実行されます。例外、subprocessの0以外の終了、宣言したファイルを
 生成しなかった出力処理は、いずれもビルド失敗になります。出力先は`public/`を
@@ -121,6 +122,17 @@ def configure(pipeline):
 ```
 
 既定モードは`{"build"}`なので、preview中に繰り返し実行されません。
+
+previewサーバーの開始時には必要でも、その後の再ビルドを遅くしたくない処理には
+`preview_start`を使います。
+
+```python
+def configure(pipeline):
+    pipeline.preview_start(id="pagefind-preview", run=build_search)
+```
+
+このhookはpreviewサーバーの起動前に1回だけ実行されます。ファイル変更時には再実行されず、
+previewの増分ビルドも無効にしません。
 
 `post_build`が表すのは「ローカルの`public/`が完成した」であり、GitHub Pagesへの
 デプロイ成功ではありません。Discord通知は`actions/deploy-pages`より後のworkflow stepに

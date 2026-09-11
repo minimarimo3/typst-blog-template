@@ -2,7 +2,6 @@ name: Test and deploy to GitHub Pages
 
 env:
   TYPST_VERSION: 0.15.0
-  PAGEFIND_VERSION: 1.5.2
 
 on:
   push:
@@ -63,9 +62,6 @@ jobs:
 
       - name: Build site
         run: python3 command.py build
-
-      - name: Build search index
-        run: npx -y pagefind@$PAGEFIND_VERSION --site public
 
       - name: Configure Pages
         if: github.event_name != 'pull_request'

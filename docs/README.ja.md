@@ -1,6 +1,6 @@
 # Typst Blog Template
 
-Typst で記事を書いて、静的なブログとして公開するためのテンプレートです。
+Typstでブログを書いて公開したいだけでサイトや配信システムを一から作りたいわけじゃないって人のためのテンプレート。
 記事を書いてビルドするだけで、トップページ・記事ページ・タグページ・RSS・sitemap・サイト内検索用インデックスがまとめて生成されます。
 
 さまざまな記法が書かれたサンプルページ：<https://minimarimo3.github.io/typst-blog-template/example-post/>
@@ -10,29 +10,35 @@ Typst で記事を書いて、静的なブログとして公開するための�
 
 ## 特徴
 
-- 記事もサイト設定もすべて Typst で書けます
-- タイトル・作成日・更新日・説明文・タグ・下書き状態を記事ごとに設定できます
-- トップページ、記事ページ、タグ別ページ、タグ一覧ページを自動生成します
-- RSS と sitemap も自動生成します
-- [Pagefind](https://pagefind.app/) によるサイト内検索に対応しています
-- GitHub Pages にそのまま公開できます（ワークフロー同梱）
-- About・FAQ・利用規約などを、記事ではない汎用ページとして作れます
-- coreを変更せず、`theme/` で記事・汎用・トップ・タグ・404ページの構造を作り替えられます
-- 配色の切り替え、favicon・画像・追加 CSS・独自ドメインの設定ができます
-- core を変更せず、Typst・CSS・JavaScript をまとめた template 側の拡張を追加できます
-- `blog.py`からPDF・EPUB生成やPythonによる後処理を追加できます
-- ブログエンジン部分（`vendor/typst-blog-core`）だけを後から更新できます
+- Typstの書き味
+
+  - 記事もサイト設定もすべて Typst で書けます
+  - タイトル・作成日・更新日・説明文・タグ・下書き状態を記事ごとに設定できます
+
+- 諸々を自動生成、すぐ使用可能
+
+  - トップページ、記事ページ、タグ別ページ、タグ一覧ページ、RSS、sitemapを自動生成します
+  - [Pagefind](https://pagefind.app/) によるサイト内検索に対応しています
+  - GitHub Pages にそのまま公開できます（ワークフロー同梱）
+
+- ある程度改変可能
+  - About・FAQ・利用規約などを、記事ではない汎用ページとして作れます
+  - `theme/` で記事・汎用・トップ・タグ・404ページの構造を作り替えられます
+  - 配色の切り替え、favicon・画像・追加 CSS・独自ドメインの設定ができます
+  - Typst・CSS・JavaScript をまとめた template 側の拡張を追加できます
+  - `blog.py`からPDF・EPUB生成やPythonによる後処理を追加できます
+
+- 更新が楽
+  - ブログエンジン部分（`vendor/typst-blog-core`）だけを後から更新できます
 
 ## 動作環境
 
-| ツール | バージョン |
-| --- | --- |
-| Git | - |
-| Typst | 0.15.0 以上 |
-| Python | 3.10 以上 |
-| Node.js | 20 以上 |
-
-Node.js は検索インデックスを作る Pagefind の実行に使います。検索機能を使わない場合でも、GitHub Pages の標準ワークフローでは Node.js を使います。
+| ツール | バージョン | 備考 |
+| --- | --- | --- |
+| Git | - | - |
+| Typst | 0.15.0 以上 | 基本的に最新バージョンに追従します |
+| Python | 3.10 以上 | RSS,Sitemapなどの生成に使用 |
+| Node.js | 20 以上 | 任意、PageFindを使う場合のみ使用 |
 
 ## クイックスタート
 
@@ -55,16 +61,11 @@ cd REPO
 | 項目 | 内容 |
 | --- | --- |
 | `title` | ブログ名 |
+| `language` | 主に使う言語。`"ja"` といった短縮形、または `lang`・`region`・`script` を個別に指定可能 |
 | `description` | ブログの説明文 |
-| `base_url` | 公開後の URL（末尾に `/` は付けない） |
+| `base_url` | 公開後の URL |
 | `github_repo` | このブログの GitHub リポジトリ URL |
-| `github_branch` | 編集履歴リンクに使う省略可能なブランチ名。既定値は `"main"` |
-| `language` | 主に使う言語。`"ja"` の短縮形、または `lang`・`region`・`script` を個別に指定 |
-| `theme.color_scheme` | `"dark"` または `"light"` |
-| `theme.navigation` | 任意のナビゲーション。空なら何も表示しない |
-| `theme.article_actions` | シェアボタンと任意の記事フィードバックフォーム |
 | `posts_dir` | 記事を置く場所。ルート直下なら `"."`、`posts/` にまとめるなら `"posts"` |
-| `update_policy` | 更新日の決め方。`"git"`（既定・Git 履歴から自動算出）か `"manual"`（記事の `update` を使う） |
 | `author.name` | 著者名 |
 | `author.bio` | プロフィール文 |
 | `author.links` | `id`・`label`・`url`と、省略可能な`static/`基準の`icon`パスを持つ著者プロフィールリンク |
@@ -107,6 +108,7 @@ python3 command.py preview
 ```
 
 初回ビルド後、`http://localhost:8000` でプレビューサーバーが起動します。ファイルを保存すると自動で再ビルドされ、ブラウザも再読み込みされます。
+IPアドレスやポートは`--host`,`--port`オプションまたはcommand.pyの定数で変更可能です。
 
 ### 5. 公開する
 
@@ -125,17 +127,15 @@ python3 command.py new post my-first-post \
   --tag Typst
 ```
 
-- 作成日は実行日になり、状態は安全のため下書きになります
+- 作成日は実行日になり、状態は安全のため下書きになります。最初から公開状態にする場合は `--publish` を付けてください。
 - タグを複数付けるときは `--tag` を繰り返します
-- 最初から公開状態にするときは `--publish` を付けます
 - 作成日を指定するときは `--date 2026-07-19` の形式で指定します
 - 同名の出力先ディレクトリがすでにある場合はエラーになります
 
 #### `new post` をブログ側で拡張する
 
-ブログ固有のメタデータ用オプションは、core を変更せず、ルートの
-`command.py` から追加できます。たとえば `--course` と `--lesson` を
-追加する場合は、次の関数を定義して `core_api.main()` に渡します。
+ブログ固有のメタデータ用オプションは、core を変更せずにルートの `command.py` から追加できます。
+たとえば `--course` と `--lesson` を追加する場合は、次の関数を定義して `core_api.main()` に渡します。
 
 ```python
 import argparse
@@ -340,13 +340,9 @@ python3 command.py preview
 
 `site.typ` の `base_url` は公開 URL のままで構いません。`preview` は CSS や記事リンクなどの基準パスだけをローカルサーバー向けの `/` に切り替え、canonical URL・RSS・sitemap には引き続き `base_url` を使います。
 
-検索機能も確認したい場合は、別のターミナルで検索インデックスを作ります。
-
-```sh
-npx -y pagefind --site public
-```
-
-記事を変更して自動再ビルドされた後は、このコマンドをもう一度実行してください。
+`npx`が利用できる場合、previewサーバーの起動前にPagefindの検索indexも1回だけ生成されます。
+その後のファイル変更では高速な増分previewを優先してindexを更新しないため、最新の検索結果を
+確認したいときはpreviewを再起動してください。
 
 公開用の生成結果をそのまま確認したい場合は `python3 command.py build` を実行します。
 
@@ -455,7 +451,6 @@ git tag --sort=-version:refname   # 使えるバージョンの一覧を確認
 git checkout vYYYY.MM.DD          # 使いたいバージョンに切り替え
 cd ../..
 python3 command.py build
-npx -y pagefind --site public
 git add vendor/typst-blog-core
 git commit -m "Update blog core to vYYYY.MM.DD"
 ```
@@ -473,7 +468,7 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 | 公開ビルドに記事が出てこない | 記事の `draft` が `false` になっているか確認する（`preview` なら下書きも表示される） |
 | 公開 URL がおかしい | `site.typ` の `base_url` を確認する。末尾の `/` は不要 |
 | GitHub Pages で core が見つからない | `.github/workflows/deploy.yml` の checkout 設定に `submodules: recursive` があるか確認する |
-| 検索が動かない | `npx -y pagefind --site public` を実行してから確認する |
+| 検索が動かない | Node.jsと`npx`が利用できることを確認し、`build`を再実行するか`preview`を再起動する |
 
 ## Misskey アイコンについて
 

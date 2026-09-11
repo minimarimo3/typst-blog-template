@@ -203,13 +203,9 @@ python3 command.py preview
 
 `site.typ` 의 `base_url` 은 공개 URL 그대로 두어도 됩니다. `preview` 는 CSS 나 글 링크 등의 기준 경로만 로컬 서버용 `/` 로 전환하며, canonical URL·RSS·sitemap 에는 계속 `base_url` 이 사용됩니다.
 
-검색 기능도 확인하려면 다른 터미널에서 검색 인덱스를 만듭니다.
-
-```sh
-npx -y pagefind --site public
-```
-
-글을 수정해 자동으로 다시 빌드된 후에는 이 명령을 다시 실행하세요.
+`npx`를 사용할 수 있으면 preview 서버가 시작되기 전에 Pagefind 검색 인덱스도 한 번 생성됩니다.
+이후 파일 변경 시에는 빠른 증분 preview를 우선하여 인덱스를 갱신하지 않으므로, 최신 검색
+결과를 확인하려면 preview를 다시 시작하세요.
 
 공개용 생성 결과를 그대로 확인하고 싶다면 `python3 command.py build` 를 실행합니다.
 
@@ -309,7 +305,6 @@ git tag --sort=-version:refname   # 사용 가능한 버전 목록 확인
 git checkout vYYYY.MM.DD          # 사용할 버전으로 전환
 cd ../..
 python3 command.py build
-npx -y pagefind --site public
 git add vendor/typst-blog-core
 git commit -m "Update blog core to vYYYY.MM.DD"
 ```
@@ -327,7 +322,7 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 | 공개 빌드에 글이 나오지 않음 | 글의 `draft` 가 `false` 인지 확인 (`preview` 에서는 초안도 표시됨) |
 | 공개 URL 이 이상함 | `site.typ` 의 `base_url` 을 확인. 끝의 `/` 는 불필요 |
 | GitHub Pages 에서 core 를 찾지 못함 | `.github/workflows/deploy.yml` 의 checkout 설정에 `submodules: recursive` 가 있는지 확인 |
-| 검색이 동작하지 않음 | `npx -y pagefind --site public` 을 실행한 뒤 확인 |
+| 검색이 동작하지 않음 | Node.js와 `npx`를 사용할 수 있는지 확인한 뒤 `build`를 다시 실행하거나 `preview`를 다시 시작 |
 
 ## Misskey 아이콘에 대해
 

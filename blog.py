@@ -1,6 +1,20 @@
 """Site-specific build pipeline."""
 
+import shutil
+
 from extensions.python import build_og_image, externalize_content_images
+
+
+PAGEFIND_VERSION = "1.5.2"
+
+
+def build_search(task) -> None:
+    if shutil.which("npx") is None:
+        print("Pagefind skipped: npx is not available.")
+        return
+    task.run(
+        ["npx", "-y", f"pagefind@{PAGEFIND_VERSION}", "--site", "public"]
+    )
 
 
 def configure(pipeline) -> None:
@@ -18,3 +32,5 @@ def configure(pipeline) -> None:
         run=externalize_content_images,
         modes=("build",),
     )
+    pipeline.post_build(id="pagefind-build", run=build_search)
+    pipeline.preview_start(id="pagefind-preview", run=build_search)

@@ -4,7 +4,7 @@ The root `blog.py` can register Python processing without modifying
 `vendor/typst-blog-core`. The core loads `configure(pipeline)` afresh for every
 production build and preview rebuild.
 
-There are four extension points:
+There are five extension points:
 
 | Registration | Runs | Typical use |
 | --- | --- | --- |
@@ -12,6 +12,7 @@ There are four extension points:
 | `site_output` | Once before HTML | Whole-site EPUB, JSON, or an archive |
 | `after_html` | Once for every HTML file after the site is assembled | Minification or HTML rewriting |
 | `post_build` | After all files and `after_html` hooks are complete | Pagefind, checksums, or an output manifest |
+| `preview_start` | Once after the initial preview build | A search index or other optional preview setup |
 
 Hooks run in registration order. An exception, a non-zero subprocess exit, or
 an output callback that does not create its declared file fails the build.
@@ -127,6 +128,17 @@ def configure(pipeline):
 ```
 
 Its default mode is `{"build"}`, so it does not run repeatedly during preview.
+
+Use `preview_start` for work that should be available when the preview server
+starts but would make later rebuilds unnecessarily slow:
+
+```python
+def configure(pipeline):
+    pipeline.preview_start(id="pagefind-preview", run=build_search)
+```
+
+This hook runs only once, before the preview server starts. It is not rerun when
+files change and does not disable incremental preview rebuilds.
 
 `post_build` means that the local `public/` directory is complete; it does not
 mean that GitHub Pages deployment succeeded. Send Discord notifications from a

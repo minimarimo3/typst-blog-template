@@ -347,13 +347,9 @@ python3 command.py preview
 
 You can leave `base_url` in `site.typ` set to the public URL. `preview` only switches the base path for CSS, post links, and so on to `/` for the local server; canonical URLs, RSS, and the sitemap still use `base_url`.
 
-To try search as well, build the search index in another terminal:
-
-```sh
-npx -y pagefind --site public
-```
-
-Run this command again after a post change triggers an automatic rebuild.
+If `npx` is available, preview builds the Pagefind search index once before the
+server starts. Later file changes keep the fast incremental preview and do not
+rebuild the index, so restart preview when you need refreshed search results.
 
 To inspect the exact production output, run `python3 command.py build`.
 
@@ -463,7 +459,6 @@ git tag --sort=-version:refname   # List available versions
 git checkout vYYYY.MM.DD          # Switch to the version you want
 cd ../..
 python3 command.py build
-npx -y pagefind --site public
 git add vendor/typst-blog-core
 git commit -m "Update blog core to vYYYY.MM.DD"
 ```
@@ -481,7 +476,7 @@ After updating, check the site locally before pushing.
 | A post does not appear in the production build | Check that the post's `draft` is `false` (drafts are visible in `preview`) |
 | Public URLs look wrong | Check `base_url` in `site.typ`. No trailing `/` |
 | GitHub Pages cannot find core | Check that the checkout step in `.github/workflows/deploy.yml` has `submodules: recursive` |
-| Search does not work | Run `npx -y pagefind --site public` first, then check again |
+| Search does not work | Check that Node.js and `npx` are available, then rerun `build` or restart `preview` |
 
 ## About the Misskey Icon
 
