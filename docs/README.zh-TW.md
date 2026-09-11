@@ -292,6 +292,10 @@ theme: theme-config(color_scheme: "paper")
 
 產生部落格的主體以 submodule 形式收錄為 `vendor/typst-blog-core`。文章和 `site.typ` 留在自己的儲存庫中，之後可以只更新產生部分。
 
+建置時，theme 會檢查 core API 版本。相容的 core 更新仍然只需更新 core。
+如果某個 release 修改了 renderer/data contract，建置會因版本不相符而停止，
+避免舊 theme 產生錯誤內容；只有這種情況才需要同時更新 theme 和 core。
+
 推薦透過切換 release tag 來更新。
 
 ```sh

@@ -440,6 +440,11 @@ theme: theme-config(color_scheme: "paper")
 
 ブログを生成する本体は `vendor/typst-blog-core` として submodule で取り込まれています。記事や `site.typ` は自分のリポジトリに残したまま、生成部分だけを後から更新できます。
 
+build時にthemeがcore APIの版を確認します。互換性のあるcore更新はこれまでどおり
+coreだけを更新できます。renderer/data contractが変わるreleaseでは、古いthemeが
+誤った出力を作る前に版の不一致としてbuildを停止するため、その場合だけthemeとcoreを
+一緒に更新してください。
+
 更新は release tag に切り替える運用がおすすめです。
 
 ```sh

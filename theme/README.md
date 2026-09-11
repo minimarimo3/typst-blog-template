@@ -24,6 +24,11 @@
 exportを追加する必要はありません。独自themeへ置き換える場合も、生成ページとの
 境界として`theme.typ`の`core`とrendererのexportを維持してください。
 
+`api.typ` の `supported-core-api-version` は、このthemeが対応するrenderer/data
+contractの版です。coreの`api-version`と一致しない場合はbuildを停止します。
+`data.post`や`data.seo`などのshape変更に対応してthemeを更新するときだけ、この値も
+新しいcoreの版へ更新してください。互換なcore更新では変更不要です。
+
 ## coreから渡されるもの
 
 coreは完成HTMLを作りません。代わりに、検証・正規化済みの辞書をrendererへ

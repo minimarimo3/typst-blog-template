@@ -294,6 +294,11 @@ theme: theme-config(color_scheme: "paper")
 
 블로그를 생성하는 본체는 `vendor/typst-blog-core` submodule 로 포함되어 있습니다. 글과 `site.typ` 는 자신의 저장소에 남겨 둔 채, 생성 부분만 나중에 업데이트할 수 있습니다.
 
+빌드할 때 theme가 core API 버전을 확인합니다. 호환되는 core 업데이트는 이전처럼
+core만 업데이트할 수 있습니다. renderer/data contract가 바뀌는 release에서는 이전
+theme가 잘못된 결과를 만들기 전에 버전 불일치로 빌드가 중지되므로, 그때만 theme와
+core를 함께 업데이트하세요.
+
 업데이트는 release tag 로 전환하는 방식을 추천합니다.
 
 ```sh

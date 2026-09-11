@@ -448,6 +448,11 @@ Files you normally do not touch:
 
 The engine that generates the blog is vendored as the `vendor/typst-blog-core` submodule. You can update just the engine later while keeping your posts and `site.typ` in your own repository.
 
+The theme checks the core API version during the build. Compatible core updates
+remain core-only upgrades. If a release changes the renderer/data contract, the
+build stops with a version-mismatch error instead of letting an older theme
+render incorrect output; update the theme and core together for that release.
+
 We recommend updating by switching to a release tag.
 
 ```sh
