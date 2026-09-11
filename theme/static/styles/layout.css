@@ -1,5 +1,23 @@
 /* Shared page shell and responsive layout. */
 
+.skip-link {
+  position: fixed;
+  z-index: 1000;
+  inset-block-start: 8px;
+  inset-inline-start: 8px;
+  padding: 8px 12px;
+  border: 2px solid var(--accent-color);
+  border-radius: 4px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-weight: 700;
+  transform: translateY(calc(-100% - 10px));
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .site-navigation {
   border-bottom: 1px solid var(--border-color);
   background: var(--sidebar-bg);
