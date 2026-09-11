@@ -115,4 +115,8 @@
     overflow-y: visible;
     position: static;
   }
+
+  .sidebar[data-mobile-empty] {
+    display: none;
+  }
 }

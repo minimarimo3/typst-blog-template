@@ -423,6 +423,10 @@ tbody tr:last-child td {
   margin: 60px 0 40px 0;
 }
 
+.article-end-divider-mobile {
+  display: none;
+}
+
 .section-title {
   font-size: 1.4rem;
   margin-bottom: 25px;
@@ -525,6 +529,14 @@ tbody tr:last-child td {
 @media (max-width: 900px) {
   .article-title {
     font-size: 1.8rem;
+  }
+
+  .article-end-divider-desktop {
+    display: none;
+  }
+
+  .article-end-divider-mobile {
+    display: block;
   }
 }
 

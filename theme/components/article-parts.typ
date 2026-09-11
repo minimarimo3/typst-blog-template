@@ -3,6 +3,11 @@
 #import core: calver-display, calver-iso
 #import "../i18n.typ": i18n
 
+#let article-section-divider(extra-class: "") = {
+  let divider-class = "section-divider" + if extra-class == "" { "" } else { " " + extra-class }
+  html.hr(class: divider-class)
+}
+
 #let article-header(post) = {
   let resource-outputs = post.outputs.filter(
     output => output.id != "og-image",
@@ -83,7 +88,6 @@
 
   if share-enabled or feedback-enabled {
     html.elem("aside", attrs: (class: "share-feedback-section", "aria-label": i18n.article_actions, "data-pagefind-ignore": "all", "data-nosnippet": ""), {
-      html.hr(class: "section-divider")
       if share-enabled {
         html.elem("section", attrs: (class: "share-area", "aria-labelledby": "share-heading"), {
           html.elem("h3", attrs: (id: "share-heading"), i18n.share)
@@ -125,7 +129,6 @@
 
 #let post-navigation(navigation) = {
   if navigation.previous != none or navigation.next != none {
-    html.hr(class: "section-divider")
     html.elem("nav", attrs: (class: "post-nav", "aria-label": i18n.adjacent_articles, "data-pagefind-ignore": "all", "data-nosnippet": ""), {
       if navigation.previous != none {
         html.a(class: "post-nav-link post-nav-prev", href: navigation.previous.url, {

@@ -149,6 +149,10 @@
   display: none;
 }
 
+.article-mobile-author {
+  display: none;
+}
+
 .search-input {
   width: 100%;
   min-height: 42px;
@@ -392,6 +396,14 @@
   }
 
   .desktop-search {
+    display: none;
+  }
+
+  .article-mobile-author {
+    display: block;
+  }
+
+  .article-desktop-author {
     display: none;
   }
 

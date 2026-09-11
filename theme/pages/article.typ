@@ -1,7 +1,8 @@
+#import "/site.typ": site
 #import "../api.typ": core
 #import core: calver-iso-datetime, main-font, heading-font, math-font, base-path
 #import "../i18n.typ": i18n
-#import "../components/article-parts.typ": article-header, article-actions, post-navigation
+#import "../components/article-parts.typ": article-section-divider, article-header, article-actions, post-navigation
 #import "../components/head.typ": common-head
 #import "../components/page-layout.typ": page-layout
 #import "../components/widgets.typ": widget-author, widget-search, widget-responsive-toc, widget-toc-desktop-slot
@@ -70,6 +71,16 @@
   }
 
   let modified = if post.update == none { post.create } else { post.update }
+  let action-settings = site.theme.article_actions
+  let share = action-settings.share
+  let feedback = action-settings.feedback
+  let has-article-actions = (
+    share.x
+      or share.misskey
+      or share.copy
+      or (feedback.google_form_url != none and feedback.google_form_url != "")
+  )
+  let has-post-navigation = data.navigation.previous != none or data.navigation.next != none
   let article-indexing-attrs = if post.draft {
     ("data-pagefind-ignore": "all", "data-nosnippet": "")
   } else {
@@ -109,10 +120,6 @@
       )
     },
     main-content: {
-      html.elem("div", attrs: (class: "mobile-search", "data-pagefind-ignore": "all", "data-nosnippet": ""), {
-        widget-search()
-      })
-
       html.elem("nav", attrs: (class: "back-home-nav", "aria-label": i18n.back_to_top, "data-pagefind-ignore": "all", "data-nosnippet": ""), {
         html.elem("a", attrs: (class: "back-home-btn", href: base-path + "/", "data-pagefind-ignore": "all", "data-nosnippet": ""), i18n.back_home)
       })
@@ -163,16 +170,25 @@
         })
       })
 
+      if has-article-actions or has-post-navigation {
+        article-section-divider(extra-class: "article-end-divider-desktop")
+      }
+      article-section-divider(extra-class: "article-end-divider-mobile")
+      widget-author(extra-class: "article-mobile-author")
       article-actions()
       post-navigation(data.navigation)
+
+      html.elem("div", attrs: (class: "mobile-search", "data-pagefind-ignore": "all", "data-nosnippet": ""), {
+        widget-search()
+      })
     },
     sidebar-content: {
       html.div(class: "sidebar-inner", {
         widget-search(extra-class: "desktop-search")
         widget-toc-desktop-slot()
-        widget-author()
+        widget-author(extra-class: "article-desktop-author")
       })
     },
-    sidebar-attrs: ("data-pagefind-ignore": "all", "data-nosnippet": ""),
+    sidebar-attrs: ("data-mobile-empty": "", "data-pagefind-ignore": "all", "data-nosnippet": ""),
   )
 }
