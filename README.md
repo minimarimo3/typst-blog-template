@@ -480,7 +480,7 @@ After updating, check the site locally before pushing.
 
 ## About the Misskey Icon
 
-The Misskey share button and sidebar icon are enabled by default. The icon in the template theme comes from Simple Icons and is provided by the Misskey project under CC-BY-NC-SA-4.0. If these terms do not fit your use case (e.g., commercial use), set `share.misskey` to `false` in `site.typ`.
+The Misskey share button and sidebar icon are enabled by default. The built-in icon uses the official monochrome Misskey brand asset, licensed under CC BY-SA 4.0. Commercial use is allowed under that license. The required attribution is included automatically in `/third-party-licenses.txt` and linked from the default “About this blog” sidebar widget; see `THIRD_PARTY_NOTICES.md` for details.
 
 ## License
 

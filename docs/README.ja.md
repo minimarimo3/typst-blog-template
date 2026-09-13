@@ -472,7 +472,7 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 
 ## Misskey アイコンについて
 
-Misskey共有ボタンとサイドバーのMisskeyアイコンはデフォルトで有効です。templateのthemeにあるアイコンはSimple Icons由来で、Misskey projectによってCC-BY-NC-SA-4.0で提供されています。商用利用などでこの条件が合わない場合は、`site.typ` の `share.misskey` を `false` にしてください。
+Misskey共有ボタンとサイドバーのMisskeyアイコンはデフォルトで有効です。組み込みアイコンにはMisskey公式の単色ブランドアセットを使用し、CC BY-SA 4.0で提供されています。このライセンスでは商用利用も可能です。必要な帰属表示はビルド時に `/third-party-licenses.txt` として自動配置され、標準の「このブログについて」ウィジェット内からリンクされます。詳細は `THIRD_PARTY_NOTICES.md` を参照してください。
 
 ## ライセンス
 

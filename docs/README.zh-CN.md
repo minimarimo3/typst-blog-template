@@ -322,7 +322,7 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 
 ## 关于 Misskey 图标
 
-Misskey 分享按钮和侧边栏的 Misskey 图标默认启用。template theme中的图标来自 Simple Icons，由 Misskey project 以 CC-BY-NC-SA-4.0 提供。如商用等场景下该条款不适用，请把 `site.typ` 的 `share.misskey` 设为 `false`。
+Misskey 分享按钮和侧边栏的 Misskey 图标默认启用。内置图标使用 Misskey 官方单色品牌素材，并以 CC BY-SA 4.0 授权；该许可证允许商业使用。所需署名会在构建时自动发布为 `/third-party-licenses.txt`，并从默认的“关于本博客”小组件中链接。详情请参阅 `THIRD_PARTY_NOTICES.md`。
 
 ## 许可证
 

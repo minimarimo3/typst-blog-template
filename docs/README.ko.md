@@ -326,7 +326,7 @@ git commit -m "Update blog core to vYYYY.MM.DD"
 
 ## Misskey 아이콘에 대해
 
-Misskey 공유 버튼과 사이드바의 Misskey 아이콘은 기본으로 활성화되어 있습니다. template theme의 아이콘은 Simple Icons 에서 유래했으며, Misskey project 가 CC-BY-NC-SA-4.0 으로 제공합니다. 상업적 이용 등 이 조건이 맞지 않는 경우 `site.typ` 의 `share.misskey` 를 `false` 로 설정하세요.
+Misskey 공유 버튼과 사이드바의 Misskey 아이콘은 기본으로 활성화되어 있습니다. 내장 아이콘은 Misskey 공식 단색 브랜드 에셋을 사용하며 CC BY-SA 4.0으로 제공됩니다. 이 라이선스에서는 상업적 이용도 가능합니다. 필요한 저작자 표시는 빌드 시 `/third-party-licenses.txt`로 자동 배치되고 기본 “이 블로그에 대하여” 위젯 안에서 링크됩니다. 자세한 내용은 `THIRD_PARTY_NOTICES.md`를 참조하세요.
 
 ## 라이선스
 
