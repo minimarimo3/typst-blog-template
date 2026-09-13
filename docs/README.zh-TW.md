@@ -1,8 +1,9 @@
 # Typst Blog Template
 
-這是一個使用 Typst 輕鬆建立並發佈靜態部落格的範本。無需製作複雜的網站或建構 SSG 工具，即可專注於文章寫作。
+這是一個使用 Typst 輕鬆建立並發佈靜態部落格的範本。
+本專案面向只想寫部落格、而不是想用 SSG 建立部落格的人，著重於讓你可以馬上開始寫作。
 
-只需撰寫文章並執行建置，即可自動產生首頁、文章內頁、標籤一覽、RSS、Sitemap 與站內搜尋索引（Pagefind）。
+只需撰寫文章並執行建置，即可自動產生首頁、文章內頁、標籤一覽、RSS、Sitemap、站內搜尋索引（Pagefind）、OGP、meta 標籤等。
 
 - 示範網站（範例文章）：<https://minimarimo3.github.io/typst-blog-template/example-post/>
 - 使用範例（作者部落格）：<https://www.minimarimo3.jp>
@@ -18,7 +19,8 @@
 - 基於 Git 的自動更新日期及 GitHub 風格 Alerts
 依照 Git commit 紀錄自動反映更新日期。預設提供 `warning`、`note` 等 GitHub 風格 Alerts 語法。
 - 易於維護的核心分離結構
-部落格引擎本體（`vendor/typst-blog-core`）以 Git submodule 獨立管理。即使 Typst 未來對 HTML 輸出規格進行破壞性變更，也只需更新核心即可因應，不會破壞文章資料。
+部落格引擎本體（`vendor/typst-blog-core`）以 Git submodule 獨立管理。
+目前 Typst HTML 仍處於 experimental 階段，但只有核心使用 `html.*`，`theme` 則呼叫核心公開的 Typst 函數。因此，即使 Typst 版本升級導致 HTML 輸出規格發生破壞性變更，也能避免其影響波及主題。
 - 靈活的自訂能力
 可以依需求調整，從設定檔（`site.typ`）的簡易設定、CSS 或配色變更，到 HTML 結構（`theme/`）修改及新增自訂元件。
 
@@ -44,7 +46,7 @@ cd YOUR_REPO
 開啟 `site.typ` 並設定部落格資訊。
 
 ```typst
-#let site-config = (
+#let site = core-site-api.site(
   title: "我的部落格",
   description: "部落格說明",
   base_url: "https://YOUR_USER.github.io/YOUR_REPO", // 使用自訂網域時填寫對應 URL
@@ -73,7 +75,7 @@ cd YOUR_REPO
 使用 CLI 指令產生文章範本。
 
 ```sh
-python3 command.py new post my-first-post --title "第一篇文章" --tag "Typst"
+python3 command.py new post my-first-post --title "第一篇文章" --description "我用 Typst 寫了第一篇文章。" --tag "Typst"
 ```
 
 執行後會產生 `{posts_dir}/my-first-post/index.typ`。
@@ -132,6 +134,15 @@ python3 command.py preview
 | `update` | `calver()` | 手動更新日期（僅在設定 `update_policy: "manual"` 時使用） |
 | `extra` | Dictionary | 傳遞給主題與自訂擴充功能的任意自訂資料 |
 
+### 擴充文章
+
+| 修改對象 | 可修改的內容 |
+| --- | --- |
+| site.typ | 標題、作者、navigation、share、pagination、font |
+| theme/static/ | 使用 CSS 修改顏色、間距、字體大小與卡片外觀 |
+| theme/pages/ | 使用 Typst 函數修改側邊欄結構、文章下方與首頁內容的排列順序 |
+| extensions/ | 使用 Typst 的 `html.elem` 等 API 建立 GitHub Alerts 等自訂元件 |
+
 ---
 
 ## 建立一般頁面（About / FAQ 等）
@@ -189,7 +200,7 @@ theme: theme-config(color_scheme: "light") // "dark" 或 "light"
 ├── site.typ                # 標題、URL、作者等網站整體設定
 ├── posts/                  # 在 posts_dir 中指定時的文章目錄
 ├── pages/                  # About 等一般頁面
-├── theme/                  # HTML 結構與設計主題
+├── theme/                  # 頁面結構與設計主題
 │   ├── pages/              # article、home、tag 等各頁面 renderer
 │   ├── components/         # head、header、widget 等共用元件
 │   └── static/             # 主題使用的 CSS / JS
@@ -231,4 +242,4 @@ theme: theme-config(color_scheme: "light") // "dark" 或 "light"
 
 ---
 
-文件版本: 2026.09.13.1
+文件版本: 2026.09.13.2

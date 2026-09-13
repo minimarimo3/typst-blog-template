@@ -1,8 +1,9 @@
 # Typst Blog Template
 
-Typst로 간편하게 정적 블로그를 만들고 공개할 수 있는 템플릿입니다. 복잡한 사이트 제작이나 SSG 도구 구축 없이 글쓰기에 집중할 수 있습니다.
+Typst로 간편하게 정적 블로그를 만들고 공개할 수 있는 템플릿입니다.
+SSG로 블로그를 만들고 싶은 것이 아니라 단지 블로그를 쓰고 싶은 사람이 바로 글을 쓰기 시작할 수 있도록 하는 데 중점을 둔 프로젝트입니다.
 
-글을 작성하고 빌드하기만 하면 홈, 글 본문, 태그 목록, RSS, Sitemap, 사이트 내 검색 인덱스(Pagefind)가 자동으로 생성됩니다.
+글을 작성하고 빌드하기만 하면 홈, 글 본문, 태그 목록, RSS, Sitemap, 사이트 내 검색 인덱스(Pagefind), OGP, meta 태그 등이 자동으로 생성됩니다.
 
 - 데모 사이트(샘플 글): <https://minimarimo3.github.io/typst-blog-template/example-post/>
 - 사용 예시(작성자 블로그): <https://www.minimarimo3.jp>
@@ -18,7 +19,8 @@ Typst로 간편하게 정적 블로그를 만들고 공개할 수 있는 템플�
 - Git 연동 자동 수정일 설정 및 GitHub 스타일 Alerts 지원
 Git 커밋 기록에서 수정일을 자동으로 반영합니다. `warning`, `note` 등의 GitHub 스타일 Alerts 문법이 기본으로 제공됩니다.
 - 유지보수하기 쉬운 코어 분리 구조
-블로그 엔진 본체(`vendor/typst-blog-core`)가 Git 서브모듈로 분리되어 있습니다. 향후 Typst의 HTML 출력 사양에 호환되지 않는 변경이 생겨도 글 데이터를 손상시키지 않고 코어만 업데이트해 대응할 수 있습니다.
+블로그 엔진 본체(`vendor/typst-blog-core`)가 Git 서브모듈로 분리되어 있습니다.
+현재 Typst HTML은 아직 experimental 상태이지만 `html.*`는 코어에서만 사용하고 `theme`에서는 코어가 노출하는 Typst 함수를 호출합니다. 따라서 Typst 버전 업그레이드로 HTML 출력 사양이 호환되지 않게 바뀌어도 그 영향이 테마에 미치지 않도록 대응할 수 있습니다.
 - 유연한 사용자 정의
 설정 파일(`site.typ`)의 간단한 설정부터 CSS 및 색상표 변경, HTML 구조(`theme/`) 변경, 사용자 정의 컴포넌트 추가까지 용도에 맞게 조정할 수 있습니다.
 
@@ -44,7 +46,7 @@ cd YOUR_REPO
 `site.typ`을 열고 블로그 정보를 설정합니다.
 
 ```typst
-#let site-config = (
+#let site = core-site-api.site(
   title: "내 블로그",
   description: "블로그 설명",
   base_url: "https://YOUR_USER.github.io/YOUR_REPO", // 사용자 정의 도메인이 있다면 해당 URL
@@ -73,7 +75,7 @@ cd YOUR_REPO
 CLI 명령으로 글의 기본 틀을 생성합니다.
 
 ```sh
-python3 command.py new post my-first-post --title "첫 번째 글" --tag "Typst"
+python3 command.py new post my-first-post --title "첫 번째 글" --description "Typst로 처음 작성한 글입니다." --tag "Typst"
 ```
 
 실행하면 `{posts_dir}/my-first-post/index.typ`이 생성됩니다.
@@ -132,6 +134,15 @@ python3 command.py preview
 | `update` | `calver()` | 수동 수정일(`update_policy: "manual"` 설정 시에만 사용) |
 | `extra` | Dictionary | 테마와 사용자 정의 확장에 전달할 임의의 사용자 정의 데이터 |
 
+### 글을 확장하려면
+
+| 변경 대상 | 변경 내용 |
+| --- | --- |
+| site.typ | 제목, 작성자, navigation, share, pagination, font |
+| theme/static/ | CSS로 색상, 여백, 글꼴 크기, 카드 모양 변경 |
+| theme/pages/ | Typst 함수로 사이드바 구성, 글 하단, 홈 페이지 구성 순서 변경 |
+| extensions/ | Typst의 `html.elem` 등을 사용한 GitHub Alerts 같은 사용자 정의 컴포넌트 |
+
 ---
 
 ## 일반 페이지 만들기(About / FAQ 등)
@@ -189,7 +200,7 @@ theme: theme-config(color_scheme: "light") // "dark" 또는 "light"
 ├── site.typ                # 제목, URL, 작성자 등 사이트 전체 설정
 ├── posts/                  # posts_dir에 지정한 경우의 글 디렉터리
 ├── pages/                  # About 등의 일반 페이지
-├── theme/                  # HTML 구조 및 디자인 테마
+├── theme/                  # 페이지 구조 및 디자인 테마
 │   ├── pages/              # article, home, tag 등 각 페이지 렌더러
 │   ├── components/         # head, header, widget 등 공통 부품
 │   └── static/             # 테마용 CSS / JS
@@ -231,4 +242,4 @@ theme: theme-config(color_scheme: "light") // "dark" 또는 "light"
 
 ---
 
-문서 버전: 2026.09.13.1
+문서 버전: 2026.09.13.2

@@ -1,8 +1,9 @@
 # Typst Blog Template
 
-A template for easily creating and publishing a static blog with Typst. It lets you focus on writing posts without building a complex website or static site generator from scratch.
+A template for easily creating and publishing a static blog with Typst.
+This project is designed for people who simply want to write a blog—not build one with an SSG—and focuses on helping you start writing right away.
 
-Simply write your posts and run the build to automatically generate the home page, post pages, tag index, RSS feed, sitemap, and a Pagefind site-search index.
+Simply write your posts and run the build to automatically generate the home page, post pages, tag index, RSS feed, sitemap, a Pagefind site-search index, OGP metadata, meta tags, and more.
 
 - Demo site (sample post): <https://minimarimo3.github.io/typst-blog-template/example-post/>
 - Example in use (author's blog): <https://www.minimarimo3.jp>
@@ -18,7 +19,8 @@ Automatically generates the home page, post pages with OGP and meta tags, tag in
 - Git-based update dates and GitHub-style alerts
 Automatically derives update dates from Git commit history. GitHub-style alert syntax such as `warning` and `note` is built in.
 - Easy-to-maintain separated core
-The blog engine (`vendor/typst-blog-core`) is separated into a Git submodule. If a future Typst release makes breaking changes to HTML output, you can update only the core without disrupting your post data.
+The blog engine (`vendor/typst-blog-core`) is separated into a Git submodule.
+Typst HTML is still experimental, but only the core uses `html.*`; the `theme` calls Typst functions exposed by the core. This separation makes it possible to keep up with breaking changes to Typst's HTML output without their impact reaching the theme.
 - Flexible customization
 Customize the blog to suit your needs, from simple changes in `site.typ` to CSS and color schemes, HTML structure under `theme/`, and custom components.
 
@@ -44,7 +46,7 @@ cd YOUR_REPO
 Open `site.typ` and configure your blog information.
 
 ```typst
-#let site-config = (
+#let site = core-site-api.site(
   title: "My Blog",
   description: "A description of the blog",
   base_url: "https://YOUR_USER.github.io/YOUR_REPO", // Use your custom-domain URL if applicable
@@ -73,7 +75,7 @@ Open `site.typ` and configure your blog information.
 Generate a post template with the CLI command.
 
 ```sh
-python3 command.py new post my-first-post --title "My First Post" --tag "Typst"
+python3 command.py new post my-first-post --title "My First Post" --description "My first post written with Typst." --tag "Typst"
 ```
 
 This creates `{posts_dir}/my-first-post/index.typ`.
@@ -132,6 +134,15 @@ Write your post here.
 | `update` | `calver()` | Manual update date, used only when `update_policy: "manual"` is configured |
 | `extra` | Dictionary | Optional custom data passed to the theme and custom extensions |
 
+### Extending your posts
+
+| What to change | What you can change |
+| --- | --- |
+| site.typ | Title, author, navigation, sharing, pagination, and fonts |
+| theme/static/ | Colors, spacing, font sizes, and card appearance with CSS |
+| theme/pages/ | Sidebar layout, content below posts, and home-page section order with Typst functions |
+| extensions/ | Custom components such as GitHub Alerts using Typst's `html.elem` and related APIs |
+
 ---
 
 ## Creating general pages (About, FAQ, and more)
@@ -189,7 +200,7 @@ To add your own CSS, create `theme/static/color-schemes/my-theme.css` and set `c
 ├── site.typ                # Site-wide settings such as the title, URL, and author
 ├── posts/                  # Post directory when selected in posts_dir
 ├── pages/                  # General pages such as About
-├── theme/                  # HTML structure and visual theme
+├── theme/                  # Page structure and visual theme
 │   ├── pages/              # Page renderers for articles, home, tags, and more
 │   ├── components/         # Shared parts such as the head, header, and widgets
 │   └── static/             # Theme CSS and JavaScript
@@ -231,4 +242,4 @@ To add your own CSS, create `theme/static/color-schemes/my-theme.css` and set `c
 
 ---
 
-Document version: 2026.09.13.1
+Document version: 2026.09.13.2

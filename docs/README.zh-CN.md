@@ -1,8 +1,9 @@
 # Typst Blog Template
 
-这是一个使用 Typst 轻松创建并发布静态博客的模板。无需制作复杂的网站或构建 SSG 工具，即可专注于文章写作。
+这是一个使用 Typst 轻松创建并发布静态博客的模板。
+本项目面向只想写博客、而不是想用 SSG 搭建博客的人，致力于让你可以立即开始写作。
 
-只需撰写文章并执行构建，即可自动生成首页、文章正文页、标签列表、RSS、Sitemap 和站内搜索索引（Pagefind）。
+只需撰写文章并执行构建，即可自动生成首页、文章正文页、标签列表、RSS、Sitemap、站内搜索索引（Pagefind）、OGP、meta 标签等。
 
 - 演示站点（示例文章）：<https://minimarimo3.github.io/typst-blog-template/example-post/>
 - 使用示例（作者博客）：<https://www.minimarimo3.jp>
@@ -18,7 +19,8 @@
 - 基于 Git 的自动更新日期及 GitHub 风格 Alerts
 根据 Git 提交历史自动反映更新日期。默认支持 `warning`、`note` 等 GitHub 风格 Alerts 语法。
 - 易于维护的核心分离结构
-博客引擎主体（`vendor/typst-blog-core`）作为 Git 子模块独立存在。即使 Typst 将来对 HTML 输出规范做出破坏性变更，也只需更新核心即可跟进，不会破坏文章数据。
+博客引擎主体（`vendor/typst-blog-core`）作为 Git 子模块独立存在。
+目前 Typst HTML 仍处于 experimental 阶段，但只有核心使用 `html.*`，`theme` 则调用核心公开的 Typst 函数。因此，即使 Typst 版本升级导致 HTML 输出规范发生破坏性变更，也能避免其影响波及主题。
 - 灵活的自定义能力
 可根据需要进行调整，包括通过配置文件（`site.typ`）进行简单设置、更改 CSS 或配色、修改 HTML 结构（`theme/`），以及添加自定义组件。
 
@@ -44,7 +46,7 @@ cd YOUR_REPO
 打开 `site.typ` 并设置博客信息。
 
 ```typst
-#let site-config = (
+#let site = core-site-api.site(
   title: "我的博客",
   description: "博客说明",
   base_url: "https://YOUR_USER.github.io/YOUR_REPO", // 使用自定义域名时填写相应 URL
@@ -73,7 +75,7 @@ cd YOUR_REPO
 使用 CLI 命令生成文章模板。
 
 ```sh
-python3 command.py new post my-first-post --title "第一篇文章" --tag "Typst"
+python3 command.py new post my-first-post --title "第一篇文章" --description "我用 Typst 写了第一篇文章。" --tag "Typst"
 ```
 
 执行后会生成 `{posts_dir}/my-first-post/index.typ`。
@@ -132,6 +134,15 @@ python3 command.py preview
 | `update` | `calver()` | 手动更新日期（仅在设置 `update_policy: "manual"` 时使用） |
 | `extra` | Dictionary | 传递给主题和自定义扩展的任意自定义数据 |
 
+### 扩展文章
+
+| 修改对象 | 可修改的内容 |
+| --- | --- |
+| site.typ | 标题、作者、navigation、share、pagination、font |
+| theme/static/ | 使用 CSS 修改颜色、间距、字号和卡片外观 |
+| theme/pages/ | 使用 Typst 函数修改侧边栏结构、文章底部和首页内容的排列顺序 |
+| extensions/ | 使用 Typst 的 `html.elem` 等 API 创建 GitHub Alerts 等自定义组件 |
+
 ---
 
 ## 创建通用页面（About / FAQ 等）
@@ -189,7 +200,7 @@ theme: theme-config(color_scheme: "light") // "dark" 或 "light"
 ├── site.typ                # 标题、URL、作者等站点整体设置
 ├── posts/                  # 在 posts_dir 中指定时的文章目录
 ├── pages/                  # About 等通用页面
-├── theme/                  # HTML 结构和设计主题
+├── theme/                  # 页面结构和设计主题
 │   ├── pages/              # article、home、tag 等各页面渲染器
 │   ├── components/         # head、header、widget 等共用组件
 │   └── static/             # 主题使用的 CSS / JS
@@ -231,4 +242,4 @@ theme: theme-config(color_scheme: "light") // "dark" 或 "light"
 
 ---
 
-文档版本: 2026.09.13.1
+文档版本: 2026.09.13.2
