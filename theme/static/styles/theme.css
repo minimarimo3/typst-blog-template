@@ -1,0 +1,9 @@
+/*
+ * Site-specific overrides for the core components.
+ * Add only the tokens you want to change. See theme/README.md for the public list.
+ */
+:root {
+  --content-width: 760px;
+  --sidebar-width: 280px;
+  --gap-width: 60px;
+}

@@ -1,9 +1,5 @@
 name: Test and deploy to GitHub Pages
 
-env:
-  TYPST_VERSION: 0.15.0
-  PAGEFIND_VERSION: 1.5.2
-
 on:
   push:
     branches: ["main"]
@@ -38,6 +34,7 @@ jobs:
 
       - name: Install Typst
         run: |
+          TYPST_VERSION=$(cat vendor/typst-blog-core/typst-version)
           wget -q https://github.com/typst/typst/releases/download/v$TYPST_VERSION/typst-x86_64-unknown-linux-musl.tar.xz
           tar -xf typst-x86_64-unknown-linux-musl.tar.xz
           sudo mv typst-x86_64-unknown-linux-musl/typst /usr/local/bin/typst
@@ -53,19 +50,16 @@ jobs:
 
       - name: Check JavaScript modules
         run: |
-          for js_file in vendor/typst-blog-core/static/scripts/*.js; do
+          for js_file in vendor/typst-blog-core/static/_core/scripts/*.js; do
             node --input-type=module --check < "$js_file"
           done
 
       - name: Build paged example
-        if: ${{ hashFiles('example-post/index.typ') != '' }}
-        run: typst compile --root . example-post/index.typ /tmp/example-post.pdf
+        if: ${{ hashFiles('posts/example-post/index.typ') != '' }}
+        run: typst compile --root . posts/example-post/index.typ /tmp/example-post.pdf
 
       - name: Build site
         run: python3 command.py build
-
-      - name: Build search index
-        run: npx -y pagefind@$PAGEFIND_VERSION --site public
 
       - name: Configure Pages
         if: github.event_name != 'pull_request'

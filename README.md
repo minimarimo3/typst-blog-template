@@ -1,85 +1,84 @@
 # Typst Blog Template
 
-A template for writing posts in Typst and publishing them as a static blog.
-Write a post and build — the home page, post pages, tag pages, RSS, sitemap, and site search index are all generated for you.
+A template for easily creating and publishing a static blog with Typst.
+This project is designed for people who simply want to write a blog—not build one with an SSG—and focuses on helping you start writing right away.
 
-Sample page showcasing the supported syntax: <https://minimarimo3.github.io/typst-blog-template/example-post/>
-The template author's blog built with this template: <https://www.minimarimo3.jp>
+Simply write your posts and run the build to automatically generate the home page, post pages, tag index, RSS feed, sitemap, a Pagefind site-search index, OGP metadata, meta tags, and more.
 
-Languages: [日本語](docs/README.ja.md) | English | [한국어](docs/README.ko.md) | [简体中文](docs/README.zh-CN.md) | [繁體中文（台灣）](docs/README.zh-TW.md)
+- Demo site (sample post): <https://minimarimo3.github.io/typst-blog-template/example-post/>
+- Example in use (author's blog): <https://www.minimarimo3.jp>
 
-## Features
+[日本語](docs/README.ja.md) | English | [한국어](docs/README.ko.md) | [简体中文](docs/README.zh-CN.md) | [繁體中文（台灣）](docs/README.zh-TW.md)
 
-- Write both posts and site settings entirely in Typst
-- Set title, created date, updated date, description, tags, and draft status per post
-- Auto-generate the home page, post pages, per-tag pages, and a tag index page
-- Auto-generate RSS and sitemap
-- Site search powered by [Pagefind](https://pagefind.app/)
-- Publish to GitHub Pages as-is (workflow included)
-- Switch color themes; add a favicon, images, extra CSS, and a custom domain
-- Update only the blog engine (`vendor/typst-blog-core`) later
+## Key features
 
-## Requirements
+- A Typst-first writing experience
+Both your post content and all site-wide settings can be written in Typst.
+- Automatic generation without complicated setup
+Automatically generates the home page, post pages with OGP and meta tags, tag index, RSS feed, and sitemap. Pagefind site search and automatic deployment to GitHub Pages are also supported through the included GitHub Actions workflow.
+- Git-based update dates and GitHub-style alerts
+Automatically derives update dates from Git commit history. GitHub-style alert syntax such as `warning` and `note` is built in, with labels that follow `site.language` in Japanese, English, Korean, Simplified Chinese, and Traditional Chinese.
+- Easy-to-maintain separated core
+The blog engine (`vendor/typst-blog-core`) is separated into a Git submodule.
+Typst HTML is still experimental, but only the core uses `html.*`; the `theme` calls Typst functions exposed by the core. This separation makes it possible to keep up with breaking changes to Typst's HTML output without their impact reaching the theme.
+- Flexible customization
+Customize the blog to suit your needs, from simple changes in `site.typ` to CSS and color schemes, HTML structure under `theme/`, and custom components.
 
-| Tool | Version |
-| --- | --- |
-| Git | - |
-| Typst | 0.15.0 or later |
-| Python | 3.10 or later |
-| Node.js | 20 or later |
+---
 
-Node.js is used to run Pagefind, which builds the search index. Even if you do not use search, the default GitHub Pages workflow uses Node.js.
+## Quick start
 
-## Quick Start
+### 1. Create and clone the repository
 
-### 1. Create your repository and clone it
-
-Create your own repository with GitHub's "Use this template" button, then clone it locally.
+Use GitHub's “Use this template” button to create your own repository, then clone it locally.
 
 ```sh
-git clone --recurse-submodules https://github.com/USER/REPO.git
-cd REPO
+git clone --recurse-submodules https://github.com/YOUR_USER/YOUR_REPO.git
+cd YOUR_REPO
 ```
 
-> [!NOTE]
-> If you have already cloned and `vendor/typst-blog-core` is empty, run `git submodule update --init --recursive`.
+> Note
+> If you already cloned the repository and `vendor/typst-blog-core` is empty, run:
+> `git submodule update --init --recursive`
 
 ### 2. Edit the site settings
 
-Open `site.typ` and adjust it for your blog. Start with these:
-
-| Key | Description |
-| --- | --- |
-| `title` | Blog name |
-| `description` | Blog description |
-| `base_url` | Public URL (no trailing `/`) |
-| `github_repo` | GitHub repository URL of this blog |
-| `language` | Primary language |
-| `theme` | `"dark"` or `"light"` |
-| `posts_dir` | Where posts live. `"."` for the repository root, `"posts"` to keep them under `posts/` |
-| `update_policy` | How the updated date is determined. `"git"` (default; derived from Git history) or `"manual"` (uses the post's `update`) |
-| `author.name` | Author name |
-| `author.bio` | Profile text |
-| `author.socials` | Links to X, Misskey, GitHub, etc. |
-
-When publishing on GitHub Pages, `base_url` looks like this:
+Open `site.typ` and configure your blog information.
 
 ```typst
-base_url: "https://USER.github.io/REPO"
+#let site = core-site-api.site(
+  title: "My Blog",
+  description: "A description of the blog",
+  base_url: "https://YOUR_USER.github.io/YOUR_REPO", // Use your custom-domain URL if applicable
+  github_repo: "https://github.com/YOUR_USER/YOUR_REPO",
+  posts_dir: "posts", // Directory name for posts, such as "posts", or "."
+  language: (
+    lang: "zh",
+    region: "TW",
+    script: "hani",
+  ),
+  // Or use the shorthand language: "en"
+
+  author: (
+    name: "Author name",
+    bio: "Profile",
+    links: (
+      (id: "github", label: "GitHub", url: "https://github.com/YOUR_USER"),
+    ),
+  ),
+  ... // Other settings are available, but these are the essentials
+)
 ```
 
-If you use a custom domain, set that domain's URL instead.
+### 3. Create a new post
 
-### 3. Create a post
+Generate a post template with the CLI command.
 
 ```sh
-python3 command.py new my-first-post \
-  --title "My First Post" \
-  --description "A short description of the post." \
-  --tag Typst
+python3 command.py new post my-first-post --title "My First Post" --description "My first post written with Typst." --tag "Typst"
 ```
 
-This creates the post directory and an `index.typ` with the metadata filled in.
+This creates `{posts_dir}/my-first-post/index.typ`.
 
 ### 4. Preview locally
 
@@ -87,209 +86,160 @@ This creates the post directory and an `index.typ` with the metadata filled in.
 python3 command.py preview
 ```
 
-After the first build, a preview server starts at `http://localhost:8000`. Saving a file rebuilds the site automatically and reloads the browser.
+The preview server starts at `http://localhost:8000`.
+When you save a file, the site is automatically rebuilt and the browser reloads.
 
-### 5. Publish
+### 5. Publish with GitHub Pages
 
-Push to the `main` branch, and GitHub Actions builds and publishes to GitHub Pages automatically. See [Publish with GitHub Pages](#publish-with-github-pages) for details.
+1. Open Settings → Pages in your GitHub repository
+2. Change Build and deployment → Source to GitHub Actions
+3. Push to the `main` branch to automatically build and deploy the site
 
-## Writing Posts
+---
 
-One post = one directory; the `index.typ` in each directory is the post body. Put images and references in the same directory.
+## Writing posts
 
-### Create a new post
+Posts are organized as one directory per post. Place images and related files in the same directory as `index.typ`.
 
-```sh
-python3 command.py new my-first-post \
-  --title "My First Post" \
-  --description "A short description of the post." \
-  --tag Typst
-```
-
-- The created date is set to the day you run the command, and the post starts as a draft for safety
-- Repeat `--tag` to add multiple tags
-- Add `--publish` to start in the published state
-- Use `--date 2026-07-19` to set the created date explicitly
-- If a directory with the same name, a post with the same slug, or a reserved URL already exists, the command fails with an error
-
-### Post file format
-
-The top of a generated `index.typ` looks like this:
+### Basic post file structure (`index.typ`)
 
 ```typst
 #import "/template.typ": post, calver
 
 #show: post.with(
-  slug: "my-first-post",
   title: "My First Post",
-  create: calver(2026, 1, 1),
-  description: "A short description of the post.",
-  tags: ("Typst",),
-  draft: true,
+  create: calver(2026, 1, 1, 3),
+  description: "A summary of the post.",
+  tags: ("Typst", "Journal"),
+  draft: true, // Change to false to publish
 )
 
 = Introduction
 
-Write your content here.
+Write your post here.
+
 ```
 
-The `post` show rule registers these values as build metadata and renders all
-following content with the article layout.
+### Post metadata
 
-| Key | Description |
+| Field | Type | Description |
+| --- | --- | --- |
+| `title` | String | Required. The post title |
+| `create` | `calver()` | Required. The creation date (for example, `calver(2026, 1, 1)`) |
+| `description` | String | Description used in post lists, SEO, and OGP metadata |
+| `tags` | Array | Tags; Japanese text and spaces are automatically converted to safe URLs |
+| `draft` | Boolean | `true` for a draft and `false` to publish; defaults to `true` when omitted |
+| `permalink` | String | Custom URL (for example, `"/notes/hello/"`) |
+| `aliases` | Array | Previous URLs used for redirects (for example, `("/old-path/",)`) |
+| `update` | `calver()` | Manual update date, used only when `update_policy: "manual"` is configured |
+| `extra` | Dictionary | Optional custom data passed to the theme and custom extensions |
+
+### Extending your posts
+
+| What to change | What you can change |
 | --- | --- |
-| `slug` | The post URL. Human-readable Unicode text, including spaces, uppercase letters, punctuation, and symbols, is supported and percent-encoded in generated URLs. Path separators, control characters, and non-portable filesystem names are rejected. The example above is published at `/my-first-post/` |
-| `title` | Post title |
-| `create` | Created date |
-| `update` | Updated date. Used only when `update_policy: "manual"` |
-| `description` | Short description used in post lists and search results |
-| `tags` | Tags. Even if a display name contains non-ASCII characters, spaces, or symbols, a tag page with a safe, unique URL is generated automatically |
-| `draft` | `true` for draft, `false` to publish. Treated as a draft when omitted |
-
-### Drafts and publishing
-
-Toggle with `draft`. Set `draft: false` on posts you want to publish.
-
-- **In `preview`**: drafts are shown, with a "draft" badge on lists and post pages. Drafts get `noindex` and are excluded from search.
-- **In `build` (production build)**: draft post pages are not generated, and drafts are excluded from lists, tag pages, RSS, and the sitemap.
-
-### How the updated date works
-
-By default (`update_policy: "git"`), the updated date is managed automatically.
-
-- When you commit the post's `index.typ` — or images, references, and other files in the same post directory — the latest commit date becomes the updated date
-- If the only commit is the one that first added the post, no updated date is shown
-- If Git history is unavailable, a warning is shown, and the post's `update` value is used if present
-
-To manage it manually, set `update_policy: "manual"` in `site.typ` and write the date in the post's `update`.
-
-### Keeping posts under posts/
-
-If you prefer to keep post directories under `posts/` instead of the repository root, set `posts_dir: "posts"` in `site.typ`. Both where `new` creates posts and where the build looks for posts become `posts/`.
-
-## Previewing Locally
-
-```sh
-python3 command.py preview
-```
-
-- After the first build, a preview server starts at `http://localhost:8000`
-- Saving Typst files, CSS, JavaScript, images, etc. rebuilds the site automatically and reloads the browser
-- If port 8000 is in use, another free port is chosen — open the URL shown in the terminal
-- Press `Ctrl+C` to stop
-
-You can leave `base_url` in `site.typ` set to the public URL. `preview` only switches the base path for CSS, post links, and so on to `/` for the local server; canonical URLs, RSS, and the sitemap still use `base_url`.
-
-To try search as well, build the search index in another terminal:
-
-```sh
-npx -y pagefind --site public
-```
-
-Run this command again after a post change triggers an automatic rebuild.
-
-To inspect the exact production output, run `python3 command.py build`.
-
-## Publish with GitHub Pages
-
-This template ships with a GitHub Pages workflow. Setup is a one-time step.
-
-1. Change `base_url` and the blog settings in `site.typ`
-2. Open `Settings` → `Pages` on GitHub
-3. Set `Source` under `Build and deployment` to `GitHub Actions`
-4. Push your changes to the `main` branch
-
-From then on, every push triggers GitHub Actions to build and deploy the contents of `public/` to GitHub Pages.
-
-### Using a custom domain
-
-1. Write your domain name in `static/CNAME` (or `CNAME` at the repository root)
-2. Set `base_url` in `site.typ` to the custom domain as well
-
-## Changing the Look
-
-### Switch themes
-
-Switch with `theme` in `site.typ`. `dark` and `light` are available out of the box.
-
-```typst
-theme: "light"
-```
-
-### Create your own theme
-
-Add a CSS file under `static/themes/` and set its file name (without the extension) as `theme`.
-
-```typst
-// If you created static/themes/my-theme.css
-theme: "my-theme"
-```
-
-### Images, favicon, extra CSS
-
-Files placed in `static/` are copied to `public/` as-is at build time.
-
-## File Layout
-
-Files you usually edit:
-
-| Path | Description |
-| --- | --- |
-| `site.typ` | Site settings: blog name, public URL, author profile, theme, etc. |
-| `POST_DIR/index.typ` | Your posts |
-| `example-post/index.typ` | Sample showing how to write a post |
-| `static/` | Images, favicon, extra CSS, custom themes, `CNAME`, etc. |
-
-Files you normally do not touch:
-
-| Path | Description |
-| --- | --- |
-| `vendor/typst-blog-core` | The engine that generates the blog. Do not edit directly; upgrade it via the [update steps](#updating-the-blog-engine) |
-| `typst/generated/posts.typ` | Post list data updated automatically at build time |
-| `public/` | Build output, generated for publishing |
-
-## Updating the Blog Engine
-
-The engine that generates the blog is vendored as the `vendor/typst-blog-core` submodule. You can update just the engine later while keeping your posts and `site.typ` in your own repository.
-
-We recommend updating by switching to a release tag.
-
-```sh
-cd vendor/typst-blog-core
-git fetch --tags
-git tag --sort=-version:refname   # List available versions
-git checkout vYYYY.MM.DD          # Switch to the version you want
-cd ../..
-python3 command.py build
-npx -y pagefind --site public
-git add vendor/typst-blog-core
-git commit -m "Update blog core to vYYYY.MM.DD"
-```
-
-`git add vendor/typst-blog-core` does not copy the contents of core; it records which version of core this blog uses.
-
-After updating, check the site locally before pushing.
-
-## Troubleshooting
-
-| Symptom | Fix |
-| --- | --- |
-| `typst-blog-core submodule is missing` appears / `vendor/typst-blog-core` is empty | Run `git submodule update --init --recursive` |
-| `site.theme '...' does not exist` appears | Check that `theme` in `site.typ` matches a file name under `static/themes/` |
-| A post does not appear in the production build | Check that the post's `draft` is `false` (drafts are visible in `preview`) |
-| Public URLs look wrong | Check `base_url` in `site.typ`. No trailing `/` |
-| GitHub Pages cannot find core | Check that the checkout step in `.github/workflows/deploy.yml` has `submodules: recursive` |
-| Search does not work | Run `npx -y pagefind --site public` first, then check again |
-
-## About the Misskey Icon
-
-The Misskey share button and the Misskey icon in the sidebar are enabled by default. The Misskey icon bundled in core comes from Simple Icons and is provided by the Misskey project under CC-BY-NC-SA-4.0. If these terms do not fit your use case (e.g., commercial use), set `share.misskey` to `false` in `site.typ`.
-
-## License
-
-The code in this template is provided under the MIT License.
+| site.typ | Title, author, navigation, sharing, pagination, and fonts |
+| theme/static/ | Colors, spacing, font sizes, and card appearance with CSS |
+| theme/pages/ | Sidebar layout, content below posts, and home-page section order with Typst functions |
+| extensions/ | Custom components such as GitHub Alerts using Typst's `html.elem` and related APIs |
 
 ---
 
-Document version: 2026.07.19.7
-(When updating this README, also update the language files under `docs/` and keep the document version aligned.)
+## Creating general pages (About, FAQ, and more)
+
+You can create fixed pages such as an About page or privacy policy that are not included in the blog post list or RSS feed.
+
+```sh
+python3 command.py new page about --title "About This Site" --description "An introduction to this site" --publish
+```
+
+This creates `pages/about/index.typ`.
+
+```typst
+#import "/template.typ": site-page
+
+#show: site-page.with(
+  title: "About This Site",
+  description: "An introduction to the profile and site",
+  draft: false,
+  index: true, // Whether search engines and site search should index the page
+)
+
+= About
+```
+
+---
+
+## Operation and specification details
+
+### Draft and publication behavior
+
+- `preview` command: Drafts (`draft: true`) are also displayed. They receive a “Draft” badge and are excluded from the search index.
+- `build` command: The production build does not generate HTML for draft posts and excludes them from lists, RSS, and the sitemap.
+
+### Automatically derived update dates (`update`)
+
+By default (`update_policy: "git"`), the latest commit date for files in the post directory is used automatically as the update date. The update date is not displayed if there has only been an initial commit.
+
+### Changing the theme and color scheme
+
+Switch color schemes in `site.typ`.
+
+```typst
+theme: theme-config(color_scheme: "light") // "dark" or "light"
+```
+
+To add your own CSS, create `theme/static/color-schemes/my-theme.css` and set `color_scheme: "my-theme"`.
+
+---
+
+## Directory structure
+
+```text
+.
+├── site.typ                # Site-wide settings such as the title, URL, and author
+├── posts/                  # Post directory when selected in posts_dir
+├── pages/                  # General pages such as About
+├── theme/                  # Page structure and visual theme
+│   ├── pages/              # Page renderers for articles, home, tags, and more
+│   ├── components/         # Shared parts such as the head, header, and widgets
+│   └── static/             # Theme CSS and JavaScript
+├── extensions/             # Custom components and extensions
+├── static/                 # Static files such as images, favicon, and CNAME
+├── command.py              # CLI for creating posts and running previews
+├── blog.py                 # Script for extending the build process
+└── vendor/typst-blog-core/ # Blog engine submodule; direct edits are not recommended
+```
+
+---
+
+## Requirements
+
+| Tool | Required version | Notes |
+| --- | --- | --- |
+| Git | - | Used to manage the submodule |
+| Typst | `0.15.0` or later | Updated as new Typst versions are released |
+| Python | `3.10` or later | Used by the build, RSS/sitemap generation, and CLI commands |
+| Node.js | `20` or later | Optional; used to create the Pagefind search index |
+
+---
+
+## Troubleshooting
+
+| Symptom | Cause and solution |
+| --- | --- |
+| `typst-blog-core submodule is missing` is displayed | Run `git submodule update --init --recursive` to fetch the core engine. |
+| Posts are missing after a production build | Make sure the post metadata contains `draft: false`. |
+| Links or CSS break after publication | Check that `base_url` in `site.typ` is correct and has no trailing `/`. |
+| Pagefind site search does not work | Make sure Node.js and `npx` are available, then restart `preview` or run `build` again. |
+
+---
+
+## Third-party license notices
+
+- This template's code is provided under the MIT License.
+- The included Misskey brand icon is used under CC BY-SA 4.0. Attribution, including for commercial use, is automatically written to `/third-party-licenses.txt` during the build. See `THIRD_PARTY_NOTICES.md` for details.
+
+---
+
+Document version: 2026.09.13.4
