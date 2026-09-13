@@ -1,104 +1,82 @@
 # Typst Blog Template
 
-这是一个用 Typst 写文章并发布为静态博客的模板。
-写好文章并构建后，首页、文章页、标签页、RSS、sitemap 和站内搜索索引都会一并生成。
+这是一个使用 Typst 轻松创建并发布静态博客的模板。无需制作复杂的网站或构建 SSG 工具，即可专注于文章写作。
 
-展示各种语法的示例页面：<https://minimarimo3.github.io/typst-blog-template/example-post/>
-模板作者使用本模板搭建的博客：<https://www.minimarimo3.jp>
+只需撰写文章并执行构建，即可自动生成首页、文章正文页、标签列表、RSS、Sitemap 和站内搜索索引（Pagefind）。
 
-语言: [日本語](README.ja.md) | [English](../README.md) | [한국어](README.ko.md) | 简体中文 | [繁體中文（台灣）](README.zh-TW.md)
+- 演示站点（示例文章）：<https://minimarimo3.github.io/typst-blog-template/example-post/>
+- 使用示例（作者博客）：<https://www.minimarimo3.jp>
 
-## 特性
+[日本語](README.ja.md) | [English](../README.md) | [한국어](README.ko.md) | 简体中文 | [繁體中文（台灣）](README.zh-TW.md)
 
-- 文章和站点配置全部用 Typst 编写
-- 每篇文章可设置标题、创建日期、更新日期、描述、标签和草稿状态
-- 自动生成首页、文章页、按标签页面和标签一览页
-- 自动生成 RSS 和 sitemap
-- 支持基于 [Pagefind](https://pagefind.app/) 的站内搜索
-- 可直接发布到 GitHub Pages（附带工作流）
-- 可创建不作为文章处理的 About、FAQ、政策等通用页面
-- 无需修改 core，即可在 `theme/` 中重做文章、通用页面、首页、标签和404页面结构
-- 支持切换配色，配置 favicon、图片、附加 CSS 和自定义域名
-- 无需修改 core，即可添加由 Typst、CSS 和 JavaScript 组成的 template 侧扩展
-- 可通过 `blog.py` 添加PDF、EPUB生成和Python后处理
-- 之后可以只更新博客引擎部分（`vendor/typst-blog-core`）
+## 主要特性
 
-## 环境要求
+- 完全基于 Typst 的写作体验
+不仅文章正文，整个站点的设置也都可以使用 Typst 语法编写。
+- 无需繁琐设置即可自动生成
+自动生成首页、带 OGP 和 Meta 标签的文章页、标签列表、RSS 和 Sitemap。还支持使用 Pagefind 进行站内搜索，以及通过附带的 GitHub Actions 自动部署到 GitHub Pages。
+- 基于 Git 的自动更新日期及 GitHub 风格 Alerts
+根据 Git 提交历史自动反映更新日期。默认支持 `warning`、`note` 等 GitHub 风格 Alerts 语法。
+- 易于维护的核心分离结构
+博客引擎主体（`vendor/typst-blog-core`）作为 Git 子模块独立存在。即使 Typst 将来对 HTML 输出规范做出破坏性变更，也只需更新核心即可跟进，不会破坏文章数据。
+- 灵活的自定义能力
+可根据需要进行调整，包括通过配置文件（`site.typ`）进行简单设置、更改 CSS 或配色、修改 HTML 结构（`theme/`），以及添加自定义组件。
 
-| 工具 | 版本 |
-| --- | --- |
-| Git | - |
-| Typst | 0.15.0 及以上 |
-| Python | 3.10 及以上 |
-| Node.js | 20 及以上 |
-
-Node.js 用于运行生成搜索索引的 Pagefind。即使不使用搜索功能，GitHub Pages 的默认工作流也会用到 Node.js。
+---
 
 ## 快速开始
 
-### 1. 创建仓库并 clone
+### 1. 创建并获取仓库
 
-用 GitHub 的 "Use this template" 按钮创建自己的仓库，然后 clone 到本地。
+使用 GitHub 的“Use this template”按钮创建自己的仓库，然后克隆到本地。
 
 ```sh
-git clone --recurse-submodules https://github.com/USER/REPO.git
-cd REPO
+git clone --recurse-submodules https://github.com/YOUR_USER/YOUR_REPO.git
+cd YOUR_REPO
 ```
 
-> [!NOTE]
-> 如果已经 clone 且 `vendor/typst-blog-core` 为空，请运行 `git submodule update --init --recursive`。
+> Note
+> 如果仓库已经克隆，但 `vendor/typst-blog-core` 目录为空，请执行：
+> `git submodule update --init --recursive`
 
-### 2. 修改站点配置
+### 2. 编辑站点设置
 
-打开 `site.typ`，按自己的博客进行修改。先检查这些项：
-
-| 配置项 | 说明 |
-| --- | --- |
-| `title` | 博客名称 |
-| `description` | 博客描述 |
-| `base_url` | 发布后的 URL（结尾不要加 `/`） |
-| `github_repo` | 本博客的 GitHub 仓库 URL |
-| `github_branch` | 编辑历史链接使用的可选分支名，默认为 `"main"` |
-| `language` | 主要使用的语言。可用 `"ja"` 简写，或分别指定 `lang`、`region`、`script` |
-| `theme.color_scheme` | `"dark"` 或 `"light"` |
-| `theme.navigation` | 可选导航链接。留空时不显示导航 |
-| `theme.article_actions` | 分享按钮和可选的文章反馈表单 |
-| `posts_dir` | 文章存放位置。放在根目录下用 `"."`，集中到 `posts/` 用 `"posts"` |
-| `update_policy` | 更新日期的确定方式。`"git"`（默认，从 Git 历史自动计算）或 `"manual"`（使用文章的 `update`） |
-| `author.name` | 作者名 |
-| `author.bio` | 个人简介 |
-| `author.links` | 含有 `id`、`label`、`url` 及可选的相对于 `static/` 的 `icon` 路径的作者资料链接 |
-
-对于需要区分地区或书写系统的语言，请分别指定 Typst 的语言要素，而不是填写 BCP 47 字符串。
+打开 `site.typ` 并设置博客信息。
 
 ```typst
-language: (
-  lang: "zh",
-  region: "TW",
-  script: "hani",
+#let site-config = (
+  title: "我的博客",
+  description: "博客说明",
+  base_url: "https://YOUR_USER.github.io/YOUR_REPO", // 使用自定义域名时填写相应 URL
+  github_repo: "[https://github.com/YOUR_USER/YOUR_REPO](https://github.com/YOUR_USER/YOUR_REPO)",
+  posts_dir: "posts", // 文章保存位置（"posts" 等目录名或 "."）
+  language: (
+    lang: "zh",
+    region: "TW",
+    script: "hani",
+  ),
+  // 也可以简写为 language: "zh"
+
+  author: (
+    name: "管理员名称",
+    bio: "个人简介",
+    links: (
+      (id: "github", label: "GitHub", url: "https://github.com/YOUR_USER"),
+    ),
+  ),
+  ... // 还有其他设置，但这些是基本项目
 )
 ```
 
-`lang` 是必填的 ISO 639-1/2/3 代码。`region` 是可选的 ISO 3166-1 alpha-2 代码；`script` 也是可选项，默认值为 `auto`。生成 HTML 时，这些值会转换为 `zh-Hani-TW` 这样的 BCP 47 标签。
+### 3. 创建新文章
 
-在 GitHub Pages 上发布时，`base_url` 形如：
-
-```typst
-base_url: "https://USER.github.io/REPO"
-```
-
-使用自定义域名时，请填写该域名的 URL。
-
-### 3. 创建文章
+使用 CLI 命令生成文章模板。
 
 ```sh
-python3 command.py new post my-first-post \
-  --title "My First Post" \
-  --description "文章的简短描述。" \
-  --tag Typst
+python3 command.py new post my-first-post --title "第一篇文章" --tag "Typst"
 ```
 
-会一次性创建文章目录和已填好元信息的 `index.typ`。
+执行后会生成 `{posts_dir}/my-first-post/index.typ`。
 
 ### 4. 本地预览
 
@@ -106,229 +84,151 @@ python3 command.py new post my-first-post \
 python3 command.py preview
 ```
 
-首次构建后，预览服务器会在 `http://localhost:8000` 启动。保存文件会自动重新构建并刷新浏览器。
+预览服务器会在 `http://localhost:8000` 启动。
+保存文件后会自动重新构建并刷新浏览器。
 
-### 5. 发布
+### 5. 发布到 GitHub Pages
 
-push 到 `main` 分支后，GitHub Actions 会自动构建并发布到 GitHub Pages。详见[使用 GitHub Pages 发布](#使用-github-pages-发布)。
+1. 打开 GitHub 仓库的 Settings → Pages
+2. 将 Build and deployment 下的 Source 改为 GitHub Actions
+3. `push` 到 `main` 分支后会自动构建并部署
 
-## 撰写文章
+---
 
-文章采用"一篇文章 = 一个目录"的结构，每个目录中的 `index.typ` 就是正文。图片和参考文献也放在同一目录中。
+## 文章写法
 
-### 新建文章
+文章按“一篇文章 = 一个目录”的方式管理。请将图片和相关文件放在与 `index.typ` 相同的目录中。
 
-```sh
-python3 command.py new post my-first-post \
-  --title "My First Post" \
-  --description "文章的简短描述。" \
-  --tag Typst
-```
-
-- 创建日期为执行当天，出于安全考虑初始状态为草稿
-- 需要多个标签时重复使用 `--tag`
-- 想一开始就处于发布状态时加上 `--publish`
-- 指定创建日期时使用 `--date 2026-07-19` 的格式
-- 如果目标目录已经存在，会报错
-
-### 文章文件格式
-
-生成的 `index.typ` 开头如下：
+### 文章文件的基本结构（`index.typ`）
 
 ```typst
 #import "/template.typ": post, calver
 
 #show: post.with(
-  title: "My First Post",
-  create: calver(2026, 1, 1),
-  description: "文章的简短描述。",
-  tags: ("Typst",),
-  draft: true,
+  title: "第一篇文章",
+  create: calver(2026, 1, 1, 3),
+  description: "文章概要。",
+  tags: ("Typst", "日记"),
+  draft: true, // 发布时改为 false
 )
 
 = 前言
 
-在这里写正文。
+在此撰写正文。
+
 ```
 
-`post` show 规则会将这些值注册为构建元数据，并使用文章布局渲染后续正文。
+### 文章元数据列表
 
-| 字段 | 说明 |
-| --- | --- |
-| `permalink` | 可选的正式 URL。省略时使用相对于 `posts_dir` 的目录路径 |
-| `aliases` | 可选的旧 URL 数组。每个 URL 都会生成指向正式 URL 的跳转页面 |
-| `title` | 文章标题 |
-| `create` | 创建日期 |
-| `update` | 更新日期。仅在 `update_policy: "manual"` 时使用 |
-| `description` | 用于文章列表和搜索结果的简短描述 |
-| `tags` | 标签。即使显示名包含中文、空格或符号，也会自动生成 URL 安全且不重复的标签页 |
-| `extra` | 用于自定义 JSON 兼容元数据的可选字典。core 不解释其内容，并将其传递给 theme 和 Python 构建 callback |
-| `draft` | `true` 为草稿，`false` 为发布对象。省略时视为草稿 |
-
-例如，设置 `extra: (course: "typst-basics", lesson: 1)` 并在 renderer 中读取
-`data.post.extra`，即可在不修改 core 的情况下由 theme 实现课程概念。
-`extra` 中可以使用字符串、数字、布尔值、`none`、数组和嵌套字典。
-
-### 草稿与发布
-
-通过 `draft` 切换。想发布的文章请写上 `draft: false`。
-
-- **在 `preview` 中**：草稿也会显示，列表和文章页会带"草稿"徽章。草稿会设置 `noindex`，也不会被搜索收录。
-- **在 `build`（发布构建）中**：不会生成草稿的文章页，列表、标签页、RSS、sitemap 中也不会包含草稿。
-
-### 更新日期的机制
-
-更新日期默认（`update_policy: "git"`）自动管理。
-
-- 提交文章的 `index.typ` 或同一文章目录中的图片、参考文献等时，最新提交日期会成为更新日期
-- 如果只有最初添加文章的那次提交，则不显示更新日期
-- 在无法获取 Git 历史的环境中会显示警告，若文章写有 `update` 则使用该值
-
-想手动管理时，在 `site.typ` 中指定 `update_policy: "manual"`，并在文章的 `update` 中写日期。
-
-### 把文章集中到 posts/
-
-如果想把文章目录集中放在 `posts/` 下而不是根目录，在 `site.typ` 中指定 `posts_dir: "posts"`。`new` 命令的创建位置和构建时的文章查找范围都会变为 `posts/`。
-
-## 本地预览
-
-```sh
-python3 command.py preview
-```
-
-- 首次构建后，预览服务器会在 `http://localhost:8000` 启动
-- 保存 Typst 文件、CSS、JavaScript、图片等会自动重新构建并刷新浏览器
-- 如果 8000 端口被占用会自动选择其他空闲端口，请打开终端中显示的 URL
-- 按 `Ctrl+C` 退出
-
-`site.typ` 的 `base_url` 保持发布 URL 即可。`preview` 只会把 CSS、文章链接等的基准路径切换为本地服务器的 `/`；canonical URL、RSS、sitemap 仍然使用 `base_url`。
-
-如果可以使用 `npx`，preview 服务器启动前会生成一次 Pagefind 搜索索引。之后修改文件时，
-为了保持快速的增量 preview，不会更新索引；需要查看最新搜索结果时，请重新启动 preview。
-
-想直接查看发布用的生成结果时，运行 `python3 command.py build`。
-
-## 使用 GitHub Pages 发布
-
-本模板附带 GitHub Pages 工作流。只需在最初设置一次。
-
-1. 把 `site.typ` 的 `base_url` 和博客信息改成自己的
-2. 打开 GitHub 的 `Settings` → `Pages`
-3. 把 `Build and deployment` 的 `Source` 设为 `GitHub Actions`
-4. 把改动 push 到 `main` 分支
-
-之后每次 push，GitHub Actions 都会自动构建并把 `public/` 的内容部署到 GitHub Pages。
-
-### 使用自定义域名
-
-1. 在 `static/CNAME`（或仓库根目录的 `CNAME`）中写入域名
-2. `site.typ` 的 `base_url` 也改成自定义域名
-
-## 修改外观
-
-完整的HTML页面结构由 `theme/` 而不是core负责。文章、通用页面、首页、标签、标签目录和
-404 renderer位于 `theme/pages/`；共用布局、head、卡片和widget位于
-`theme/components/`；CSS和JavaScript位于 `theme/static/`。
-
-`theme/theme.typ` 是builder使用的renderer公开入口。core提供已经确定的URL、
-日期、上一篇与下一篇文章以及SEO数据，theme决定最终HTML结构。
-
-### 切换配色
-
-用 `site.typ` 的 `theme.color_scheme` 切换。开箱可用的是 `dark` 和 `light`。
-
-```typst
-theme: theme-config(color_scheme: "light")
-```
-
-### 制作自己的配色
-
-在 `theme/static/color-schemes/` 下添加 CSS，并把文件名（不含扩展名）指定给 `theme.color_scheme`。
-
-```typst
-// 创建了 theme/static/color-schemes/paper.css 时
-theme: theme-config(color_scheme: "paper")
-```
-
-### 图片、favicon、附加 CSS
-
-放在 `static/` 中的文件会在构建时原样复制到 `public/`。
-
-### 添加博客扩展
-
-扩展把文章中使用的 Typst 函数与 CSS、JavaScript 组合在一起。template 侧内置的 alert 和 YouTube 嵌入也使用与用户扩展相同的机制。完整示例请参阅 [Create a Blog Extension](extensions.md)。
-
-## 文件结构
-
-平时经常编辑的文件：
-
-| 路径 | 说明 |
-| --- | --- |
-| `site.typ` | 博客名称、发布 URL、作者信息、配色等站点配置 |
-| `theme/pages/` | 文章、通用页面、首页、标签、标签目录和404页面renderer |
-| `theme/components/` | head、共用布局、卡片和widget组件 |
-| `theme/static/` | theme使用的CSS和JavaScript |
-| `extensions.typ` | 已启用的内置扩展和自定义扩展 |
-| `extensions/` | 内置扩展和自定义扩展的 Typst 模块 |
-| `blog.py` | 注册附加输出和构建处理的Python配置 |
-| `文章目录/index.typ` | 自己的文章 |
-| `pages/页面/index.typ` | About、政策等通用页面 |
-| `example-post/index.typ` | 文章写法示例 |
-| `static/` | 站点专用图片、favicon、扩展资源、`CNAME` 等 |
-
-基本不需要碰的文件：
-
-| 路径 | 说明 |
-| --- | --- |
-| `vendor/typst-blog-core` | 生成博客的主体。不直接编辑，通过[更新步骤](#更新博客引擎)升级版本 |
-| `.build/` | 由core负责并在每次构建时重新生成的私有中间数据 |
-| `public/` | 构建结果，作为发布内容生成 |
-
-## 更新博客引擎
-
-生成博客的主体以 submodule 形式收录为 `vendor/typst-blog-core`。文章和 `site.typ` 留在自己的仓库中，之后可以只更新生成部分。
-
-构建时，theme 会检查 core API 版本。兼容的 core 更新仍然只需更新 core。
-如果某个 release 修改了 renderer/data contract，构建会因版本不匹配而停止，
-避免旧 theme 生成错误内容；只有这种情况才需要同时更新 theme 和 core。
-
-推荐通过切换 release tag 来更新。
-
-```sh
-cd vendor/typst-blog-core
-git fetch --tags
-git tag --sort=-version:refname   # 查看可用版本列表
-git checkout vYYYY.MM.DD          # 切换到想用的版本
-cd ../..
-python3 command.py build
-git add vendor/typst-blog-core
-git commit -m "Update blog core to vYYYY.MM.DD"
-```
-
-`git add vendor/typst-blog-core` 不是复制 core 内容的操作，而是记录"这个博客使用哪个 core 版本"的操作。
-
-更新后请先在本地确认显示，再 push。
-
-## 遇到问题时
-
-| 症状 | 处理 |
-| --- | --- |
-| 提示 `typst-blog-core submodule is missing` / `vendor/typst-blog-core` 为空 | 运行 `git submodule update --init --recursive` |
-| 找不到配色CSS文件 | 检查 `site.typ` 的 `theme.color_scheme` 与 `theme/static/color-schemes/` 的文件名是否一致 |
-| 发布构建中没有出现文章 | 检查文章的 `draft` 是否为 `false`（`preview` 中可以看到草稿） |
-| 发布 URL 不对 | 检查 `site.typ` 的 `base_url`。结尾不需要 `/` |
-| GitHub Pages 上找不到 core | 检查 `.github/workflows/deploy.yml` 的 checkout 配置中是否有 `submodules: recursive` |
-| 搜索不工作 | 确认 Node.js 和 `npx` 可用，然后重新运行 `build` 或重启 `preview` |
-
-## 关于 Misskey 图标
-
-Misskey 分享按钮和侧边栏的 Misskey 图标默认启用。内置图标使用 Misskey 官方单色品牌素材，并以 CC BY-SA 4.0 授权；该许可证允许商业使用。所需署名会在构建时自动发布为 `/third-party-licenses.txt`，并从默认的“关于本博客”小组件中链接。详情请参阅 `THIRD_PARTY_NOTICES.md`。
-
-## 许可证
-
-本模板的代码以 MIT License 提供。
+| 项目 | 类型 | 说明 |
+| --- | --- | --- |
+| `title` | String | 必填。文章标题 |
+| `create` | `calver()` | 必填。创建日期（例：`calver(2026, 1, 1)`） |
+| `description` | String | 用于文章列表、SEO 和 OGP 的说明文本 |
+| `tags` | Array | 标签（包含中文或空格时也会自动转换为安全的 URL） |
+| `draft` | Boolean | `true` 表示草稿，`false` 表示公开（省略时为 `true`） |
+| `permalink` | String | 自定义 URL（例：`"/notes/hello/"`） |
+| `aliases` | Array | 用于重定向的旧 URL 列表（例：`("/old-path/",)`） |
+| `update` | `calver()` | 手动更新日期（仅在设置 `update_policy: "manual"` 时使用） |
+| `extra` | Dictionary | 传递给主题和自定义扩展的任意自定义数据 |
 
 ---
 
-文档版本: 2026.09.08.2
-（更新此 README 时，请同时更新根目录的 README.md 和 `docs/` 下的其他语言文件，并保持文档版本一致）
+## 创建通用页面（About / FAQ 等）
+
+可以创建不包含在博客文章列表或 RSS 中的固定页面，例如 About 页面或隐私政策。
+
+```sh
+python3 command.py new page about --title "关于本站" --publish
+```
+
+将生成 `pages/about/index.typ`。
+
+```typst
+#import "/template.typ": site-page
+
+#show: site-page.with(
+  title: "关于本站",
+  description: "个人资料和站点介绍",
+  draft: false,
+  index: true, // 是否允许搜索引擎和站内搜索建立索引
+)
+
+= About 页面
+```
+
+---
+
+## 运行与规范详情
+
+### 草稿和发布行为
+
+- `preview` 命令：也会显示草稿（`draft: true`）。草稿会带有“草稿”标记，并从搜索索引中排除。
+- `build` 命令：正式构建不会生成草稿文章的 HTML，并会将其从列表、RSS 和 Sitemap 中排除。
+
+### 自动反映更新日期（`update`）
+
+默认设置（`update_policy: "git"`）会自动采用文章目录内文件的最新提交日期作为更新日期。只有初次提交时不显示更新日期。
+
+### 更改主题和配色
+
+可在 `site.typ` 中切换配色。
+
+```typst
+theme: theme-config(color_scheme: "light") // "dark" 或 "light"
+```
+
+如需添加自己的 CSS，请创建 `theme/static/color-schemes/my-theme.css`，并指定 `color_scheme: "my-theme"`。
+
+---
+
+## 目录结构
+
+```text
+.
+├── site.typ                # 标题、URL、作者等站点整体设置
+├── posts/                  # 在 posts_dir 中指定时的文章目录
+├── pages/                  # About 等通用页面
+├── theme/                  # HTML 结构和设计主题
+│   ├── pages/              # article、home、tag 等各页面渲染器
+│   ├── components/         # head、header、widget 等共用组件
+│   └── static/             # 主题使用的 CSS / JS
+├── extensions/             # 自定义组件和扩展功能
+├── static/                 # 图片、favicon、CNAME 等静态文件
+├── command.py              # 创建文章和预览使用的 CLI 工具
+├── blog.py                 # 扩展构建处理的脚本
+└── vendor/typst-blog-core/ # 【子模块】博客引擎主体（不建议直接编辑）
+```
+
+---
+
+## 环境要求
+
+| 工具 | 要求版本 | 备注 |
+| --- | --- | --- |
+| Git | - | 用于管理子模块 |
+| Typst | `0.15.0` 以上 | 随时跟进最新版本 |
+| Python | `3.10` 以上 | 用于构建、生成 RSS/Sitemap 和 CLI 命令 |
+| Node.js | `20` 以上 | 可选（创建 Pagefind 搜索索引时使用） |
+
+---
+
+## 故障排除
+
+| 现象 | 原因和解决方法 |
+| --- | --- |
+| 显示 `typst-blog-core submodule is missing` | 执行 `git submodule update --init --recursive` 获取核心引擎。 |
+| 正式构建后不显示文章 | 请确认文章元数据中设置了 `draft: false`。 |
+| 发布后链接或 CSS 异常 | 请确认 `site.typ` 中的 `base_url` 设置正确（末尾无需 `/`）。 |
+| 站内搜索（Pagefind）无法工作 | 请确认 Node.js 和 `npx` 可用，然后重新启动 `preview` 或再次执行 `build`。 |
+
+---
+
+## 第三方许可证声明
+
+- 本模板的代码基于 MIT License 提供。
+- 内置的 Misskey 品牌图标依据 CC BY-SA 4.0 使用。包括商业用途在内所需的署名信息会在构建时自动输出到 `/third-party-licenses.txt`。详情请参阅 `THIRD_PARTY_NOTICES.md`。
+
+---
+
+文档版本: 2026.09.13.1

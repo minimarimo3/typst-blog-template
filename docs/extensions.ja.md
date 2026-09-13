@@ -93,9 +93,3 @@ document.querySelectorAll(".marker-extension").forEach((element) => {
   独自拡張で表示する内容です。
 ]
 ```
-
-Bluesky 埋め込みも同じ構成にできます。たとえば `extensions/bluesky.typ` が埋め込み用 HTML を生成し、`static/extensions/bluesky/` に見た目と初期化処理を置き、`bluesky-extension` を `extensions.typ` へ登録します。標準拡張と同じく template 側だけで完結し、core を変更する必要はありません。
-
-## 安全性
-
-拡張 JavaScript はブログのページ内で動き、ページの内容やブラウザの保存領域へアクセスできます。自分で管理しているコードか、内容を確認した信頼できるコードだけを登録してください。外部スクリプトを HTTPS URL で直接読み込む場合は、提供元の変更も自動的に反映される点に注意してください。

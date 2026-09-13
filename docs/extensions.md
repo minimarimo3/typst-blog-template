@@ -93,9 +93,3 @@ Import only the authoring function needed by the post:
   Content rendered by the custom extension.
 ]
 ```
-
-A Bluesky embed follows the same structure: generate its markup in `extensions/bluesky.typ`, keep its presentation and initialization in `static/extensions/bluesky/`, and register `bluesky-extension` in `extensions.typ`. Like the built-in extensions, it lives entirely on the template side and requires no core change.
-
-## Security
-
-Extension JavaScript runs in the blog page and can access its content and browser storage. Register only code you control or have reviewed and trust. An external HTTPS script can change independently whenever its provider updates it.
