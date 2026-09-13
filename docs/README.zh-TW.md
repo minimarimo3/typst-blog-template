@@ -50,7 +50,7 @@ cd YOUR_REPO
   title: "我的部落格",
   description: "部落格說明",
   base_url: "https://YOUR_USER.github.io/YOUR_REPO", // 使用自訂網域時填寫對應 URL
-  github_repo: "[https://github.com/YOUR_USER/YOUR_REPO](https://github.com/YOUR_USER/YOUR_REPO)",
+  github_repo: "https://github.com/YOUR_USER/YOUR_REPO",
   posts_dir: "posts", // 文章儲存位置（"posts" 等目錄名稱或 "."）
   language: (
     lang: "zh",
@@ -150,7 +150,7 @@ python3 command.py preview
 可以建立不包含在部落格文章列表或 RSS 中的固定頁面，例如 About 頁面或隱私權政策。
 
 ```sh
-python3 command.py new page about --title "關於本站" --publish
+python3 command.py new page about --title "關於本站" --description "關於本站的介紹" --publish
 ```
 
 將產生 `pages/about/index.typ`。
@@ -242,4 +242,4 @@ theme: theme-config(color_scheme: "light") // "dark" 或 "light"
 
 ---
 
-文件版本: 2026.09.13.3
+文件版本: 2026.09.13.4

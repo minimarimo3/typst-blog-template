@@ -50,7 +50,7 @@ cd YOUR_REPO
   title: "我的博客",
   description: "博客说明",
   base_url: "https://YOUR_USER.github.io/YOUR_REPO", // 使用自定义域名时填写相应 URL
-  github_repo: "[https://github.com/YOUR_USER/YOUR_REPO](https://github.com/YOUR_USER/YOUR_REPO)",
+  github_repo: "https://github.com/YOUR_USER/YOUR_REPO",
   posts_dir: "posts", // 文章保存位置（"posts" 等目录名或 "."）
   language: (
     lang: "zh",
@@ -150,7 +150,7 @@ python3 command.py preview
 可以创建不包含在博客文章列表或 RSS 中的固定页面，例如 About 页面或隐私政策。
 
 ```sh
-python3 command.py new page about --title "关于本站" --publish
+python3 command.py new page about --title "关于本站" --description "关于本站的介绍" --publish
 ```
 
 将生成 `pages/about/index.typ`。
@@ -242,4 +242,4 @@ theme: theme-config(color_scheme: "light") // "dark" 或 "light"
 
 ---
 
-文档版本: 2026.09.13.3
+文档版本: 2026.09.13.4

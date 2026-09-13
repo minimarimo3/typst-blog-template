@@ -50,7 +50,7 @@ cd YOUR_REPO
   title: "내 블로그",
   description: "블로그 설명",
   base_url: "https://YOUR_USER.github.io/YOUR_REPO", // 사용자 정의 도메인이 있다면 해당 URL
-  github_repo: "[https://github.com/YOUR_USER/YOUR_REPO](https://github.com/YOUR_USER/YOUR_REPO)",
+  github_repo: "https://github.com/YOUR_USER/YOUR_REPO",
   posts_dir: "posts", // 글 저장 위치("posts" 등의 디렉터리 이름 또는 ".")
   language: (
     lang: "zh",
@@ -150,7 +150,7 @@ python3 command.py preview
 블로그 글 목록이나 RSS에 포함되지 않는 고정 페이지(About 페이지나 개인정보 처리방침 등)를 만들 수 있습니다.
 
 ```sh
-python3 command.py new page about --title "이 사이트에 대하여" --publish
+python3 command.py new page about --title "이 사이트에 대하여" --description "이 사이트에 대한 설명" --publish
 ```
 
 `pages/about/index.typ`이 생성됩니다.
@@ -242,4 +242,4 @@ theme: theme-config(color_scheme: "light") // "dark" 또는 "light"
 
 ---
 
-문서 버전: 2026.09.13.3
+문서 버전: 2026.09.13.4

@@ -50,7 +50,7 @@ Open `site.typ` and configure your blog information.
   title: "My Blog",
   description: "A description of the blog",
   base_url: "https://YOUR_USER.github.io/YOUR_REPO", // Use your custom-domain URL if applicable
-  github_repo: "[https://github.com/YOUR_USER/YOUR_REPO](https://github.com/YOUR_USER/YOUR_REPO)",
+  github_repo: "https://github.com/YOUR_USER/YOUR_REPO",
   posts_dir: "posts", // Directory name for posts, such as "posts", or "."
   language: (
     lang: "zh",
@@ -150,7 +150,7 @@ Write your post here.
 You can create fixed pages such as an About page or privacy policy that are not included in the blog post list or RSS feed.
 
 ```sh
-python3 command.py new page about --title "About This Site" --publish
+python3 command.py new page about --title "About This Site" --description "An introduction to this site" --publish
 ```
 
 This creates `pages/about/index.typ`.
@@ -242,4 +242,4 @@ To add your own CSS, create `theme/static/color-schemes/my-theme.css` and set `c
 
 ---
 
-Document version: 2026.09.13.3
+Document version: 2026.09.13.4

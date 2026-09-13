@@ -50,7 +50,7 @@ cd YOUR_REPO
   title: "マイブログ",
   description: "ブログの説明文",
   base_url: "https://YOUR_USER.github.io/YOUR_REPO", // 独自ドメインの場合はそのURL
-  github_repo: "[https://github.com/YOUR_USER/YOUR_REPO](https://github.com/YOUR_USER/YOUR_REPO)",
+  github_repo: "https://github.com/YOUR_USER/YOUR_REPO",
   posts_dir: "posts", // 記事の保存先（"posts"等のディレクトリ名または"."）
   language: (
     lang: "zh",
@@ -150,7 +150,7 @@ python3 command.py preview
 ブログ記事一覧やRSSに含まれない固定ページ（Aboutページやプライバシーポリシーなど）を作成できます。
 
 ```sh
-python3 command.py new page about --title "このサイトについて" --publish
+python3 command.py new page about --title "このサイトについて" --description "当サイトについての説明" --publish
 ```
 
 `pages/about/index.typ` が生成されます。
@@ -241,4 +241,4 @@ theme: theme-config(color_scheme: "light") // "dark" または "light"
 
 ---
 
-Document version: 2026.09.13.3
+Document version: 2026.09.13.4

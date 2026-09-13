@@ -7,7 +7,7 @@
   description: "Typstで書く小さなブログです。",
   base_url: "https://minimarimo3.github.io/typst-blog-template",
   github_repo: "https://github.com/minimarimo3/typst-blog-template",
-  // 記事を posts/ 配下にまとめる場合は "posts" にする。
+  // "."も指定可能
   posts_dir: "posts",
   // "ja" の短縮形、または (lang: "zh", region: "TW", script: "hani") を指定できる。
   // region は省略可、script の既定値は auto。
