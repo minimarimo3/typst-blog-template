@@ -1,8 +1,5 @@
 name: Test and deploy to GitHub Pages
 
-env:
-  TYPST_VERSION: 0.15.0
-
 on:
   push:
     branches: ["main"]
@@ -37,6 +34,7 @@ jobs:
 
       - name: Install Typst
         run: |
+          TYPST_VERSION=$(cat vendor/typst-blog-core/typst-version)
           wget -q https://github.com/typst/typst/releases/download/v$TYPST_VERSION/typst-x86_64-unknown-linux-musl.tar.xz
           tar -xf typst-x86_64-unknown-linux-musl.tar.xz
           sudo mv typst-x86_64-unknown-linux-musl/typst /usr/local/bin/typst
@@ -52,7 +50,7 @@ jobs:
 
       - name: Check JavaScript modules
         run: |
-          for js_file in theme/static/scripts/*.js; do
+          for js_file in vendor/typst-blog-core/static/_core/scripts/*.js; do
             node --input-type=module --check < "$js_file"
           done
 

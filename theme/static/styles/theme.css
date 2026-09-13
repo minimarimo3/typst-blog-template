@@ -1,0 +1,6 @@
+/* Site-specific overrides for the core components. */
+:root {
+  --content-width: 760px;
+  --sidebar-width: 280px;
+  --gap-width: 60px;
+}
