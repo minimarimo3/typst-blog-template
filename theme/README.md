@@ -65,6 +65,27 @@ URLエンコード、Git由来の更新日、前後記事、タグURL、SEOデ�
 `components/` は標準themeの内部構成であり、coreとの契約ではありません。独自theme
 では削除したり、まったく異なる構成へ置き換えたりできます。
 
+## 表示文言と言語の追加
+
+`site.typ` の `theme-config` に `translations` を指定すると、既存言語の文言を
+部分的に上書きできます。既定の5言語以外も、BCP 47言語タグをキーにして追加できます。
+
+```typst
+theme: theme-config(
+  color_scheme: "dark",
+  translations: (
+    ja: (back_home: "← トップへ"),
+    fr: (back_home: "← Retour à l’accueil", toc: "Sommaire"),
+    "zh-SG": (back_home: "← 返回首页"),
+    "zh-Hani-TW": (back_home: "← 返回首頁"),
+  ),
+)
+```
+
+新しく追加した言語で省略した文言は日本語へフォールバックします。未知の翻訳キーや
+空文字はbuild時にエラーになります。`typst compile --root . --features html
+theme/dev/i18n-check.typ` で、追加言語の翻訳済み項目とフォールバック項目を確認できます。
+
 ## CSSテーマトークン
 
 `static/styles/theme.css` では、coreのclass名を参照せずに、よく使う見た目をCSS変数で

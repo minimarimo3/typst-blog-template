@@ -14,6 +14,12 @@
   language: "ja",
   theme: theme-config(
     color_scheme: "dark",
+    // 任意。既存言語の文言を上書きしたり、新しい言語を追加したりできる。
+    // translations: (
+    //   fr: (back_home: "← Retour à l’accueil", toc: "Sommaire"),
+    //   "zh-SG": (back_home: "← 返回首页"),
+    //   "zh-Hani-TW": (back_home: "← 返回首頁"),
+    // ),
     // 任意。Cloudflare Web Analyticsを使う場合はtokenを指定する。
     cloudflare_token: none,
     // 任意。空のままならナビゲーションは表示されない。
