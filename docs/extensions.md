@@ -93,3 +93,13 @@ Import only the authoring function needed by the post:
   Content rendered by the custom extension.
 ]
 ```
+
+The built-in alert titles follow `site.language`. Japanese, English, Korean,
+Simplified Chinese, and Traditional Chinese are included, and other languages
+fall back to English. Override a title for a specific alert when needed:
+
+```typst
+#warning(title: "Security warning")[
+  Do not publish your API key.
+]
+```

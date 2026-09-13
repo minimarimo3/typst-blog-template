@@ -17,7 +17,7 @@ Typstで手軽に静的ブログを作成・公開するためのテンプレー
 - 面倒な設定なしで自動生成
 トップページ、OGP・Metaタグ付き記事ページ、タグ一覧、RSS、Sitemapを自動生成。Pagefindによるサイト内検索やGitHub Pagesへの自動デプロイ（GitHub Actions同梱）にも対応しています。
 - Git連動の自動更新日設定 & GitHub風Alerts対応
-Gitのコミット履歴から更新日を自動反映。`warning` や `note` などのGitHub風Alerts記法を標準搭載しています。
+Gitのコミット履歴から更新日を自動反映。`warning` や `note` などのGitHub風Alerts記法を標準搭載し、ラベルは `site.language` に応じて日本語・英語・韓国語・簡体字中国語・繁体字中国語に切り替わります。
 - 保守が容易なコア分離構造
 ブログエンジン本体（`vendor/typst-blog-core`）がGit submoduleとして分離されています。
 現時点でTypst HTMLはまだexperimentalですが、`html.*`を使用しているのはcoreで、`theme`からTypstの関数を呼び出す形なのでTypstのバージョンアップによるHTML出力仕様の破壊的変更の影響を受けずに追従可能です。
@@ -217,7 +217,7 @@ theme: theme-config(color_scheme: "light") // "dark" または "light"
 | ツール | 要求バージョン | 備考 |
 | --- | --- | --- |
 | Git | - | サブモジュール管理に使用 |
-| Typst | `0.15.0` 以上 | 最新バージョンに随時追従 |
+| Typst | 執筆時点では`0.15.0` | 推奨・検証済みは`vendor/typst-blog-core/typst-version`に記載されたバージョン |
 | Python | `3.10` 以上 | ビルド、RSS/Sitemap生成、CLIコマンドに使用 |
 | Node.js | `20` 以上 | 任意（Pagefind検索インデックス作成時に使用） |
 
@@ -241,4 +241,4 @@ theme: theme-config(color_scheme: "light") // "dark" または "light"
 
 ---
 
-Document version: 2026.09.13.2
+Document version: 2026.09.13.3

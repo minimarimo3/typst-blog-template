@@ -17,7 +17,7 @@ SSG로 블로그를 만들고 싶은 것이 아니라 단지 블로그를 쓰고
 - 번거로운 설정 없는 자동 생성
 홈, OGP 및 Meta 태그가 포함된 글 페이지, 태그 목록, RSS, Sitemap을 자동으로 생성합니다. Pagefind 기반 사이트 내 검색과 GitHub Pages 자동 배포(포함된 GitHub Actions)도 지원합니다.
 - Git 연동 자동 수정일 설정 및 GitHub 스타일 Alerts 지원
-Git 커밋 기록에서 수정일을 자동으로 반영합니다. `warning`, `note` 등의 GitHub 스타일 Alerts 문법이 기본으로 제공됩니다.
+Git 커밋 기록에서 수정일을 자동으로 반영합니다. `warning`, `note` 등의 GitHub 스타일 Alerts 문법이 기본으로 제공되며, 레이블은 `site.language`에 따라 일본어, 영어, 한국어, 중국어 간체 및 중국어 번체로 전환됩니다.
 - 유지보수하기 쉬운 코어 분리 구조
 블로그 엔진 본체(`vendor/typst-blog-core`)가 Git 서브모듈로 분리되어 있습니다.
 현재 Typst HTML은 아직 experimental 상태이지만 `html.*`는 코어에서만 사용하고 `theme`에서는 코어가 노출하는 Typst 함수를 호출합니다. 따라서 Typst 버전 업그레이드로 HTML 출력 사양이 호환되지 않게 바뀌어도 그 영향이 테마에 미치지 않도록 대응할 수 있습니다.
@@ -242,4 +242,4 @@ theme: theme-config(color_scheme: "light") // "dark" 또는 "light"
 
 ---
 
-문서 버전: 2026.09.13.2
+문서 버전: 2026.09.13.3

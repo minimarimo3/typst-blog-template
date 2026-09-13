@@ -93,3 +93,13 @@ document.querySelectorAll(".marker-extension").forEach((element) => {
   独自拡張で表示する内容です。
 ]
 ```
+
+標準Alertのタイトルは `site.language` に従います。日本語・英語・韓国語・
+簡体字中国語・繁体字中国語を収録し、それ以外の言語では英語へフォールバックします。
+特定のAlertだけタイトルを変えることもできます。
+
+```typst
+#warning(title: "セキュリティ上の注意")[
+  APIキーを公開しないでください。
+]
+```

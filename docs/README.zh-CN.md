@@ -17,7 +17,7 @@
 - 无需繁琐设置即可自动生成
 自动生成首页、带 OGP 和 Meta 标签的文章页、标签列表、RSS 和 Sitemap。还支持使用 Pagefind 进行站内搜索，以及通过附带的 GitHub Actions 自动部署到 GitHub Pages。
 - 基于 Git 的自动更新日期及 GitHub 风格 Alerts
-根据 Git 提交历史自动反映更新日期。默认支持 `warning`、`note` 等 GitHub 风格 Alerts 语法。
+根据 Git 提交历史自动反映更新日期。默认支持 `warning`、`note` 等 GitHub 风格 Alerts 语法，其标签会根据 `site.language` 切换为日语、英语、韩语、简体中文或繁体中文。
 - 易于维护的核心分离结构
 博客引擎主体（`vendor/typst-blog-core`）作为 Git 子模块独立存在。
 目前 Typst HTML 仍处于 experimental 阶段，但只有核心使用 `html.*`，`theme` 则调用核心公开的 Typst 函数。因此，即使 Typst 版本升级导致 HTML 输出规范发生破坏性变更，也能避免其影响波及主题。
@@ -242,4 +242,4 @@ theme: theme-config(color_scheme: "light") // "dark" 或 "light"
 
 ---
 
-文档版本: 2026.09.13.2
+文档版本: 2026.09.13.3

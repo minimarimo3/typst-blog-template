@@ -17,7 +17,7 @@ Both your post content and all site-wide settings can be written in Typst.
 - Automatic generation without complicated setup
 Automatically generates the home page, post pages with OGP and meta tags, tag index, RSS feed, and sitemap. Pagefind site search and automatic deployment to GitHub Pages are also supported through the included GitHub Actions workflow.
 - Git-based update dates and GitHub-style alerts
-Automatically derives update dates from Git commit history. GitHub-style alert syntax such as `warning` and `note` is built in.
+Automatically derives update dates from Git commit history. GitHub-style alert syntax such as `warning` and `note` is built in, with labels that follow `site.language` in Japanese, English, Korean, Simplified Chinese, and Traditional Chinese.
 - Easy-to-maintain separated core
 The blog engine (`vendor/typst-blog-core`) is separated into a Git submodule.
 Typst HTML is still experimental, but only the core uses `html.*`; the `theme` calls Typst functions exposed by the core. This separation makes it possible to keep up with breaking changes to Typst's HTML output without their impact reaching the theme.
@@ -242,4 +242,4 @@ To add your own CSS, create `theme/static/color-schemes/my-theme.css` and set `c
 
 ---
 
-Document version: 2026.09.13.2
+Document version: 2026.09.13.3
