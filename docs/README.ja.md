@@ -1,8 +1,9 @@
 # Typst Blog Template
 
-Typstで手軽に静的ブログを作成・公開するためのテンプレートです。複雑なサイト制作やSSGツールの構築を行わず、記事の執筆に集中できます。
+Typstで手軽に静的ブログを作成・公開するためのテンプレートです。
+ブログを書きたいだけであってSSGでブログを作成したい訳ではない人のための、すぐブログを書き始められることに注力したプロジェクトです。
 
-記事を書いてビルドするだけで、トップページ・記事本文・タグ一覧・RSS・Sitemap・サイト内検索インデックス（Pagefind）を自動生成します。
+記事を書いてビルドするだけで、トップページ・記事本文・タグ一覧・RSS・Sitemap・サイト内検索インデックス（Pagefind）・OGP・meta等々を自動生成します。
 
 - デモサイト（サンプル記事）: <https://minimarimo3.github.io/typst-blog-template/example-post/>
 - 使用例（作者ブログ）: <https://www.minimarimo3.jp>
@@ -18,7 +19,8 @@ Typstで手軽に静的ブログを作成・公開するためのテンプレー
 - Git連動の自動更新日設定 & GitHub風Alerts対応
 Gitのコミット履歴から更新日を自動反映。`warning` や `note` などのGitHub風Alerts記法を標準搭載しています。
 - 保守が容易なコア分離構造
-ブログエンジン本体（`vendor/typst-blog-core`）がGit submoduleとして分離されています。将来TypstのHTML出力仕様に破壊的変更があっても、コア部を更新するだけで記事データを壊さず追従可能です。
+ブログエンジン本体（`vendor/typst-blog-core`）がGit submoduleとして分離されています。
+現時点でTypst HTMLはまだexperimentalですが、`html.*`を使用しているのはcoreで、`theme`からTypstの関数を呼び出す形なのでTypstのバージョンアップによるHTML出力仕様の破壊的変更の影響を受けずに追従可能です。
 - 柔軟なカスタマイズ性
 設定ファイル（`site.typ`）での簡易設定から、CSS/配色変更、HTML構造（`theme/`）の変更、独自コンポーネント追加まで用途に応じた調整が可能です。
 
@@ -44,7 +46,7 @@ cd YOUR_REPO
 `site.typ` を開き、ブログ情報を設定します。
 
 ```typst
-#let site-config = (
+#let site = core-site-api.site(
   title: "マイブログ",
   description: "ブログの説明文",
   base_url: "https://YOUR_USER.github.io/YOUR_REPO", // 独自ドメインの場合はそのURL
@@ -73,7 +75,7 @@ cd YOUR_REPO
 CLIコマンドで記事の雛形を生成します。
 
 ```sh
-python3 command.py new post my-first-post --title "最初の記事" --tag "Typst"
+python3 command.py new post my-first-post --title "最初の記事" --description "Typstで初めて記事を書きました。" --tag "Typst"
 ```
 
 実行すると `{posts_dir}/my-first-post/index.typ` が生成されます。
@@ -132,6 +134,15 @@ python3 command.py preview
 | `update` | `calver()` | 手動更新日（`update_policy: "manual"` 設定時のみ使用） |
 | `extra` | Dictionary | テーマや独自拡張へ渡す任意のカスタムデータ |
 
+### 記事を拡張したい
+
+| 変更対象 | 変更内容 |
+| --- | --- |
+| site.typ | タイトル、著者、navigation、share、pagination、font |
+| theme/static/ | 色、余白、フォントサイズ、カードの見た目をCSSで |
+| theme/pages/ | サイドバー構成、記事下部、トップページ構成の並び順の変更をTypstの関数で |
+| extensions/ | GitHub Alerts等の独自コンポーネントをTypstの`html.elem`等で |
+
 ---
 
 ## 汎用ページの作成（About / FAQなど）
@@ -189,7 +200,7 @@ theme: theme-config(color_scheme: "light") // "dark" または "light"
 ├── site.typ                # サイト全体の設定（タイトル、URL、著者など）
 ├── posts/                  # 記事ディレクトリ（posts_dir に指定した場合）
 ├── pages/                  # 汎用ページ（Aboutなど）
-├── theme/                  # HTML構造・デザインテーマ
+├── theme/                  # ページ構造・デザインテーマ
 │   ├── pages/              # 各ページのレンダラー（article, home, tagなど）
 │   ├── components/         # 共通パーツ（head, header, widgetなど）
 │   └── static/             # テーマ用 CSS / JS
@@ -231,4 +242,4 @@ theme: theme-config(color_scheme: "light") // "dark" または "light"
 
 ---
 
-Document version: 2026.09.13.1
+Document version: 2026.09.13.2

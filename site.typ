@@ -7,16 +7,11 @@
   description: "Typstで書く小さなブログです。",
   base_url: "https://minimarimo3.github.io/typst-blog-template",
   github_repo: "https://github.com/minimarimo3/typst-blog-template",
-  // 編集履歴を main 以外のブランチへリンクする場合に指定する（省略時は "main"）。
-  // github_branch: "master",
+  // 記事を posts/ 配下にまとめる場合は "posts" にする。
+  posts_dir: "posts",
   // "ja" の短縮形、または (lang: "zh", region: "TW", script: "hani") を指定できる。
   // region は省略可、script の既定値は auto。
   language: "ja",
-  // 記事一覧を分割する場合は enabled を true にし、1ページの件数を per_page で指定する。
-  pagination: (
-    home: (enabled: false, per_page: 10),
-    tag: (enabled: false, per_page: 10),
-  ),
   theme: theme-config(
     color_scheme: "dark",
     // 任意。Cloudflare Web Analyticsを使う場合はtokenを指定する。
@@ -35,10 +30,6 @@
       ),
     ),
   ),
-  // 記事を posts/ 配下にまとめる場合は "posts" にする。
-  posts_dir: ".",
-  // "git" は記事ディレクトリの最終コミット日を更新日として自動表示する。
-  update_policy: "git",
   fonts: (
     main: (
       pdf: ("Noto Serif", "Noto Serif CJK JP"),
@@ -83,6 +74,15 @@
       // (id: "bluesky", label: "Bluesky", url: "https://bsky.app/profile/yourname", icon: "icons/bluesky.svg"),
     ),
   ),
+  // 記事一覧を分割する場合は enabled を true にし、1ページの件数を per_page で指定する。
+  pagination: (
+    home: (enabled: false, per_page: 10),
+    tag: (enabled: false, per_page: 10),
+  ),
+  // "git" は記事ディレクトリの最終コミット日を更新日として自動表示する。
+  update_policy: "git",
+  // 編集履歴を main 以外のブランチへリンクする場合に指定する（省略時は "main"）。
+  // github_branch: "master",
 )
 
 #metadata(site) <site-meta>
