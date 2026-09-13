@@ -64,3 +64,50 @@ URLエンコード、Git由来の更新日、前後記事、タグURL、SEOデ�
 
 `components/` は標準themeの内部構成であり、coreとの契約ではありません。独自theme
 では削除したり、まったく異なる構成へ置き換えたりできます。
+
+## CSSテーマトークン
+
+`static/styles/theme.css` では、coreのclass名を参照せずに、よく使う見た目をCSS変数で
+変更できます。変更したい変数だけを `:root` に追加してください。指定しなかった値は
+coreの既定値を使うため、core更新時のデザイン改善も受け取れます。
+
+```css
+:root {
+  --card-grid-gap: 32px;
+  --article-title-size: 2.6rem;
+  --sidebar-widget-padding: 28px;
+  --sidebar-widget-border-radius: 0;
+}
+```
+
+公開しているトークンは次のとおりです。
+
+| 分類 | トークン | 対象 |
+| --- | --- | --- |
+| フォント | `--font-main` | 本文のフォント |
+|  | `--font-heading` | 見出しのフォント |
+|  | `--font-code` | コード・日付のフォント |
+| レイアウト | `--content-width` | 本文領域の幅 |
+|  | `--sidebar-width` | サイドバーの幅 |
+|  | `--gap-width` | 本文とサイドバーの間隔 |
+|  | `--container-width` | ページ全体の最大幅。通常は上の3変数から自動計算 |
+| カード | `--card-grid-min-width` | カード1枚の最小幅 |
+|  | `--card-grid-gap` | カード間の余白 |
+|  | `--card-border-radius` | カードの角丸 |
+|  | `--card-content-padding` | カード内側の余白 |
+|  | `--card-title-size` | カードの記事タイトルサイズ |
+| 記事 | `--article-title-size` | 記事ページのタイトルサイズ |
+|  | `--article-title-size-mobile` | モバイルでの記事タイトルサイズ |
+|  | `--article-title-line-height` | 記事タイトルの行間 |
+|  | `--article-heading-2-size` | 記事本文の第2階層見出しサイズ |
+|  | `--article-heading-3-size` | 記事本文の第3階層見出しサイズ |
+| サイドバー | `--sidebar-widget-gap` | ウィジェット間の余白 |
+|  | `--sidebar-widget-padding` | ウィジェット内側の余白 |
+|  | `--sidebar-widget-border-radius` | ウィジェットの角丸 |
+|  | `--sidebar-widget-border-width` | ウィジェットの枠線幅 |
+|  | `--sidebar-widget-title-size` | ウィジェット見出しのサイズ |
+|  | `--sidebar-widget-title-gap` | 見出しと内容の間隔 |
+
+色は `static/color-schemes/` のカラースキームで変更します。公開トークンより踏み込んだ
+変更では `theme.css` に独自のCSSセレクターを追加できますが、coreのclass名は内部実装で
+あり、core更新で変わる可能性があります。

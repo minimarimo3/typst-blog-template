@@ -202,7 +202,6 @@ theme: theme-config(color_scheme: "light") // "dark" または "light"
 ├── pages/                  # 汎用ページ（Aboutなど）
 ├── theme/                  # ページ構造・デザインテーマ
 │   ├── pages/              # 各ページのレンダラー（article, home, tagなど）
-│   ├── components/         # 共通パーツ（head, header, widgetなど）
 │   └── static/             # テーマ用 CSS / JS
 ├── extensions/             # 独自コンポーネント・拡張機能
 ├── static/                 # 静的ファイル（画像、favicon、CNAMEなど）
