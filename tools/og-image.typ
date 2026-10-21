@@ -24,7 +24,15 @@
   dx: 76pt,
   dy: 112pt,
   block(width: 1048pt, height: 250pt, clip: true)[
-    #set text(font: heading-font, size: title-size, weight: "bold", fill: white)
+    // Use actual glyph bounds so CJK and accented letters are not clipped.
+    #set text(
+      font: heading-font,
+      size: title-size,
+      weight: "bold",
+      fill: white,
+      top-edge: "bounds",
+      bottom-edge: "bounds",
+    )
     #set par(leading: 0.14em)
     #title
   ],
