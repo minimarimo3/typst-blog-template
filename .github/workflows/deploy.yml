@@ -43,7 +43,7 @@ jobs:
       - name: Install fonts
         run: |
           sudo apt-get update
-          sudo apt-get install -y fonts-noto-cjk
+          sudo apt-get install -y fonts-noto-core fonts-noto-cjk
 
       - name: Run unit tests
         run: python3 -m unittest discover -s vendor/typst-blog-core/dev -p 'test_*.py' -v
